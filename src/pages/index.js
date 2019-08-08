@@ -1,20 +1,39 @@
 import React from "react"
-import { Link } from "gatsby"
+import styled from "@emotion/styled"
 
+import { FooterLogo } from "../components/utils"
+import Form from "../components/regex-form/form"
 import Layout from "../components/layout"
-import Image from "../components/image"
 import SEO from "../components/seo"
+
+const FormContainer = styled.div`
+  align-items: stretch;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  min-height: 85vh;
+  padding: 4em 0;
+`
+
+const MoreInfoParagraph = styled.div`
+  margin: 0 auto 2em;
+  max-width: 6em;
+`
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Home" />
-    <h1>Hi people</h1>
-    <p>Welcome to your new Gatsby site.</p>
-    <p>Now go build something great.</p>
-    <div style={{ maxWidth: `300px`, marginBottom: `1.45rem` }}>
-      <Image />
-    </div>
-    <Link to="/page-2/">Go to page 2</Link>
+    <SEO title="Learn how to write regular expressions via a plain English sentence" />
+    <FormContainer>
+      <Form />
+    </FormContainer>
+    <MoreInfoParagraph>
+      <a
+        href="https://mailchi.mp/typeof/join-beta?utm_source=professor_regex&utm_medium=website&utm_campaign=index&utm_content=footertextlink"
+        target="blank_"
+      >
+        <FooterLogo />
+      </a>
+    </MoreInfoParagraph>
   </Layout>
 )
 

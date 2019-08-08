@@ -1,17 +1,21 @@
 {
-  "name": "gatsby-starter-default",
+  "name": "regex.guide",
   "private": true,
-  "description": "A simple starter to get up and developing quickly with Gatsby",
+  "description": "Website of the Regex Guide",
   "version": "0.1.0",
-  "author": "Kyle Mathews <mathews.kyle@gmail.com>",
+  "author": "Loïc J. <loic@pacdiv.co>",
   "dependencies": {
-    "gatsby": "^2.13.51",
-    "gatsby-image": "^2.2.8",
+    "@emotion/core": "^10.0.14",
+    "@emotion/styled": "^10.0.14",
+    "gatsby": "^2.13.45",
+    "gatsby-image": "^2.2.7",
+    "gatsby-plugin-emotion": "^4.1.2",
+    "gatsby-plugin-google-analytics": "^2.1.7",
     "gatsby-plugin-manifest": "^2.2.4",
     "gatsby-plugin-offline": "^2.2.4",
-    "gatsby-plugin-react-helmet": "^3.1.3",
+    "gatsby-plugin-react-helmet": "^3.1.2",
     "gatsby-plugin-sharp": "^2.2.9",
-    "gatsby-source-filesystem": "^2.1.8",
+    "gatsby-source-filesystem": "^2.1.7",
     "gatsby-transformer-sharp": "^2.2.5",
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
@@ -21,23 +25,28 @@
   "devDependencies": {
     "prettier": "^1.18.2"
   },
+  "homepage": "https://regex.guide",
   "keywords": [
-    "gatsby"
+    "gatsby",
+    "guide",
+    "regex",
+    "regular",
+    "expressions"
   ],
   "license": "MIT",
   "scripts": {
     "build": "gatsby build",
     "develop": "gatsby develop",
-    "format": "prettier --write \"**/*.{js,jsx,json,md}\"",
+    "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
     "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/gatsbyjs/gatsby-starter-default"
+    "url": "https://github.com/pacdiv/regex.guide"
   },
   "bugs": {
-    "url": "https://github.com/gatsbyjs/gatsby/issues"
+    "url": "https://github.com/pacdiv/regex.guide/issues"
   }
 }
