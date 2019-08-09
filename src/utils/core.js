@@ -29,19 +29,24 @@ function addCondition(specs, insertAtIndex = 0, newItem = true) {
   const { anchor } = specs
   let chunk = { regex: '', specs: {} }
   const { prefix = '', suffix = '' } = anchors.find(item => item.key === anchor) || {}
+  const { minimumQuantifierValue: minimum, maximumQuantifierValue: maximum } = specs
 
   if (specs.quantifier === 'BETWEEN') {
-    if (specs.minimumQuantifierValue && specs.maximumQuantifierValue) {
+    if (minimum && maximum) {
+      if (maximum && Number(minimum) >= Number(maximum)) {
+        return Promise.reject(new Error('Minimum must be lower than maximum.'))
+      }
+
       chunk = {
-        regex: '{'.concat(specs.minimumQuantifierValue, ',', specs.maximumQuantifierValue, '}'),
+        regex: '{'.concat(minimum, ',', maximum, '}'),
         specs: {
           anchor,
-          minimumQuantifierValue: specs.minimumQuantifierValue,
-          maximumQuantifierValue: specs.maximumQuantifierValue,
+          minimumQuantifierValue: minimum,
+          maximumQuantifierValue: maximum,
           quantifier: 'BETWEEN'
         }
       }
-    } else return Promise.reject(new Error('Minimum and maximum limits must be set.'))
+    } else return Promise.reject(new Error('Minimum and maximum values must be defined.'))
   } else if (specs.quantifier === 'EXACTLY') {
     if (specs.minimumQuantifierValue) {
       chunk = {
