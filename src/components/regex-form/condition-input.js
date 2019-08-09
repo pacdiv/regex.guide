@@ -32,6 +32,10 @@ const TextInputGroup = styled.div`
   }
 `
 
+const StyledErrorParagraph = styled.p`
+  color: crimson;
+`
+
 class ConditionInput extends Component {
   static propTypes = {
     anchor: PropTypes.string,
@@ -52,7 +56,7 @@ class ConditionInput extends Component {
     anchor: this.props.anchor || "CONTAINS",
     characters: this.props.characters || "ALPHANUMERIC_CHARACTERS",
     exactQuantifierValue: this.props.exactQuantifierValue || "",
-    hasErrors: false,
+    error: null,
     quantifier: this.props.quantifier || "ONE_OR_MORE",
     minimumQuantifierValue: this.props.minimumQuantifierValue || "",
     maximumQuantifierValue: this.props.maximumQuantifierValue || "",
@@ -92,12 +96,14 @@ class ConditionInput extends Component {
   onSubmitButtonClick = event => {
     event.preventDefault()
 
-    if (!this.props.onSubmit({ ...this.state })) {
-      this.setState({ hasErrors: true })
-    }
+    this.props.onSubmit({ ...this.state })
+      .then(() => this.setState({ error: null }))
+      .catch(err => this.setState({ error: err.message }))
   }
 
   render() {
+    const { error } = this.state
+
     return (
       <RelativeFormContainer>
         {!this.props.anchor && (
@@ -139,6 +145,7 @@ class ConditionInput extends Component {
           onChange={this.onCharactersSelectChange}
           selectedOption={this.state.characters}
         />
+        {error && <StyledErrorParagraph>{error}</StyledErrorParagraph>}
         <Button colorTheme="submit" onClick={this.onSubmitButtonClick}>
           Submit
         </Button>
