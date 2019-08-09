@@ -22,15 +22,12 @@ const MoreInfoParagraph = styled.div`
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Learn how to write regular expressions via a plain English sentence" />
+    <SEO title="Write a sentence, get a regex" />
     <FormContainer>
       <Form />
     </FormContainer>
     <MoreInfoParagraph>
-      <a
-        href="https://mailchi.mp/typeof/join-beta?utm_source=professor_regex&utm_medium=website&utm_campaign=index&utm_content=footertextlink"
-        target="blank_"
-      >
+      <a href="http://bit.ly/2ZJjUTy" target="blank_">
         <FooterLogo />
       </a>
     </MoreInfoParagraph>

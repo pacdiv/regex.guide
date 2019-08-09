@@ -1,4 +1,4 @@
-# [The Regex Guide](https://regex.guide/?utm_source=github&utm_medium=repository&utm_campaign=default&utm_content=readme)
+# [The Regex Guide](http://bit.ly/2M8LI0w)
 
 Start writing regular expressions even if you don’t have any knowledge about them!\
 Built from [Gatsby’s default starter](https://github.com/gatsbyjs/gatsby-starter-default).
