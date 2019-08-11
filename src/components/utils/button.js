@@ -12,6 +12,7 @@ export default styled.button`
   width: 16em;
 
   ${({ colorTheme }) =>
+    colorTheme === 'dark' && css`background-color: #555555;` ||
     colorTheme === 'submit' && css`background-color: limegreen;` ||
     colorTheme === 'transparent' && css`background-color: inherit; color: initial;`
   }

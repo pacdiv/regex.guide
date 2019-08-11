@@ -15,19 +15,35 @@ class ConditionSentence extends Component {
     return dataSource.find(item => item.key === targetKey) || {}
   }
 
+  static generateWordList(source) {
+    return source.reduce(
+      (acc, { value }, index) => acc.concat(
+        index > 0 && index === source.length - 1 ? " or " : "",
+        index && index < source.length - 1 ? ", " : "",
+        `"${value}"`
+      ),
+      ""
+    )
+  }
+
   static generateSentence({ specs }) {
-    const { findByKey } = ConditionSentence
+    const { findByKey, generateWordList } = ConditionSentence
     const quantifier = findByKey(quantifiers, specs.quantifier).label
 
-    return [
+    const data = [
       findByKey(anchors, specs.anchor).label || "",
-      quantifier || "",
+      specs.quantifier !== "SET" && quantifier || "",
       specs.quantifier === "BETWEEN"
         ? `${specs.minimumQuantifierValue} and ${specs.maximumQuantifierValue}`
         : "",
       specs.quantifier === "EXACTLY" ? specs.minimumQuantifierValue : "",
       findByKey(characters, specs.characters).label || "",
-    ].join(" ")
+      specs.characters === "WORDS_SUCH_AS" ? generateWordList(specs.wordList) : "",
+    ]
+
+    return data
+      .map(i => i)
+      .join(" ")
   }
 
   state = {
