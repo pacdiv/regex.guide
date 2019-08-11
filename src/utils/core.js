@@ -11,6 +11,7 @@ export const anchors = [
 ]
 
 export const quantifiers = [
+  { key: 'SET', label: 'a set of' },
   { key: 'BETWEEN', label: 'between' },
   { key: 'EXACTLY', label: 'exactly' },
   { key: 'ONE_OR_MORE', label: 'one or many' },
@@ -22,7 +23,8 @@ export const characters = [
   { key: 'UPPER_LETTERS', label: 'capital letters', value: '[A-Z]' },
   { key: 'NUMBERS', label: 'numbers', value: '\\d' },
   { key: 'ANYTHING', label: 'random characters', value: '.' },
-  { key: 'LOWER_LETTERS', label: 'small letters', value: '[a-z]' }
+  { key: 'LOWER_LETTERS', label: 'small letters', value: '[a-z]' },
+  { key: 'WORDS_SUCH_AS', isSetQuantifier: true, label: 'words such as' }
 ]
 
 function addCondition(specs, insertAtIndex = 0, newItem = true) {
@@ -67,6 +69,21 @@ function addCondition(specs, insertAtIndex = 0, newItem = true) {
         quantifier: specs.quantifier
       }
     }
+  } else if (specs.quantifier === "SET") {
+    if (specs.characters === "WORDS_SUCH_AS") {
+      if (!specs.wordList.length || (specs.wordList.length === 1 && specs.wordList[0].value === "")) {
+        return Promise.reject(new Error('The word list cannot be empty.'))
+      }
+
+      chunk = {
+        regex: specs.wordList.map(({ value }) => value).join("|"),
+        specs: {
+          anchor,
+          quantifier: specs.quantifier,
+          wordList: specs.wordList
+        }
+      }
+    }
   }
 
   const { value: chars = '' } = characters.find(item => item.key === specs.characters) || {}
@@ -74,7 +91,7 @@ function addCondition(specs, insertAtIndex = 0, newItem = true) {
     regex: prefix.concat(chars, chunk.regex, suffix),
     specs: {
       ...chunk.specs,
-      characters: specs.characters,
+      characters: specs.characters
     },
   }
 

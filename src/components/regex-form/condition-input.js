@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import React, { Component, Fragment } from "react"
 import styled from "@emotion/styled"
 
-import { Button, RelativeFormContainer, Select, TextInput } from "../utils"
+import { Button, RelativeFormContainer, Select, TextInput, TextInputListForm } from "../utils"
 import { characters, quantifiers } from "../../utils/core"
 
 const TextInputGroup = styled.div`
@@ -42,12 +42,13 @@ class ConditionInput extends Component {
     availableAnchors: PropTypes.arrayOf(PropTypes.object),
     exactQuantifierValue: PropTypes.string,
     characters: PropTypes.string,
-    quantifier: PropTypes.string,
     minimumQuantifierValue: PropTypes.string,
     maximumQuantifierValue: PropTypes.string,
     onCancel: PropTypes.func,
     onChange: PropTypes.func,
+    quantifier: PropTypes.string,
     queryString: PropTypes.string,
+    wordList: PropTypes.arrayOf(PropTypes.string)
   }
 
   static preChoices = []
@@ -57,10 +58,22 @@ class ConditionInput extends Component {
     characters: this.props.characters || "ALPHANUMERIC_CHARACTERS",
     exactQuantifierValue: this.props.exactQuantifierValue || "",
     error: null,
-    quantifier: this.props.quantifier || "ONE_OR_MORE",
     minimumQuantifierValue: this.props.minimumQuantifierValue || "",
     maximumQuantifierValue: this.props.maximumQuantifierValue || "",
+    quantifier: this.props.quantifier || "ONE_OR_MORE",
     queryString: this.props.queryString || "",
+    wordList: this.props.wordList || [],
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    const { quantifier: currentQuantifier } = this.state
+
+    if (prevState.quantifier === "SET" && currentQuantifier !== "SET") {
+      this.setState({ characters: "ALPHANUMERIC_CHARACTERS" })
+    }
+    if (prevState.quantifier !== "SET" && currentQuantifier === "SET") {
+      this.setState({ characters: "WORDS_SUCH_AS" })
+    }
   }
 
   onChange = event => {
@@ -90,7 +103,12 @@ class ConditionInput extends Component {
   }
 
   onQuantifierSelectChange = event => {
-    this.setState({ quantifier: event.target.value })
+    const { value } = event.target
+
+    this.setState({
+      characters: "",
+      quantifier: value
+    })
   }
 
   onSubmitButtonClick = event => {
@@ -101,8 +119,15 @@ class ConditionInput extends Component {
       .catch(err => this.setState({ error: err.message }))
   }
 
+  onWordListChange = value => {
+    this.setState({ wordList: value })
+  }
+
   render() {
     const { error } = this.state
+    const charactersOptions = this.state.quantifier === "SET"
+      ? characters.filter(item => item.isSetQuantifier)
+      : characters.filter(item => !item.isSetQuantifier)
 
     return (
       <RelativeFormContainer>
@@ -140,11 +165,14 @@ class ConditionInput extends Component {
             )}
           </TextInputGroup>
         )}
-        <Select
-          data={characters}
-          onChange={this.onCharactersSelectChange}
-          selectedOption={this.state.characters}
-        />
+          <Select
+            data={charactersOptions}
+            onChange={this.onCharactersSelectChange}
+            selectedOption={this.state.characters}
+            />
+        {this.state.characters === "WORDS_SUCH_AS" && (
+          <TextInputListForm onChange={this.onWordListChange} data={this.state.wordList} />
+        )}
         {error && <StyledErrorParagraph>{error}</StyledErrorParagraph>}
         <Button colorTheme="submit" onClick={this.onSubmitButtonClick}>
           Submit
