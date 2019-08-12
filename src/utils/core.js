@@ -24,6 +24,7 @@ export const characters = [
   { key: 'NUMBERS', label: 'numbers', value: '\\d' },
   { key: 'ANYTHING', label: 'random characters', value: '.' },
   { key: 'LOWER_LETTERS', label: 'small letters', value: '[a-z]' },
+  { key: 'CHARACTERS', isSetQuantifier: true, label: 'characters like' },
   { key: 'WORDS_SUCH_AS', isSetQuantifier: true, label: 'words such as' }
 ]
 
@@ -81,6 +82,17 @@ function addCondition(specs, insertAtIndex = 0, newItem = true) {
           anchor,
           quantifier: specs.quantifier,
           wordList: specs.wordList
+        }
+      }
+    } else if (specs.characters === "CHARACTERS") {
+      if (!specs.setValue.trim()) return Promise.reject(new Error('Characters must be defined.'))
+
+      chunk = {
+        regex: `[${specs.setValue}]`,
+        specs: {
+          anchor,
+          quantifier: specs.quantifier,
+          setValue: specs.setValue
         }
       }
     }

@@ -48,6 +48,7 @@ class ConditionInput extends Component {
     onChange: PropTypes.func,
     quantifier: PropTypes.string,
     queryString: PropTypes.string,
+    setValue: PropTypes.string,
     wordList: PropTypes.arrayOf(PropTypes.string)
   }
 
@@ -62,6 +63,7 @@ class ConditionInput extends Component {
     maximumQuantifierValue: this.props.maximumQuantifierValue || "",
     quantifier: this.props.quantifier || "ONE_OR_MORE",
     queryString: this.props.queryString || "",
+    setValue: this.props.setValue || "",
     wordList: this.props.wordList || [],
   }
 
@@ -109,6 +111,10 @@ class ConditionInput extends Component {
       characters: "",
       quantifier: value
     })
+  }
+
+  onSetTextFieldChange = value => {
+    this.setState({ setValue: value })
   }
 
   onSubmitButtonClick = event => {
@@ -165,13 +171,23 @@ class ConditionInput extends Component {
             )}
           </TextInputGroup>
         )}
-          <Select
-            data={charactersOptions}
-            onChange={this.onCharactersSelectChange}
-            selectedOption={this.state.characters}
-            />
+        <Select
+          data={charactersOptions}
+          onChange={this.onCharactersSelectChange}
+          selectedOption={this.state.characters}
+        />
         {this.state.characters === "WORDS_SUCH_AS" && (
           <TextInputListForm onChange={this.onWordListChange} data={this.state.wordList} />
+        )}
+        {this.state.characters === "CHARACTERS" && (
+          <TextInputGroup>
+            <TextInput
+              onChange={this.onSetTextFieldChange}
+              placeholder="aeiou"
+              queryString={this.state.setValue}
+              uniqueCharacters
+            />
+          </TextInputGroup>
         )}
         {error && <StyledErrorParagraph>{error}</StyledErrorParagraph>}
         <Button colorTheme="submit" onClick={this.onSubmitButtonClick}>
