@@ -15,9 +15,9 @@ class ConditionSentence extends Component {
     return dataSource.find(item => item.key === targetKey) || {}
   }
 
-  static generateWordList(source) {
+  static generateFromArray(source) {
     return source.reduce(
-      (acc, { value }, index) => acc.concat(
+      (acc, value, index) => acc.concat(
         index > 0 && index === source.length - 1 ? " or " : "",
         index && index < source.length - 1 ? ", " : "",
         `"${value}"`
@@ -27,7 +27,7 @@ class ConditionSentence extends Component {
   }
 
   static generateSentence({ specs }) {
-    const { findByKey, generateWordList } = ConditionSentence
+    const { findByKey, generateFromArray } = ConditionSentence
     const quantifier = findByKey(quantifiers, specs.quantifier).label
 
     const data = [
@@ -38,7 +38,8 @@ class ConditionSentence extends Component {
         : "",
       specs.quantifier === "EXACTLY" ? specs.minimumQuantifierValue : "",
       findByKey(characters, specs.characters).label || "",
-      specs.characters === "WORDS_SUCH_AS" ? generateWordList(specs.wordList) : "",
+      specs.characters === "WORDS_SUCH_AS" ? generateFromArray(specs.wordList.map(({ value }) => value)) : "",
+      specs.characters === "CHARACTERS" ? generateFromArray(specs.setValue.split("")) : "",
     ]
 
     return data
@@ -55,8 +56,9 @@ class ConditionSentence extends Component {
   onButtonClick = ref => {
     const { index, onSentenceMenuChange } = this.props
 
-    this.setState({ shouldMenuBeHidden: !this.state.shouldMenuBeHidden }, () =>
-      onSentenceMenuChange(index, ref.current)
+    this.setState(
+      { shouldMenuBeHidden: !this.state.shouldMenuBeHidden },
+      () => onSentenceMenuChange(index, ref.current)
     )
   }
 

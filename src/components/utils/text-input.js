@@ -19,7 +19,8 @@ class TextInput extends Component {
     autoFocus: PropTypes.bool,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
-    queryString: PropTypes.string
+    queryString: PropTypes.string,
+    uniqueCharacters: PropTypes.bool
   }
 
   static preChoices = []
@@ -34,9 +35,19 @@ class TextInput extends Component {
   onChange = event => {
     const { value } = event.target
 
+    const nextValue = this.props.uniqueCharacters
+      ? value
+        .split("")
+        .reduce((acc, letter) =>
+          acc.includes(letter)
+            ? acc
+            : acc.concat(letter)
+        , "")
+      : value
+
     this.setState(
-      { queryString: value },
-      () => this.props.onChange(value)
+      { queryString: nextValue },
+      () => this.props.onChange(nextValue)
     )
   }
 
@@ -56,6 +67,7 @@ class TextInput extends Component {
         placeholder={this.props.placeholder}
         type={this.props.type || 'text'}
         value={value}
+        {...this.props.uniqueCharacters && { onKeyDown: this.onKeyDown }}
       />
     )
   }
