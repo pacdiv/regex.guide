@@ -3,7 +3,7 @@ import React, { Component, Fragment } from "react"
 import styled from "@emotion/styled"
 
 import { Button, RelativeFormContainer, Select, TextInput, TextInputListForm } from "../utils"
-import { characters, quantifiers } from "../../utils/core"
+import { characters, quantifiers } from "../../lib/core"
 
 const TextInputGroup = styled.div`
   align-items: center;
@@ -130,10 +130,8 @@ class ConditionInput extends Component {
   }
 
   render() {
-    const { error } = this.state
-    const charactersOptions = this.state.quantifier === "SET"
-      ? characters.filter(item => item.isSetQuantifier)
-      : characters.filter(item => !item.isSetQuantifier)
+    const { error, quantifier } = this.state
+    const charactersOptions = characters[quantifier] || characters.DEFAULT
 
     return (
       <RelativeFormContainer>
