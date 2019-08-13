@@ -1,7 +1,7 @@
 import PropTypes from "prop-types"
 import React, { Component, createRef } from "react"
 
-import { anchors, quantifiers, characters } from '../../utils/core'
+import { anchors, quantifiers, characters } from '../../lib/core/'
 import EditableText from './editable-text'
 
 class ConditionSentence extends Component {
@@ -37,7 +37,7 @@ class ConditionSentence extends Component {
         ? `${specs.minimumQuantifierValue} and ${specs.maximumQuantifierValue}`
         : "",
       specs.quantifier === "EXACTLY" ? specs.minimumQuantifierValue : "",
-      findByKey(characters, specs.characters).label || "",
+      findByKey(characters[specs.quantifier] || characters.DEFAULT, specs.characters).label || "",
       specs.characters === "WORDS_SUCH_AS" ? generateFromArray(specs.wordList.map(({ value }) => value)) : "",
       specs.characters === "CHARACTERS" ? generateFromArray(specs.setValue.split("")) : "",
     ]

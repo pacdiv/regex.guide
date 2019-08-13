@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import styled from "@emotion/styled"
 
 import { Button, TextInput } from "../utils"
-import core from "../../utils/core"
+import core from "../../lib/core/"
 import ClipboardAction from './clipboard-action'
 import ConditionInput from "./condition-input"
 import EditableChunk from "./editable-chunk"
