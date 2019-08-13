@@ -32,7 +32,7 @@ class ConditionSentence extends Component {
 
     const data = [
       findByKey(anchors, specs.anchor).label || "",
-      specs.quantifier !== "SET" && quantifier || "",
+      specs.quantifier !== "SET" ? quantifier : "",
       specs.quantifier === "BETWEEN"
         ? `${specs.minimumQuantifierValue} and ${specs.maximumQuantifierValue}`
         : "",

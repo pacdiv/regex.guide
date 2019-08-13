@@ -2,11 +2,11 @@ import React from "react"
 import styled from "@emotion/styled"
 
 import { FooterLogo } from "../components/utils"
-import Form from "../components/regex-form/form"
+import Playground from "../components/playground/playground"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-const FormContainer = styled.div`
+const PlaygroundContainer = styled.div`
   align-items: stretch;
   display: flex;
   flex-direction: column;
@@ -23,9 +23,9 @@ const MoreInfoParagraph = styled.div`
 const IndexPage = () => (
   <Layout>
     <SEO title="Write a sentence, get a regex" />
-    <FormContainer>
-      <Form />
-    </FormContainer>
+    <PlaygroundContainer>
+      <Playground />
+    </PlaygroundContainer>
     <MoreInfoParagraph>
       <a href="http://bit.ly/2ZJjUTy" target="blank_">
         <FooterLogo />

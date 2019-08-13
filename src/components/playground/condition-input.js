@@ -188,10 +188,10 @@ class ConditionInput extends Component {
           </TextInputGroup>
         )}
         {error && <StyledErrorParagraph>{error}</StyledErrorParagraph>}
-        <Button colorTheme="submit" onClick={this.onSubmitButtonClick}>
+        <Button className="submit-theme" onClick={this.onSubmitButtonClick}>
           Submit
         </Button>
-        <Button colorTheme="transparent" onClick={this.props.onCancel}>
+        <Button className="transparent-theme" onClick={this.props.onCancel}>
           Cancel
         </Button>
       </RelativeFormContainer>

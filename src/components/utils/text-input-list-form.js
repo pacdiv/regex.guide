@@ -1,5 +1,5 @@
 import PropTypes from "prop-types"
-import React, { useEffect, useState } from "react"
+import React, { useState } from "react"
 import styled from "@emotion/styled"
 import uuid from 'uuid/v4'
 
@@ -106,7 +106,7 @@ function TextInputListForm({ data, onChange }) {
           )}
         </InputContainer>
       ))}
-      <Button colorTheme="light" onClick={addItem}>
+      <Button onClick={addItem}>
         Add to the list
       </Button>
     </StyledTextInputListForm>

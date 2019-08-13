@@ -24,7 +24,7 @@ class RegexFlagsForm extends PureComponent {
           label="Global"
           onChange={this.onGlobalChange}
         />
-        <Button colorTheme="submit" onClick={this.props.onSubmitClick} size="medium">
+        <Button className="submit-theme" onClick={this.props.onSubmitClick} size="medium">
           Submit
         </Button>
       </RelativeFormContainer>
