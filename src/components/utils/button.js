@@ -11,10 +11,13 @@ export default styled.button`
   margin: auto;
   width: 16em;
 
-  ${({ colorTheme }) =>
-    colorTheme === 'dark' && css`background-color: #555555;` ||
-    colorTheme === 'submit' && css`background-color: limegreen;` ||
-    colorTheme === 'transparent' && css`background-color: inherit; color: initial;`
+  &.submit-theme {
+    background-color: limegreen;
+  }
+
+  &.transparent-theme {
+    background-color: transparent;
+    color: initial;
   }
   
   ${({ size }) =>
