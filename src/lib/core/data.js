@@ -13,8 +13,8 @@ export const characters = {
     { key: 'LOWER_LETTERS', label: 'small letters', value: '[a-z]' }
   ],
   SET: [
-    { key: 'CHARACTERS', label: 'characters like' },
-    { key: 'WORDS_SUCH_AS', label: 'words such as' }
+    { key: 'CHARACTERS', label: 'characters' },
+    { key: 'WORDS_SUCH_AS', label: 'words' }
   ]
 }
 

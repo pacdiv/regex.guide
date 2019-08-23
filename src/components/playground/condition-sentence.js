@@ -38,6 +38,7 @@ class ConditionSentence extends Component {
         : "",
       specs.quantifier === "EXACTLY" ? specs.minimumQuantifierValue : "",
       findByKey(characters[specs.quantifier] || characters.DEFAULT, specs.characters).label || "",
+      specs.quantifier === "SET" ? "like" : "",
       specs.characters === "WORDS_SUCH_AS" ? generateFromArray(specs.wordList.map(({ value }) => value)) : "",
       specs.characters === "CHARACTERS" ? generateFromArray(specs.setValue.split("")) : "",
     ]

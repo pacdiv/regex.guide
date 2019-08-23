@@ -1,0 +1,19 @@
+import { characters } from '../data'
+
+export default function addSpecialChar(specs) {
+  const foundItem = characters.ESCAPED.some(({ key }) => key === specs.characters)
+
+  if (!foundItem) {
+    return Promise.reject(
+      new Error("Is it a special character I don't know? Please open an issue on GitHub!")
+    )
+  }
+
+  return Promise.resolve({
+    regex: "",
+    specs: {
+      anchor: specs.anchor,
+      quantifier: specs.quantifier
+    }
+  })
+}

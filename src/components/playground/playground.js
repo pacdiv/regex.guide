@@ -152,6 +152,7 @@ class Playground extends Component {
         </div>
         <TextInput
           autoFocus
+          autoWidth
           onChange={this.onSourceStringChange}
           placeholder="👉 type your text here 👈"
         />
@@ -219,7 +220,8 @@ class Playground extends Component {
               onSwitchHiddenMenu={this.onConditionSentenceMenuHide}
             />,
             this.state.sentenceEl
-          )}
+          )
+        }
       </StyledPlayground>
     )
   }

@@ -2,7 +2,7 @@ import React from "react"
 import styled from "@emotion/styled"
 
 const StyledBanner = styled.div`
-  background-color: indianred;
+  background-color: lightsalmon;
   color: white;
   height: 3em;
   font-family: monospace;

@@ -4,7 +4,17 @@ import styled from "@emotion/styled"
 import { css } from "@emotion/core"
 
 const StyledTextInupt = styled.input`
+  border-color: transparent;
+  border-radius: 4px;
   text-align: center;
+  width: 6em;
+
+  ${({ autoWidth }) =>
+    autoWidth && css`
+      font-size: inherit;
+      width: auto;
+    `
+  }
 
   ${({ hasNotFocus }) =>
     hasNotFocus && css`
@@ -17,6 +27,7 @@ const StyledTextInupt = styled.input`
 class TextInput extends Component {
   static propTypes = {
     autoFocus: PropTypes.bool,
+    autoWidth: PropTypes.bool,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     queryString: PropTypes.string,
@@ -60,6 +71,7 @@ class TextInput extends Component {
     return (
       <StyledTextInupt
         autoFocus={this.props.autoFocus}
+        autoWidth={this.props.autoWidth}
         hasNotFocus={!this.state.hasFocus}
         onBlur={this.onBlur}
         onChange={this.onChange}
