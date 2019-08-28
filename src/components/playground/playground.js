@@ -152,7 +152,6 @@ class Playground extends Component {
         </div>
         <TextInput
           autoFocus
-          autoWidth
           onChange={this.onSourceStringChange}
           placeholder="👉 type your text here 👈"
         />

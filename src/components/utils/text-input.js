@@ -7,14 +7,6 @@ const StyledTextInupt = styled.input`
   border-color: transparent;
   border-radius: 4px;
   text-align: center;
-  width: 6em;
-
-  ${({ autoWidth }) =>
-    autoWidth && css`
-      font-size: inherit;
-      width: auto;
-    `
-  }
 
   ${({ hasNotFocus }) =>
     hasNotFocus && css`
@@ -22,16 +14,22 @@ const StyledTextInupt = styled.input`
       font-style: italic;
     `
   }
+
+  ${({ smallWidth }) =>
+    smallWidth && css`
+      width: 6em;
+    `
+  }
 `
 
 class TextInput extends Component {
   static propTypes = {
     autoFocus: PropTypes.bool,
-    autoWidth: PropTypes.bool,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     queryString: PropTypes.string,
-    uniqueCharacters: PropTypes.bool
+    uniqueCharacters: PropTypes.bool,
+    smallWidth: PropTypes.bool
   }
 
   static preChoices = []
@@ -71,12 +69,12 @@ class TextInput extends Component {
     return (
       <StyledTextInupt
         autoFocus={this.props.autoFocus}
-        autoWidth={this.props.autoWidth}
         hasNotFocus={!this.state.hasFocus}
         onBlur={this.onBlur}
         onChange={this.onChange}
         onFocus={this.onFocus}
         placeholder={this.props.placeholder}
+        smallWidth={this.props.smallWidth}
         type={this.props.type || 'text'}
         value={value}
         {...this.props.uniqueCharacters && { onKeyDown: this.onKeyDown }}
