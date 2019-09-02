@@ -2,25 +2,17 @@ import PropTypes from "prop-types"
 import React, { Component, Fragment } from "react"
 import styled from "@emotion/styled"
 
-import { Button, RelativeFormContainer, Select, TextInput, TextInputListForm } from "../utils"
-import { characters, quantifiers } from "../../lib/core"
+import { Button, RelativeFormContainer, TextInput, TextInputListForm } from "../utils"
+import { characters, getLabelFromKey, quantifiers } from "../../lib/core"
+import Step from './condition-input-step'
 
 const TextInputGroup = styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
+  justify-content: center;
   margin: 0 auto;
   width: 16em;
-
-  input {
-    border-radius: 4px;
-    height: 3em;
-    width: 6em;
-
-    &:only-child {
-      width: 16em;
-    }
-  }
 
   span {
     width: 4em;
@@ -40,8 +32,8 @@ class ConditionInput extends Component {
   static propTypes = {
     anchor: PropTypes.string,
     availableAnchors: PropTypes.arrayOf(PropTypes.object),
-    exactQuantifierValue: PropTypes.string,
     characters: PropTypes.string,
+    exactQuantifierValue: PropTypes.string,
     minimumQuantifierValue: PropTypes.string,
     maximumQuantifierValue: PropTypes.string,
     onCancel: PropTypes.func,
@@ -52,6 +44,7 @@ class ConditionInput extends Component {
     wordList: PropTypes.arrayOf(PropTypes.string)
   }
 
+  static defaultQuantifiers = ["BETWEEN", "EXACTLY", "ONE_OR_MORE", "NONE_OR_MORE"]
   static preChoices = []
 
   state = {
@@ -68,9 +61,10 @@ class ConditionInput extends Component {
   }
 
   componentDidUpdate(prevProps, prevState) {
+    const { defaultQuantifiers } = ConditionInput
     const { quantifier: currentQuantifier } = this.state
 
-    if (prevState.quantifier === "SET" && currentQuantifier !== "SET") {
+    if (!defaultQuantifiers.includes(prevState.quantifier) && defaultQuantifiers.includes(currentQuantifier)) {
       this.setState({ characters: "ALPHANUMERIC_CHARACTERS" })
     }
     if (prevState.quantifier !== "SET" && currentQuantifier === "SET") {
@@ -86,6 +80,7 @@ class ConditionInput extends Component {
 
   onAnchorSelectChange = event => {
     this.setState({ anchor: event.target.value })
+    event.target.blur()
   }
 
   onExactLimitTextFieldChange = event => {
@@ -94,6 +89,7 @@ class ConditionInput extends Component {
 
   onCharactersSelectChange = event => {
     this.setState({ characters: event.target.value })
+    event.target.blur()
   }
 
   onMinimumLimitTextFieldChange = value => {
@@ -105,12 +101,8 @@ class ConditionInput extends Component {
   }
 
   onQuantifierSelectChange = event => {
-    const { value } = event.target
-
-    this.setState({
-      characters: "",
-      quantifier: value
-    })
+    this.setState({ quantifier: event.target.value })
+    event.target.blur()
   }
 
   onSetTextFieldChange = value => {
@@ -130,63 +122,39 @@ class ConditionInput extends Component {
   }
 
   render() {
-    const { error, quantifier } = this.state
-    const charactersOptions = characters[quantifier] || characters.DEFAULT
+    const {
+      anchor: selectedAnchor,
+      characters: selectedCharacters,
+      error,
+      quantifier: selectedQuantifier
+    } = this.state
+    const charactersOptions = characters[selectedQuantifier] || characters.DEFAULT
 
     return (
       <RelativeFormContainer>
-        {!this.props.anchor && (
-          <Select
-            data={this.props.availableAnchors}
-            onChange={this.onAnchorSelectChange}
-            selectedOption={this.state.anchor}
-          />
+        {!this.props.anchor && this.renderDefaultStep(
+          "Pick an anchor:",
+          this.props.availableAnchors,
+          selectedAnchor,
+          this.onAnchorSelectChange
         )}
-        <Select
-          data={quantifiers}
-          onChange={this.onQuantifierSelectChange}
-          selectedOption={this.state.quantifier}
-        />
-        {(this.state.quantifier === "BETWEEN" ||
-          this.state.quantifier === "EXACTLY") && (
-          <TextInputGroup>
-            <TextInput
-              onChange={this.onMinimumLimitTextFieldChange}
-              placeholder="0"
-              queryString={this.state.minimumQuantifierValue}
-              type="number"
-            />
-            {this.state.quantifier === "BETWEEN" && (
-              <Fragment>
-                <span>and</span>
-                <TextInput
-                  onChange={this.onMaximumLimitTextFieldChange}
-                  placeholder="0"
-                  queryString={this.state.maximumQuantifierValue}
-                  type="number"
-                />
-              </Fragment>
-            )}
-          </TextInputGroup>
+        {this.renderDefaultStep(
+          "Pick an quantifier:",
+          quantifiers,
+          selectedQuantifier,
+          this.onQuantifierSelectChange
         )}
-        <Select
-          data={charactersOptions}
-          onChange={this.onCharactersSelectChange}
-          selectedOption={this.state.characters}
-        />
-        {this.state.characters === "WORDS_SUCH_AS" && (
-          <TextInputListForm onChange={this.onWordListChange} data={this.state.wordList} />
+        {
+          (selectedQuantifier === "BETWEEN" || selectedQuantifier === "EXACTLY") &&
+          this.renderNumbersStepForm()
+        }
+        {this.renderDefaultStep(
+          `Pick a type of ${selectedQuantifier === "SET" ? "set" : "characters"}:`,
+          charactersOptions,
+          selectedCharacters,
+          this.onCharactersSelectChange
         )}
-        {this.state.characters === "CHARACTERS" && (
-          <TextInputGroup>
-            <TextInput
-              onChange={this.onSetTextFieldChange}
-              placeholder="aeiou"
-              queryString={this.state.setValue}
-              uniqueCharacters
-            />
-          </TextInputGroup>
-        )}
+        {selectedQuantifier === "SET" && this.renderSetStepForm()}
         {error && <StyledErrorParagraph>{error}</StyledErrorParagraph>}
         <Button className="submit-theme" onClick={this.onSubmitButtonClick}>
           Submit
@@ -195,6 +163,75 @@ class ConditionInput extends Component {
           Cancel
         </Button>
       </RelativeFormContainer>
+    )
+  }
+
+  renderNumbersStepForm() {
+    const { maximumQuantifierValue, minimumQuantifierValue, quantifier } = this.state
+
+    return (
+      <Step title={quantifier === "EXACTLY" ? "How many exactly?" : "Between how many?"}>
+        <TextInputGroup>
+          <TextInput
+            onChange={this.onMinimumLimitTextFieldChange}
+            placeholder="0"
+            queryString={minimumQuantifierValue}
+            smallWidth
+            type="number"
+          />
+          {quantifier === "BETWEEN" && (
+            <Fragment>
+              <span>and</span>
+              <TextInput
+                onChange={this.onMaximumLimitTextFieldChange}
+                placeholder="0"
+                queryString={maximumQuantifierValue}
+                smallWidth
+                type="number"
+              />
+            </Fragment>
+          )}
+        </TextInputGroup>
+      </Step>
+    )
+  }
+
+  renderSetStepForm() {
+    const { characters: selectedCharacters, setValue, wordList } = this.state
+
+    return (
+      <Step title={`${getLabelFromKey(characters.SET, selectedCharacters, true)} such as:`}>
+        {selectedCharacters === "WORDS_SUCH_AS" && (
+          <TextInputListForm
+            data={wordList}
+            onChange={this.onWordListChange}
+          />
+        )}
+        {selectedCharacters === "CHARACTERS" && (
+          <TextInputGroup>
+            <TextInput
+              onChange={this.onSetTextFieldChange}
+              placeholder="xyz"
+              queryString={setValue}
+              uniqueCharacters
+            />
+          </TextInputGroup>
+        )}
+      </Step>
+    )
+  }
+
+  renderDefaultStep(title, dataSource, currentValue, callback) {
+    return (
+      <Step title={title}>
+        <div className="buttons-wrapper">
+          {dataSource.map(({ key, label }) => (
+            <button {...currentValue === key && { className: "selected"}} type="button" value={key} onClick={callback}>
+              {label}
+            </button>
+          ))}
+        </div>
+      </Step>
     )
   }
 }

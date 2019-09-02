@@ -219,7 +219,8 @@ class Playground extends Component {
               onSwitchHiddenMenu={this.onConditionSentenceMenuHide}
             />,
             this.state.sentenceEl
-          )}
+          )
+        }
       </StyledPlayground>
     )
   }

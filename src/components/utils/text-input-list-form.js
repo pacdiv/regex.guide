@@ -12,12 +12,17 @@ const StyledTextInputListForm = styled.div`
 
   input,
   button {
-    height: 3em;
     margin-bottom: .5em;
   }
 
+  button {
+    font-size: .8em;
+    height: 2.5rem;
+    width: 12rem;
+  }
+
   input {
-    width: 100%;
+    width: 12rem;
   }
 `
 
@@ -27,21 +32,23 @@ const InputContainer = styled.div`
   > button {
     background-color: crimson;
     border: 0;
-    border-radius: .5em;
+    border-radius: 8px;
     cursor: pointer;
-    height: 1em;
+    height: 16px;
+    font-size: 1rem;
     position: absolute;
-    right: -.5em;
-    top: -.25em;
-    width: 1em;
+    right: -8px;
+    top: -8px;
+    width: 16px;
 
     &:before,
     &:after {
       background-color: white;
       content: ' ';
       height: 0.6em;
-      left: 0.5em;
+      left: auto;
       position: absolute;
+      right: auto;
       top: 0.2em;
       width: 2px;
     }

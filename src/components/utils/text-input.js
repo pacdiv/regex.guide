@@ -4,12 +4,20 @@ import styled from "@emotion/styled"
 import { css } from "@emotion/core"
 
 const StyledTextInupt = styled.input`
+  border-color: transparent;
+  border-radius: 4px;
   text-align: center;
 
   ${({ hasNotFocus }) =>
     hasNotFocus && css`
       border-color: transparent;
       font-style: italic;
+    `
+  }
+
+  ${({ smallWidth }) =>
+    smallWidth && css`
+      width: 6em;
     `
   }
 `
@@ -20,7 +28,8 @@ class TextInput extends Component {
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     queryString: PropTypes.string,
-    uniqueCharacters: PropTypes.bool
+    uniqueCharacters: PropTypes.bool,
+    smallWidth: PropTypes.bool
   }
 
   static preChoices = []
@@ -65,6 +74,7 @@ class TextInput extends Component {
         onChange={this.onChange}
         onFocus={this.onFocus}
         placeholder={this.props.placeholder}
+        smallWidth={this.props.smallWidth}
         type={this.props.type || 'text'}
         value={value}
         {...this.props.uniqueCharacters && { onKeyDown: this.onKeyDown }}

@@ -6,6 +6,16 @@ export const getAnchorsWithoutUsedEdges = (dataSource, anchors, edges) => {
   ), anchors)
 }
 
+export const getLabelFromKey = (dataSource, targetKey, withCap = false) => {
+  const { label } = dataSource.find(({ key }) => targetKey === key) || {}
+
+  if (!label) return ""
+
+  return withCap
+    ? label[0].toUpperCase().concat(label.slice(1))
+    : label
+}
+
 export const insertNewChunk = (dataSource, targetIndex, chunk) => {
   if (!dataSource.length) return [chunk]
   if (targetIndex === dataSource.length) return dataSource.concat(chunk)
