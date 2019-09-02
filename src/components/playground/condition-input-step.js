@@ -21,7 +21,7 @@ const StyledStep = styled.div`
 
     button {
       align-items: center;
-      border: 1px solid limegreen;
+      border: 1px solid #ebebeb;
       background-color: rgb(249, 249, 249);
       border-radius: 4px;
       display: flex;
@@ -30,6 +30,10 @@ const StyledStep = styled.div`
       justify-content: flex-end;
       padding: 0.25em 0.5em;
       margin: 0.25em;
+
+      &.selected {
+        border-color: limegreen;
+      }
     }
   }
 `

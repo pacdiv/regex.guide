@@ -1,7 +1,13 @@
 import PropTypes from "prop-types"
 import React, { PureComponent } from "react"
+import styled from "@emotion/styled"
 
 import { Button, CheckboxInput, RelativeFormContainer } from "../utils"
+
+const SubmitButton = styled(Button)`
+  height: 2em;
+  width: 12em;
+`
 
 class RegexFlagsForm extends PureComponent {
   static propTypes = {
@@ -24,9 +30,9 @@ class RegexFlagsForm extends PureComponent {
           label="Global"
           onChange={this.onGlobalChange}
         />
-        <Button className="submit-theme" onClick={this.props.onSubmitClick} size="medium">
+        <SubmitButton onClick={this.props.onSubmitClick}>
           Submit
-        </Button>
+        </SubmitButton>
       </RelativeFormContainer>
     )
   }

@@ -122,34 +122,39 @@ class ConditionInput extends Component {
   }
 
   render() {
-    const { error, quantifier } = this.state
-    const charactersOptions = characters[quantifier] || characters.DEFAULT
+    const {
+      anchor: selectedAnchor,
+      characters: selectedCharacters,
+      error,
+      quantifier: selectedQuantifier
+    } = this.state
+    const charactersOptions = characters[selectedQuantifier] || characters.DEFAULT
 
     return (
       <RelativeFormContainer>
         {!this.props.anchor && this.renderDefaultStep(
           "Pick an anchor:",
           this.props.availableAnchors,
-          this.state.anchor,
+          selectedAnchor,
           this.onAnchorSelectChange
         )}
         {this.renderDefaultStep(
           "Pick an quantifier:",
           quantifiers,
-          this.state.quantifier,
+          selectedQuantifier,
           this.onQuantifierSelectChange
         )}
         {
-          (this.state.quantifier === "BETWEEN" || this.state.quantifier === "EXACTLY") &&
+          (selectedQuantifier === "BETWEEN" || selectedQuantifier === "EXACTLY") &&
           this.renderNumbersStepForm()
         }
         {this.renderDefaultStep(
-          `Pick a type of ${this.state.quantifier === "SET" ? "set" : "characters"}:`,
+          `Pick a type of ${selectedQuantifier === "SET" ? "set" : "characters"}:`,
           charactersOptions,
-          this.state.characters,
+          selectedCharacters,
           this.onCharactersSelectChange
         )}
-        {this.state.quantifier === "SET" && this.renderSetStepForm()}
+        {selectedQuantifier === "SET" && this.renderSetStepForm()}
         {error && <StyledErrorParagraph>{error}</StyledErrorParagraph>}
         <Button className="submit-theme" onClick={this.onSubmitButtonClick}>
           Submit
@@ -192,22 +197,22 @@ class ConditionInput extends Component {
   }
 
   renderSetStepForm() {
-    const { characters: stateCharacters } = this.state
+    const { characters: selectedCharacters, setValue, wordList } = this.state
 
     return (
-      <Step title={`${getLabelFromKey(characters.SET, stateCharacters, true)} such as:`}>
-        {stateCharacters === "WORDS_SUCH_AS" && (
+      <Step title={`${getLabelFromKey(characters.SET, selectedCharacters, true)} such as:`}>
+        {selectedCharacters === "WORDS_SUCH_AS" && (
           <TextInputListForm
-            data={this.state.wordList}
+            data={wordList}
             onChange={this.onWordListChange}
           />
         )}
-        {stateCharacters === "CHARACTERS" && (
+        {selectedCharacters === "CHARACTERS" && (
           <TextInputGroup>
             <TextInput
               onChange={this.onSetTextFieldChange}
               placeholder="xyz"
-              queryString={this.state.setValue}
+              queryString={setValue}
               uniqueCharacters
             />
           </TextInputGroup>
@@ -221,7 +226,7 @@ class ConditionInput extends Component {
       <Step title={title}>
         <div className="buttons-wrapper">
           {dataSource.map(({ key, label }) => (
-            <button style={{ border: `1px solid ${currentValue === key ? "limegreen" : "#ebebeb"}` }} type="button" value={key} onClick={callback}>
+            <button {...currentValue === key && { className: "selected"}} type="button" value={key} onClick={callback}>
               {label}
             </button>
           ))}
