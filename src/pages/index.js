@@ -15,9 +15,8 @@ const PlaygroundContainer = styled.div`
   padding: 4em 0;
 `
 
-const MoreInfoParagraph = styled.div`
+const MoreInfo = styled.div`
   margin: 0 auto 2em;
-  max-width: 6em;
 `
 
 const IndexPage = () => (
@@ -26,11 +25,9 @@ const IndexPage = () => (
     <PlaygroundContainer>
       <Playground />
     </PlaygroundContainer>
-    <MoreInfoParagraph>
-      <a href="http://bit.ly/2ZJjUTy" target="blank_">
-        <FooterLogo />
-      </a>
-    </MoreInfoParagraph>
+    <MoreInfo>
+      <FooterLogo />
+    </MoreInfo>
   </Layout>
 )
 
