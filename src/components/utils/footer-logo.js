@@ -1,21 +1,29 @@
 import React from "react"
-import { useStaticQuery, graphql } from "gatsby"
-import Img from "gatsby-image"
+import styled from "@emotion/styled"
 
-const Image = () => {
-  const data = useStaticQuery(graphql`
-    query {
-      placeholderImage: file(relativePath: { eq: "typeof.png" }) {
-        childImageSharp {
-          fluid(maxWidth: 300) {
-            ...GatsbyImageSharpFluid
-          }
-        }
-      }
-    }
-  `)
+const StyledLogo = styled.p`
+  text-align: center;
 
-  return <Img fluid={data.placeholderImage.childImageSharp.fluid} />
+  a {
+    color: #444;
+    font-family: "Times New Roman";
+    font-size: 1.5rem;
+    font-weight: 600;
+    letter-spacing: -2px;
+    margin-top: 0px;
+    text-decoration: none;
+    font-style: normal;
+  }
+`
+
+const FooterLogo = () => {
+  return (
+    <StyledLogo>
+      <a href="http://bit.ly/2koZuQp" target="blank_">
+        growthnotes
+      </a>
+    </StyledLogo>
+  )
 }
 
-export default Image
+export default FooterLogo

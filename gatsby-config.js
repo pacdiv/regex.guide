@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
     title: `The Regex Guide`,
-    description: `Regular expressions are powerful but quite difficult to master. The Regex Guide is here to help. One thing required, to write in English!`,
-    author: `@pacdiv`,
+    description: `Write a sentence, get a regex!`,
+    author: `@pacdiv_io`,
   },
   plugins: [
     `gatsby-plugin-react-helmet`,

@@ -1,4 +1,4 @@
-# [The Regex Guide](https://regex.guide/?utm_source=github&utm_medium=repository&utm_campaign=default&utm_content=readme)
+# [The Regex Guide](http://bit.ly/2M8LI0w)
 
 Start writing regular expressions even if you don’t have any knowledge about them!\
 Built from [Gatsby’s default starter](https://github.com/gatsbyjs/gatsby-starter-default).
@@ -27,9 +27,9 @@ Some resources about the regular expressions:
 
 \* The resource that gave me the idea to build The Regex Guide 🤩
 
-## What’s the footer logo?
+## Supporting
 
-You’ll notice a logo on the footer of the website. Building The Regex Guide requires research, dedication, and more. All these on my free time. I hope you won’t mind this footer link that allows me to promote this other project I’m working on 🙏
+I work on the Regex Guide on my free time. For this, I won't ask you to back the project. Instead, I rather prefer to add a footer logo on the website to promote an other project of mine. Hope you won't mind! 🙏
 
 ## License
 

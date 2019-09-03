@@ -15,7 +15,6 @@ function RegexResult({ editingIndex, flags, regexChunks }) {
         />
       ))}
       /{flags.global ? "g" : ""}
-      {RegexResult}
     </p>
   )
 }

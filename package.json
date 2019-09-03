@@ -20,7 +20,8 @@
     "prop-types": "^15.7.2",
     "react": "^16.8.6",
     "react-dom": "^16.8.6",
-    "react-helmet": "^5.2.1"
+    "react-helmet": "^5.2.1",
+    "uuid": "^3.3.2"
   },
   "devDependencies": {
     "prettier": "^1.18.2"

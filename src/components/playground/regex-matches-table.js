@@ -2,6 +2,11 @@ import PropTypes from 'prop-types'
 import React from "react"
 import styled from "@emotion/styled"
 
+const ErrorText = styled.p`
+  color: crimson;
+  margin: .5em 0;
+`
+
 const StyledRegexMatchesTable = styled.div`
   margin: 1em 0 0;
 
@@ -52,7 +57,7 @@ function RegexMatchesTable({ flags, regexChunks, sourceString }) {
   const matches = getMatchesArray(sourceString, regexChunks, flags)
 
   if (!matches) {
-    return <p>The regex gets no matches.</p>
+    return <ErrorText>The regex gets no matches.</ErrorText>
   }
 
   return (

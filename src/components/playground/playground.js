@@ -3,7 +3,7 @@ import ReactDOM from "react-dom"
 import styled from "@emotion/styled"
 
 import { Button, TextInput } from "../utils"
-import core from "../../utils/core"
+import core from "../../lib/core"
 import ClipboardAction from './clipboard-action'
 import ConditionInput from "./condition-input"
 import EditableChunk from "./editable-chunk"
@@ -13,7 +13,7 @@ import RegexStringResult from "./regex-string-result"
 import RegexSentenceMenu from "./condition-sentence-menu"
 import RegexFlagsForm from "./regex-flags-form"
 
-const StyledForm = styled.div`
+const StyledPlayground = styled.div`
   display: flex;
   flex-direction: column;
   font-family: monospace;
@@ -27,7 +27,7 @@ const StyledForm = styled.div`
   }
 `
 
-class Form extends Component {
+class Playground extends Component {
   static preChoices = []
 
   state = {
@@ -132,7 +132,7 @@ class Form extends Component {
     )
 
     return (
-      <StyledForm>
+      <StyledPlayground>
         <div className="intro">
           Dear regex guide,
           <br />
@@ -219,10 +219,11 @@ class Form extends Component {
               onSwitchHiddenMenu={this.onConditionSentenceMenuHide}
             />,
             this.state.sentenceEl
-          )}
-      </StyledForm>
+          )
+        }
+      </StyledPlayground>
     )
   }
 }
 
-export default Form
+export default Playground
