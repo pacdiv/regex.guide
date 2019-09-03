@@ -121,7 +121,12 @@ function TextInputListForm({ data, onChange }) {
 }
 
 TextInputListForm.propTypes = {
-  data: PropTypes.arrayOf(PropTypes.string),
+  data: PropTypes.arrayOf(
+    PropTypes.shape({
+      id: PropTypes.string,
+      value: PropTypes.string
+    })
+  ),
   onChange: PropTypes.func
 }
 

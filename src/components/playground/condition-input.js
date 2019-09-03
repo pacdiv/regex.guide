@@ -41,7 +41,12 @@ class ConditionInput extends Component {
     quantifier: PropTypes.string,
     queryString: PropTypes.string,
     setValue: PropTypes.string,
-    wordList: PropTypes.arrayOf(PropTypes.string)
+    wordList: PropTypes.arrayOf(
+      PropTypes.shape({
+        id: PropTypes.string,
+        value: PropTypes.string
+      })
+    )
   }
 
   static defaultQuantifiers = ["BETWEEN", "EXACTLY", "ONE_OR_MORE", "NONE_OR_MORE"]
@@ -113,7 +118,6 @@ class ConditionInput extends Component {
     event.preventDefault()
 
     this.props.onSubmit({ ...this.state })
-      .then(() => this.setState({ error: null }))
       .catch(err => this.setState({ error: err.message }))
   }
 
@@ -222,11 +226,19 @@ class ConditionInput extends Component {
   }
 
   renderDefaultStep(title, dataSource, currentValue, callback) {
+    const keyPrefix = encodeURI(title)
+
     return (
       <Step title={title}>
         <div className="buttons-wrapper">
           {dataSource.map(({ key, label }) => (
-            <button {...currentValue === key && { className: "selected"}} type="button" value={key} onClick={callback}>
+            <button
+              {...currentValue === key && { className: "selected"}}
+              key={`${keyPrefix}-${key}`}
+              onClick={callback}
+              type="button"
+              value={key}
+            >
               {label}
             </button>
           ))}

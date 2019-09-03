@@ -12,7 +12,7 @@ const HiddenTextarea = styled.textarea`
 `
 
 class ClipboardAction extends PureComponent {
-  propTypes = {
+  static propTypes = {
     flags: PropTypes.string,
     value: PropTypes.string
   }
@@ -35,6 +35,7 @@ class ClipboardAction extends PureComponent {
           Copy to clipboard
         </Button>
         <HiddenTextarea
+          readOnly
           ref={this.hiddenTextareaRef}
           value={`/${value}/${flags}`}
         />
