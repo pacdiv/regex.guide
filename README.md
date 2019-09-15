@@ -13,9 +13,11 @@ The Regex Guide does the opposite by helping you to build your regex, step-by-st
 
 ## Contributing
 
-Regular expressions are a wide subject. At this time, The Regex Guide covers a tiny part of it. To make The Regex Guide a more complete guide, contributions are very welcomed! 🤗
+First, please make sure to read and observe the [Code of Conduct](/CODE_OF_CONDUCT.md).
 
-To do so, if you have any subjects to cover as quantifiers or else to add or fix, please open an issue. This allow people to weigh in on the discussion before you start working and submit any pull request.
+At this time, The Regex Guide covers a tiny part of the regex cases. To make The Regex Guide a more complete guide, contributions are very welcomed! 🤗
+
+However, please read the [Contributing guidelines](/CONTRIBUTING.md) before taking any action! This allow people to weigh in on the discussion before you start working and submit any pull request.
 
 The Regex Guide is powered by Gatsby. Run `gatsby develop` to start the project on [localhost:8000](http://localhost:8000).
 
