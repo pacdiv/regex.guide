@@ -1,3 +1,4 @@
+import { css } from "@emotion/core"
 import PropTypes from "prop-types"
 import React, { Component, Fragment } from "react"
 import styled from "@emotion/styled"
@@ -6,13 +7,45 @@ import { Button, RelativeFormContainer, TextInput, TextInputListForm } from "../
 import { characters, getLabelFromKey, quantifiers } from "../../lib/core"
 import Step from './condition-input-step'
 
+const ActionsWrapper = styled.div`
+  display: flex;
+  flex-direction: row;
+
+  ${Button} {
+    font-size: .9em;
+    height: 2rem;
+    width: 8rem;
+  }
+`
+
+const StepsWrapper = styled.div`
+  align-items: center;
+  display: flex;
+  flex-direction: row;
+  min-height: 11em;
+  overflow-x: hidden;
+  width: 100%;
+
+  > div:first-of-type {
+    transition: margin-left 250ms ease-in-out;
+  }
+
+  ${({ step }) =>
+    step > 1 &&
+    css`
+      > div:first-of-type {
+        margin-left: ${-100 * (step - 1)}%;
+      }
+  `}
+`
+
 const TextInputGroup = styled.div`
   align-items: center;
   display: flex;
   flex-direction: row;
   justify-content: center;
   margin: 0 auto;
-  width: 16em;
+  max-width: 100%;
 
   span {
     width: 4em;
@@ -20,12 +53,13 @@ const TextInputGroup = styled.div`
 
   input,
   span {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 `
 
 const StyledErrorParagraph = styled.p`
   color: crimson;
+  margin: 0 2em 1em;
 `
 
 class ConditionInput extends Component {
@@ -44,17 +78,23 @@ class ConditionInput extends Component {
     wordList: PropTypes.arrayOf(
       PropTypes.shape({
         id: PropTypes.string,
-        value: PropTypes.string
+        value: PropTypes.string,
       })
-    )
+    ),
   }
 
-  static defaultQuantifiers = ["BETWEEN", "EXACTLY", "ONE_OR_MORE", "NONE_OR_MORE"]
+  static defaultQuantifiers = [
+    "BETWEEN",
+    "EXACTLY",
+    "ONE_OR_MORE",
+    "NONE_OR_MORE",
+  ]
   static preChoices = []
 
   state = {
     anchor: this.props.anchor || "CONTAINS",
     characters: this.props.characters || "ALPHANUMERIC_CHARACTERS",
+    currentStep: this.props.anchor ? 2 : 1,
     exactQuantifierValue: this.props.exactQuantifierValue || "",
     error: null,
     minimumQuantifierValue: this.props.minimumQuantifierValue || "",
@@ -69,12 +109,32 @@ class ConditionInput extends Component {
     const { defaultQuantifiers } = ConditionInput
     const { quantifier: currentQuantifier } = this.state
 
-    if (!defaultQuantifiers.includes(prevState.quantifier) && defaultQuantifiers.includes(currentQuantifier)) {
+    if (
+      !defaultQuantifiers.includes(prevState.quantifier) &&
+      defaultQuantifiers.includes(currentQuantifier)
+    ) {
       this.setState({ characters: "ALPHANUMERIC_CHARACTERS" })
     }
     if (prevState.quantifier !== "SET" && currentQuantifier === "SET") {
       this.setState({ characters: "WORDS_SUCH_AS" })
     }
+  }
+
+  isOnFirstStep = () => {
+    const { anchor } = this.props
+    const { currentStep } = this.state
+
+    return currentStep === 1 || (anchor && currentStep === 2)
+  }
+
+  isOnLastStep = () => {
+    const { currentStep, quantifier } = this.state
+
+    return (
+      currentStep === 4 ||
+      (currentStep === 3 &&
+        (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE"))
+    )
   }
 
   onChange = event => {
@@ -84,8 +144,20 @@ class ConditionInput extends Component {
   }
 
   onAnchorSelectChange = event => {
-    this.setState({ anchor: event.target.value })
+    this.setState({
+      anchor: event.target.value,
+      currentStep: this.state.currentStep + 1
+    })
     event.target.blur()
+  }
+
+  onCancelButtonClick = event => {
+    event.preventDefault()
+
+    if (this.isOnFirstStep())
+      this.props.onCancel(event)
+    else
+      this.setState({ currentStep: this.state.currentStep - 1 })
   }
 
   onExactLimitTextFieldChange = event => {
@@ -93,7 +165,16 @@ class ConditionInput extends Component {
   }
 
   onCharactersSelectChange = event => {
-    this.setState({ characters: event.target.value })
+    this.setState(
+      {
+        characters: event.target.value,
+        ...(this.state.quantifier === "SET" && {
+          currentStep: this.state.currentStep + 1,
+        }),
+      },
+      () => this.state.quantifier !== "SET" && this.submit()
+    )
+
     event.target.blur()
   }
 
@@ -106,7 +187,10 @@ class ConditionInput extends Component {
   }
 
   onQuantifierSelectChange = event => {
-    this.setState({ quantifier: event.target.value })
+    this.setState({
+      currentStep: this.state.currentStep + 1,
+      quantifier: event.target.value
+    })
     event.target.blur()
   }
 
@@ -117,64 +201,91 @@ class ConditionInput extends Component {
   onSubmitButtonClick = event => {
     event.preventDefault()
 
-    this.props.onSubmit({ ...this.state })
-      .catch(err => this.setState({ error: err.message }))
+    if (this.isOnLastStep())
+      this.submit()
+    else
+      this.setState({ currentStep: this.state.currentStep + 1 })
   }
 
   onWordListChange = value => {
     this.setState({ wordList: value })
   }
 
+  submit = () => {
+    this.props
+      .onSubmit({ ...this.state })
+      .catch(err => this.setState({ error: err.message }))
+  }
+
   render() {
     const {
       anchor: selectedAnchor,
       characters: selectedCharacters,
+      currentStep,
       error,
-      quantifier: selectedQuantifier
+      quantifier: selectedQuantifier,
     } = this.state
-    const charactersOptions = characters[selectedQuantifier] || characters.DEFAULT
+    const charactersOptions =
+      characters[selectedQuantifier] || characters.DEFAULT
 
     return (
       <RelativeFormContainer>
-        {!this.props.anchor && this.renderDefaultStep(
-          "Pick an anchor:",
-          this.props.availableAnchors,
-          selectedAnchor,
-          this.onAnchorSelectChange
-        )}
-        {this.renderDefaultStep(
-          "Pick an quantifier:",
-          quantifiers,
-          selectedQuantifier,
-          this.onQuantifierSelectChange
-        )}
-        {
-          (selectedQuantifier === "BETWEEN" || selectedQuantifier === "EXACTLY") &&
-          this.renderNumbersStepForm()
-        }
-        {this.renderDefaultStep(
-          `Pick a type of ${selectedQuantifier === "SET" ? "set" : "characters"}:`,
-          charactersOptions,
-          selectedCharacters,
-          this.onCharactersSelectChange
-        )}
-        {selectedQuantifier === "SET" && this.renderSetStepForm()}
+        <StepsWrapper step={currentStep}>
+          {this.renderDefaultStep(
+            "Pick an anchor:",
+            this.props.availableAnchors,
+            selectedAnchor,
+            this.onAnchorSelectChange
+          )}
+          {this.renderDefaultStep(
+            "Pick an quantifier:",
+            quantifiers,
+            selectedQuantifier,
+            this.onQuantifierSelectChange
+          )}
+          {(selectedQuantifier === "BETWEEN" ||
+            selectedQuantifier === "EXACTLY") &&
+            this.renderNumbersStepForm()
+          }
+          {this.renderDefaultStep(
+            `Pick a type of ${
+              selectedQuantifier === "SET" ? "set" : "characters"
+            }:`,
+            charactersOptions,
+            selectedCharacters,
+            this.onCharactersSelectChange
+          )}
+          {selectedQuantifier === "SET" && this.renderSetStepForm()}
+        </StepsWrapper>
         {error && <StyledErrorParagraph>{error}</StyledErrorParagraph>}
-        <Button className="submit-theme" onClick={this.onSubmitButtonClick}>
-          Submit
-        </Button>
-        <Button className="transparent-theme" onClick={this.props.onCancel}>
-          Cancel
-        </Button>
+        <ActionsWrapper>
+          <Button
+            className="transparent-theme"
+            onClick={this.onCancelButtonClick}
+          >
+            {this.isOnFirstStep() ? "Cancel" : "← Back"}
+          </Button>
+          <Button className="submit-theme" onClick={this.onSubmitButtonClick}>
+            {this.isOnLastStep() ? "Submit" : "Next →"}
+          </Button>
+        </ActionsWrapper>
       </RelativeFormContainer>
     )
   }
 
   renderNumbersStepForm() {
-    const { maximumQuantifierValue, minimumQuantifierValue, quantifier } = this.state
+    const {
+      currentStep,
+      maximumQuantifierValue,
+      minimumQuantifierValue,
+      quantifier,
+    } = this.state
 
     return (
-      <Step title={quantifier === "EXACTLY" ? "How many exactly?" : "Between how many?"}>
+      <Step
+        currentStep={currentStep}
+        title={quantifier === "EXACTLY" ? "How many exactly?" : "Between how many?"}
+      >
         <TextInputGroup>
           <TextInput
             onChange={this.onMinimumLimitTextFieldChange}
@@ -201,15 +312,24 @@ class ConditionInput extends Component {
   }
 
   renderSetStepForm() {
-    const { characters: selectedCharacters, setValue, wordList } = this.state
+    const {
+      characters: selectedCharacters,
+      currentStep,
+      setValue,
+      wordList,
+    } = this.state
 
     return (
-      <Step title={`${getLabelFromKey(characters.SET, selectedCharacters, true)} such as:`}>
+      <Step
+        currentStep={currentStep}
+        title={`${getLabelFromKey(
+          characters.SET,
+          selectedCharacters,
+          true
+        )} such as:`}
+      >
         {selectedCharacters === "WORDS_SUCH_AS" && (
-          <TextInputListForm
-            data={wordList}
-            onChange={this.onWordListChange}
-          />
+          <TextInputListForm data={wordList} onChange={this.onWordListChange} />
         )}
         {selectedCharacters === "CHARACTERS" && (
           <TextInputGroup>
@@ -226,14 +346,15 @@ class ConditionInput extends Component {
   }
 
   renderDefaultStep(title, dataSource, currentValue, callback) {
+    const { currentStep } = this.state
     const keyPrefix = encodeURI(title)
 
     return (
-      <Step title={title}>
+      <Step currentStep={currentStep} title={title}>
         <div className="buttons-wrapper">
           {dataSource.map(({ key, label }) => (
             <button
-              {...currentValue === key && { className: "selected"}}
+              {...(currentValue === key && { className: "selected" })}
               key={`${keyPrefix}-${key}`}
               onClick={callback}
               type="button"

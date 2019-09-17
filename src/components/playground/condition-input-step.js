@@ -1,17 +1,22 @@
-import PropTypes from "prop-types"
 import React from "react"
+import PropTypes from "prop-types"
 import styled from "@emotion/styled"
 
 const StyledStep = styled.div`
-  margin: 0.5rem 0px 1rem;
+  left: 0;
+  margin: 0.5rem 0 1rem;
+  min-width: 100%;
+  width: 100%;
+  top: 0;
 
   span {
     font-size: 0.8em;
   }
 
   p {
-    font-size: '.85em';
-    margin-bottom: 0;
+    font-size: .85em;
+    line-height: 1.5em;
+    margin-bottom: 1em;
   }
 
   div.buttons-wrapper {
@@ -38,10 +43,14 @@ const StyledStep = styled.div`
   }
 `
 
-function ConditionInputStep({ children, title }) {
+function ConditionInputStep({ children, currentStep, title }) {
   return (
     <StyledStep>
-      <p>{title}</p>
+      <p>
+        <i>Step {currentStep}</i>
+        <br />
+        {title}
+      </p>
       {children}
     </StyledStep>
   )
@@ -49,7 +58,8 @@ function ConditionInputStep({ children, title }) {
 
 ConditionInputStep.propTypes = {
   children: PropTypes.node,
-  title: PropTypes.string
+  currentStep: PropTypes.number,
+  title: PropTypes.string,
 }
 
 export default ConditionInputStep

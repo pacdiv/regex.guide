@@ -30,6 +30,15 @@ const StyledPlayground = styled.div`
 class Playground extends Component {
   static preChoices = []
 
+  static getChunkPosition(index, arrayLength) {
+    if (arrayLength >= 1) {
+      if (index === arrayLength - 2) return "second-last"
+      else if (index < arrayLength - 2) return "body"
+    }
+
+    return null
+  }
+
   state = {
     chunks: [],
     isEditingAtIndex: null,
@@ -134,9 +143,7 @@ class Playground extends Component {
     return (
       <StyledPlayground>
         <div className="intro">
-          Dear regex guide,
-          <br />
-          how may I write
+          Let’s write
           <EditableText
             onClick={this.onSubmitFlagsFormSwitch}
             sentence={`a ${flags.global ? "global " : ""}regex`}
@@ -181,12 +188,15 @@ class Playground extends Component {
             onConditionEditingCancel={this.onConditionEditingCancel}
             onConditionInputSubmit={this.onConditionInputSubmit}
             onConditionSentenceMenuChange={this.onConditionSentenceMenuChange}
+            position={Playground.getChunkPosition(index, chunks.length)}
           />
         ))}
         ?
         {chunks.length ? (
           <Fragment>
-            {sourceString && <RegexMatchesTable {...{ flags, regexChunks, sourceString }} />}
+            {sourceString && (
+              <RegexMatchesTable {...{ flags, regexChunks, sourceString }} />
+            )}
             <RegexStringResult {...{ editingIndex, flags, regexChunks }} />
             <ClipboardAction
               flags={flags.global ? "g" : ""}
@@ -219,8 +229,7 @@ class Playground extends Component {
               onSwitchHiddenMenu={this.onConditionSentenceMenuHide}
             />,
             this.state.sentenceEl
-          )
-        }
+          )}
       </StyledPlayground>
     )
   }
