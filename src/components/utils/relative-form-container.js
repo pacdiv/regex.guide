@@ -7,9 +7,14 @@ const RelativeFormContainer = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: center;
-  margin: .5em auto;
-  max-width: 20em;
-  padding: .5em 0;
+  margin: 0.5em auto;
+  padding: 0.5em 0;
+  width: 16em;
+
+  @media (min-width: 375px) {
+    max-width: 20em;
+    width: auto;
+  }
 `
 
 export default RelativeFormContainer

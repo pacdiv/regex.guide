@@ -34,7 +34,7 @@ const ConditionSentenceMenu = props => {
   return (
     <StyledMenu>
       <button type="button" onClick={props.onEditButtonClick}>
-        Edit
+        Edit this condition
       </button>
       {props.anchorType !== "STARTS_WITH" && (
         <button type="button" onClick={props.onAddBeforeButtonClick}>
@@ -50,7 +50,7 @@ const ConditionSentenceMenu = props => {
         Delete this condition
       </button>
       <button onClick={props.onSwitchHiddenMenu} type="button">
-        Cancel
+        Close the menu
       </button>
     </StyledMenu>
   )

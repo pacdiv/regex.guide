@@ -37,14 +37,18 @@ const InputContainer = styled.div`
     height: 16px;
     font-size: 1rem;
     position: absolute;
-    right: -8px;
-    top: -8px;
+    right: 2em;
+    top: -0.5em;
     width: 16px;
+
+    @media (min-width: 375px) {
+      right: 4em;
+    }
 
     &:before,
     &:after {
       background-color: white;
-      content: ' ';
+      content: " ";
       height: 0.6em;
       left: auto;
       position: absolute;
@@ -56,7 +60,7 @@ const InputContainer = styled.div`
     &:before {
       transform: rotate(45deg);
     }
-    
+
     &:after {
       transform: rotate(-45deg);
     }

@@ -3,19 +3,35 @@ import React, { Component, createRef } from "react"
 import styled from "@emotion/styled"
 
 import { Button } from "../utils"
+import editIcon from "../../images/icon-edit.png"
 
 const StyledConditionSentence = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
+  margin: 0.75em 0 0;
   position: relative;
+
+  &:last-of-type {
+    margin-bottom: 0.75em;
+  }
+
+  &:only-child {
+    margin: 0;
+  }
 `
 
 const MenuButton = styled(Button)`
-  height: 0.8em;
+  background-color: #ffffff;
+  height: 1em;
   line-height: 1px;
-  margin: 0 0 0 0.3em;
-  width: auto;
+  margin: 0;
+  width: 1em;
+
+  img {
+    margin: 0;
+    max-width: 1em;
+  }
 `
 
 class ConditionSentence extends Component {
@@ -33,7 +49,7 @@ class ConditionSentence extends Component {
       <StyledConditionSentence ref={this.containerRef}>
         {this.props.sentence}
         <MenuButton onClick={this.onButtonClick} type="button">
-          →
+          <img alt="menu" src={editIcon} />
         </MenuButton>
       </StyledConditionSentence>
     )

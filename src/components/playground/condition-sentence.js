@@ -8,7 +8,8 @@ class ConditionSentence extends Component {
   static propTypes = {
     condition: PropTypes.object,
     index: PropTypes.number,
-    onSentenceMenuChange: PropTypes.func
+    onSentenceMenuChange: PropTypes.func,
+    position: PropTypes.string,
   }
 
   static findByKey(dataSource, targetKey) {
@@ -17,16 +18,17 @@ class ConditionSentence extends Component {
 
   static generateFromArray(source) {
     return source.reduce(
-      (acc, value, index) => acc.concat(
-        index > 0 && index === source.length - 1 ? " or " : "",
-        index && index < source.length - 1 ? ", " : "",
-        `"${value}"`
-      ),
+      (acc, value, index) =>
+        acc.concat(
+          index > 0 && index === source.length - 1 ? " or " : "",
+          index && index < source.length - 1 ? ", " : "",
+          `"${value}"`
+        ),
       ""
     )
   }
 
-  static generateSentence({ specs }) {
+  static generateSentence({ specs }, position) {
     const { findByKey, generateFromArray } = ConditionSentence
     const quantifier = findByKey(quantifiers, specs.quantifier).label
 
@@ -37,15 +39,24 @@ class ConditionSentence extends Component {
         ? `${specs.minimumQuantifierValue} and ${specs.maximumQuantifierValue}`
         : "",
       specs.quantifier === "EXACTLY" ? specs.minimumQuantifierValue : "",
-      findByKey(characters[specs.quantifier] || characters.DEFAULT, specs.characters).label || "",
+      findByKey(
+        characters[specs.quantifier] || characters.DEFAULT,
+        specs.characters
+      ).label || "",
       specs.quantifier === "SET" ? "like" : "",
-      specs.characters === "WORDS_SUCH_AS" ? generateFromArray(specs.wordList.map(({ value }) => value)) : "",
-      specs.characters === "CHARACTERS" ? generateFromArray(specs.setValue.split("")) : "",
+      specs.characters === "WORDS_SUCH_AS"
+        ? generateFromArray(specs.wordList.map(({ value }) => value))
+        : "",
+      specs.characters === "CHARACTERS"
+        ? generateFromArray(specs.setValue.split(""))
+        : "",
+      position === "second-last" ? "and" : "",
     ]
 
     return data
-      .map(i => i)
+      .filter(Boolean)
       .join(" ")
+      .concat(position === "body" ? "," : "")
   }
 
   state = {
@@ -57,17 +68,18 @@ class ConditionSentence extends Component {
   onButtonClick = ref => {
     const { index, onSentenceMenuChange } = this.props
 
-    this.setState(
-      { shouldMenuBeHidden: !this.state.shouldMenuBeHidden },
-      () => onSentenceMenuChange(index, ref.current)
+    this.setState({ shouldMenuBeHidden: !this.state.shouldMenuBeHidden }, () =>
+      onSentenceMenuChange(index, ref.current)
     )
   }
 
   render() {
+    const { condition, position } = this.props
+
     return (
       <EditableText
         onClick={this.onButtonClick}
-        sentence={ConditionSentence.generateSentence(this.props.condition)}
+        sentence={ConditionSentence.generateSentence(condition, position)}
       />
     )
   }
