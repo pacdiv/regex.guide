@@ -12,6 +12,8 @@ import MatchesTable from "../MatchesTable"
 import SentenceMenu from "../SentenceMenu"
 import FlagsForm from "../FlagsForm"
 
+import { PlaygroundContainer } from "./Playground.style"
+
 class Playground extends Component {
   static preChoices = []
 

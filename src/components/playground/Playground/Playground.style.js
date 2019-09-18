@@ -1,6 +1,6 @@
 import styled from "@emotion/styled"
 
-const PlaygroundContainer = styled.div`
+export const PlaygroundContainer = styled.div`
   display: flex;
   flex-direction: column;
   font-family: monospace;
