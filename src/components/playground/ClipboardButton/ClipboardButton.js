@@ -1,15 +1,8 @@
 import React, { createRef, PureComponent, Fragment } from "react"
 import PropTypes from 'prop-types'
-import styled from "@emotion/styled"
 
-import { Button } from "../utils"
-
-const HiddenTextarea = styled.textarea`
-  border: 0;
-  height: 0;
-  opacity: 0;
-  width: 0;
-`
+import { Button } from "../../utils"
+import { HiddenTextarea } from "./ClipboardButton.style"
 
 class ClipboardAction extends PureComponent {
   static propTypes = {

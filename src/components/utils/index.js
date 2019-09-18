@@ -1,6 +1,6 @@
-export { default as Button } from './button'
-export { default as CheckboxInput } from './checkbox-input'
-export { default as FooterLogo } from './footer-logo'
-export { default as RelativeFormContainer } from "./relative-form-container"
-export { default as TextInput } from './text-input'
-export { default as TextInputListForm } from './text-input-list-form'
+export { default as Button } from './DefaultButton'
+export { default as CheckboxInput } from './CheckboxInput'
+export { default as FooterLogo } from './FooterLogo'
+export { default as RelativeFormContainer } from "./FormContainer"
+export { default as TextInput } from './TextInput'
+export { default as TextInputListForm } from './TextInputListForm'

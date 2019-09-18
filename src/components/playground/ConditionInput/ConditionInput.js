@@ -1,66 +1,10 @@
-import { css } from "@emotion/core"
 import PropTypes from "prop-types"
 import React, { Component, Fragment } from "react"
-import styled from "@emotion/styled"
 
-import { Button, RelativeFormContainer, TextInput, TextInputListForm } from "../utils"
-import { characters, getLabelFromKey, quantifiers } from "../../lib/core"
-import Step from './condition-input-step'
-
-const ActionsWrapper = styled.div`
-  display: flex;
-  flex-direction: row;
-
-  ${Button} {
-    font-size: .9em;
-    height: 2rem;
-    width: 8rem;
-  }
-`
-
-const StepsWrapper = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  min-height: 11em;
-  overflow-x: hidden;
-  width: 100%;
-
-  > div:first-of-type {
-    transition: margin-left 250ms ease-in-out;
-  }
-
-  ${({ step }) =>
-    step > 1 &&
-    css`
-      > div:first-of-type {
-        margin-left: ${-100 * (step - 1)}%;
-      }
-  `}
-`
-
-const TextInputGroup = styled.div`
-  align-items: center;
-  display: flex;
-  flex-direction: row;
-  justify-content: center;
-  margin: 0 auto;
-  max-width: 100%;
-
-  span {
-    width: 4em;
-  }
-
-  input,
-  span {
-    margin-bottom: 0.5em;
-  }
-`
-
-const StyledErrorParagraph = styled.p`
-  color: crimson;
-  margin: 0 2em 1em;
-`
+import { ActionsWrapper, StepsWrapper, TextInputGroup, ErrorParagraph } from "./ConditionInput.style"
+import { Button, RelativeFormContainer, TextInput, TextInputListForm } from "../../utils"
+import { characters, getLabelFromKey, quantifiers } from "../../../lib/core"
+import Step from './Step'
 
 class ConditionInput extends Component {
   static propTypes = {
@@ -257,7 +201,7 @@ class ConditionInput extends Component {
           )}
           {selectedQuantifier === "SET" && this.renderSetStepForm()}
         </StepsWrapper>
-        {error && <StyledErrorParagraph>{error}</StyledErrorParagraph>}
+        {error && <ErrorParagraph>{error}</ErrorParagraph>}
         <ActionsWrapper>
           <Button
             className="transparent-theme"

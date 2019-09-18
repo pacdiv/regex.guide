@@ -1,15 +1,10 @@
 import PropTypes from "prop-types"
 import React, { PureComponent } from "react"
-import styled from "@emotion/styled"
 
-import { Button, CheckboxInput, RelativeFormContainer } from "../utils"
+import { CheckboxInput, RelativeFormContainer } from "../../utils"
+import { SubmitButton } from "./FlagsForm.style"
 
-const SubmitButton = styled(Button)`
-  height: 2em;
-  width: 12em;
-`
-
-class RegexFlagsForm extends PureComponent {
+class FlagsForm extends PureComponent {
   static propTypes = {
     flags: PropTypes.shape({
       global: PropTypes.bool,
@@ -38,4 +33,4 @@ class RegexFlagsForm extends PureComponent {
   }
 }
 
-export default RegexFlagsForm
+export default FlagsForm
