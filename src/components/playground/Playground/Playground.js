@@ -1,31 +1,16 @@
 import React, { Component, Fragment } from "react"
 import ReactDOM from "react-dom"
-import styled from "@emotion/styled"
 
-import { Button, TextInput } from "../utils"
-import core from "../../lib/core"
-import ClipboardAction from './clipboard-action'
-import ConditionInput from "./condition-input"
-import EditableChunk from "./editable-chunk"
-import EditableText from "./editable-text"
-import RegexMatchesTable from "./regex-matches-table"
-import RegexStringResult from "./regex-string-result"
-import RegexSentenceMenu from "./condition-sentence-menu"
-import RegexFlagsForm from "./regex-flags-form"
-
-const StyledPlayground = styled.div`
-  display: flex;
-  flex-direction: column;
-  font-family: monospace;
-  font-size: 1.3em;
-  line-height: 1.7em;
-  text-align: center;
-
-  div.intro {
-    margin: 0 auto;
-    max-width: 14em;
-  }
-`
+import { Button, TextInput } from "../../utils"
+import core from "../../../lib/core"
+import ClipboardButton from "../ClipboardButton"
+import ConditionInput from "../ConditionInput"
+import EditableChunk from "../EditableChunk"
+import EditableText from "../EditableText"
+import MatchesString from "../MatchesString"
+import MatchesTable from "../MatchesTable"
+import SentenceMenu from "../SentenceMenu"
+import FlagsForm from "../FlagsForm"
 
 class Playground extends Component {
   static preChoices = []
@@ -141,7 +126,7 @@ class Playground extends Component {
     )
 
     return (
-      <StyledPlayground>
+      <PlaygroundContainer>
         <div className="intro">
           Let’s write
           <EditableText
@@ -149,7 +134,7 @@ class Playground extends Component {
             sentence={`a ${flags.global ? "global " : ""}regex`}
           />
           {isEditingFlags && (
-            <RegexFlagsForm
+            <FlagsForm
               flags={flags}
               onFlagChange={this.onFlagChange}
               onSubmitClick={this.onSubmitFlagsFormSwitch}
@@ -195,10 +180,10 @@ class Playground extends Component {
         {chunks.length ? (
           <Fragment>
             {sourceString && (
-              <RegexMatchesTable {...{ flags, regexChunks, sourceString }} />
+              <MatchesTable {...{ flags, regexChunks, sourceString }} />
             )}
-            <RegexStringResult {...{ editingIndex, flags, regexChunks }} />
-            <ClipboardAction
+            <MatchesString {...{ editingIndex, flags, regexChunks }} />
+            <ClipboardButton
               flags={flags.global ? "g" : ""}
               value={regexChunks.join("")}
             />
@@ -206,7 +191,7 @@ class Playground extends Component {
         ) : null}
         {this.state.sentenceEl &&
           ReactDOM.createPortal(
-            <RegexSentenceMenu
+            <SentenceMenu
               anchorType={chunks[lastActiveSentenceMenu].specs.anchor}
               onAddAfterButtonClick={() =>
                 this.onEditConditionsButtonClick(
@@ -230,7 +215,7 @@ class Playground extends Component {
             />,
             this.state.sentenceEl
           )}
-      </StyledPlayground>
+      </PlaygroundContainer>
     )
   }
 }

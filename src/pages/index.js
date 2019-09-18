@@ -2,7 +2,7 @@ import React from "react"
 import styled from "@emotion/styled"
 
 import { FooterLogo } from "../components/utils"
-import Playground from "../components/playground/playground"
+import Playground from "../components/Playground"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 

@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
 import React, { Component, createRef } from "react"
 
-import { anchors, quantifiers, characters } from '../../lib/core/'
-import EditableText from './editable-text'
+import { anchors, quantifiers, characters } from '../../../lib/core'
+import EditableText from '../EditableText'
 
 class ConditionSentence extends Component {
   static propTypes = {

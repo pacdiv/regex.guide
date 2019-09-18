@@ -1,8 +1,6 @@
-import React from "react"
-import PropTypes from "prop-types"
 import styled from "@emotion/styled"
 
-const StyledStep = styled.div`
+export const StepContainer = styled.div`
   left: 0;
   margin: 0.5rem 0 1rem;
   min-width: 100%;
@@ -19,6 +17,7 @@ const StyledStep = styled.div`
     margin-bottom: 1em;
   }
 
+  /* TODO: Replace the following classnames by components */
   div.buttons-wrapper {
     display: flex;
     flex-flow: row wrap;
@@ -42,24 +41,3 @@ const StyledStep = styled.div`
     }
   }
 `
-
-function ConditionInputStep({ children, currentStep, title }) {
-  return (
-    <StyledStep>
-      <p>
-        <i>Step {currentStep}</i>
-        <br />
-        {title}
-      </p>
-      {children}
-    </StyledStep>
-  )
-}
-
-ConditionInputStep.propTypes = {
-  children: PropTypes.node,
-  currentStep: PropTypes.number,
-  title: PropTypes.string,
-}
-
-export default ConditionInputStep

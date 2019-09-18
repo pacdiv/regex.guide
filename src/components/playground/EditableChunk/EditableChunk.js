@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
 import React, { Fragment } from "react"
 
-import ConditionInput from "./condition-input"
-import ConditionSentence from "./condition-sentence"
+import ConditionInput from "../ConditionInput"
+import ConditionSentence from "../ConditionSentence"
 
 function EditableChunk({
   availableAnchors,

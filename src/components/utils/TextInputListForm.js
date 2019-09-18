@@ -3,8 +3,8 @@ import React, { useState } from "react"
 import styled from "@emotion/styled"
 import uuid from 'uuid/v4'
 
-import Button from './button'
-import TextInput from './text-input'
+import Button from './Button'
+import TextInput from './TextInput'
 
 const StyledTextInputListForm = styled.div`
   display: flex;

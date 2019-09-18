@@ -1,14 +1,14 @@
 import PropTypes from "prop-types"
 import React from "react"
 
-import RegexChunk from "./regex-result-chunk"
+import Chunk from "./Chunk"
 
-function RegexResult({ editingIndex, flags, regexChunks }) {
+function MatchesString({ editingIndex, flags, regexChunks }) {
   return (
     <p>
       Regex: /
       {regexChunks.map((item, index) => (
-        <RegexChunk
+        <Chunk
           key={`joined-chunk-${index}`}
           isBeingEdited={index === editingIndex}
           label={item}
@@ -19,7 +19,7 @@ function RegexResult({ editingIndex, flags, regexChunks }) {
   )
 }
 
-RegexResult.propTypes = {
+MatchesString.propTypes = {
   editingIndex: PropTypes.number,
   flags: PropTypes.shape({
     global: PropTypes.bool,
@@ -27,4 +27,4 @@ RegexResult.propTypes = {
   regexChunks: PropTypes.arrayOf(PropTypes.string),
 }
 
-export default RegexResult
+export default MatchesString
