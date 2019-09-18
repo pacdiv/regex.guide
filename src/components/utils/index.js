@@ -1,4 +1,4 @@
-export { default as Button } from './Button'
+export { default as Button } from './DefaultButton'
 export { default as CheckboxInput } from './CheckboxInput'
 export { default as FooterLogo } from './FooterLogo'
 export { default as RelativeFormContainer } from "./FormContainer"

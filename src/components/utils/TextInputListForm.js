@@ -3,7 +3,7 @@ import React, { useState } from "react"
 import styled from "@emotion/styled"
 import uuid from 'uuid/v4'
 
-import Button from './Button'
+import Button from './DefaultButton'
 import TextInput from './TextInput'
 
 const StyledTextInputListForm = styled.div`
