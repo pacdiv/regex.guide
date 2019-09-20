@@ -24,7 +24,12 @@
     "uuid": "^3.3.2"
   },
   "devDependencies": {
-    "prettier": "^1.18.2"
+    "babel-jest": "^24.9.0",
+    "babel-preset-gatsby": "^0.2.13",
+    "identity-obj-proxy": "^3.0.0",
+    "jest": "^24.9.0",
+    "prettier": "^1.18.2",
+    "react-test-renderer": "^16.9.0"
   },
   "homepage": "https://regex.guide",
   "keywords": [
@@ -41,7 +46,7 @@
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "echo \"Write tests! -> https://gatsby.dev/unit-testing\""
+    "test": "jest --runInBand"
   },
   "repository": {
     "type": "git",
