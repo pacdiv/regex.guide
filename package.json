@@ -26,10 +26,11 @@
   "devDependencies": {
     "babel-jest": "^24.9.0",
     "babel-preset-gatsby": "^0.2.13",
+    "enzyme": "^3.10.0",
+    "enzyme-adapter-react-16": "^1.14.0",
     "identity-obj-proxy": "^3.0.0",
     "jest": "^24.9.0",
-    "prettier": "^1.18.2",
-    "react-test-renderer": "^16.9.0"
+    "prettier": "^1.18.2"
   },
   "homepage": "https://regex.guide",
   "keywords": [
@@ -46,7 +47,7 @@
     "format": "prettier --write src/**/*.{js,jsx}",
     "start": "npm run develop",
     "serve": "gatsby serve",
-    "test": "jest --runInBand"
+    "test": "jest"
   },
   "repository": {
     "type": "git",
