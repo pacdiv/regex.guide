@@ -10,7 +10,6 @@ import MatchesTable from "../MatchesTable"
 import Playground from "./Playground"
 
 describe("Playground rendering", () => {
-  const json = JSON.stringify
   const condition = {
     anchor: "CONTAINS",
     characters: "ALPHANUMERIC_CHARACTERS",

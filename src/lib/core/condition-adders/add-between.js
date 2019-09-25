@@ -4,7 +4,7 @@ export default function addBetween(specs) {
     maximumQuantifierValue: maximum
   } = specs
 
-  if (minimum && maximum) {
+  if (typeof minimum !== "undefined" && typeof maximum !== "undefined") {
     if (maximum && Number(minimum) >= Number(maximum)) {
       return Promise.reject(new Error('Minimum must be lower than maximum.'))
     }
