@@ -1,0 +1,21 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`EditableText component 1`] = `
+<div>
+  <div
+    class="css-134iufa"
+  >
+    Is this a placeholder?
+    <button
+      aria-label="demo-editable-text-button"
+      class="css-1k8sdve"
+      type="button"
+    >
+      <img
+        alt="menu"
+        src="test-file-stub"
+      />
+    </button>
+  </div>
+</div>
+`;

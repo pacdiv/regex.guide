@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
 import React, { Component, Fragment } from "react"
 
-import { ActionsWrapper, StepsWrapper, TextInputGroup, ErrorParagraph } from "./ConditionInput.style"
-import { Button, RelativeFormContainer, TextInput, TextInputListForm } from "../../utils"
+import { ActionButton, ActionsWrapper, StepsWrapper, TextInputGroup, ErrorParagraph } from "./ConditionInput.style"
+import { RelativeFormContainer, TextInput, TextInputListForm } from "../../utils"
 import { characters, getLabelFromKey, quantifiers } from "../../../lib/core"
 import Step from './Step'
 
@@ -172,7 +172,7 @@ class ConditionInput extends Component {
     const charactersOptions =
       characters[selectedQuantifier] || characters.DEFAULT
 
-    return (
+      return (
       <RelativeFormContainer>
         <StepsWrapper step={currentStep}>
           {this.renderDefaultStep(
@@ -203,15 +203,15 @@ class ConditionInput extends Component {
         </StepsWrapper>
         {error && <ErrorParagraph>{error}</ErrorParagraph>}
         <ActionsWrapper>
-          <Button
+          <ActionButton
             className="transparent-theme"
             onClick={this.onCancelButtonClick}
           >
             {this.isOnFirstStep() ? "Cancel" : "← Back"}
-          </Button>
-          <Button className="submit-theme" onClick={this.onSubmitButtonClick}>
+          </ActionButton>
+          <ActionButton className="submit-theme" onClick={this.onSubmitButtonClick}>
             {this.isOnLastStep() ? "Submit" : "Next →"}
-          </Button>
+          </ActionButton>
         </ActionsWrapper>
       </RelativeFormContainer>
     )
@@ -232,6 +232,7 @@ class ConditionInput extends Component {
       >
         <TextInputGroup>
           <TextInput
+            label="minimum"
             onChange={this.onMinimumLimitTextFieldChange}
             placeholder="0"
             queryString={minimumQuantifierValue}
@@ -242,6 +243,7 @@ class ConditionInput extends Component {
             <Fragment>
               <span>and</span>
               <TextInput
+                label="maximum"
                 onChange={this.onMaximumLimitTextFieldChange}
                 placeholder="0"
                 queryString={maximumQuantifierValue}
@@ -273,11 +275,12 @@ class ConditionInput extends Component {
         )} such as:`}
       >
         {selectedCharacters === "WORDS_SUCH_AS" && (
-          <TextInputListForm data={wordList} onChange={this.onWordListChange} />
+          <TextInputListForm data={wordList} label="wordlist-set" onChange={this.onWordListChange} />
         )}
         {selectedCharacters === "CHARACTERS" && (
           <TextInputGroup>
             <TextInput
+              label="characters-set"
               onChange={this.onSetTextFieldChange}
               placeholder="xyz"
               queryString={setValue}

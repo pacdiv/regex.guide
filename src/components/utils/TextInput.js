@@ -25,6 +25,7 @@ const StyledTextInupt = styled.input`
 class TextInput extends Component {
   static propTypes = {
     autoFocus: PropTypes.bool,
+    label: PropTypes.string,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
     queryString: PropTypes.string,
@@ -77,6 +78,7 @@ class TextInput extends Component {
         smallWidth={this.props.smallWidth}
         type={this.props.type || 'text'}
         value={value}
+        {...this.props.label && { "aria-label": this.props.label }}
         {...this.props.uniqueCharacters && { onKeyDown: this.onKeyDown }}
       />
     )

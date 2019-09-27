@@ -132,6 +132,7 @@ class Playground extends Component {
         <div className="intro">
           Let’s write
           <EditableText
+            label="flags"
             onClick={this.onSubmitFlagsFormSwitch}
             sentence={`a ${flags.global ? "global " : ""}regex`}
           />

@@ -1,0 +1,17 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`ClipboardButton component 1`] = `
+<div>
+  <button
+    class="css-a6twxp"
+  >
+    Copy to clipboard
+  </button>
+  <textarea
+    class="css-1u0w0kn"
+    readonly=""
+  >
+    /foo|bar/g
+  </textarea>
+</div>
+`;

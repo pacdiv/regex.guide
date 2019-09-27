@@ -7,7 +7,7 @@ function ConditionInputStep({ children, currentStep, title }) {
   return (
     <StepContainer>
       <p>
-        <i>Step {currentStep}</i>
+        <i>{`Step ${currentStep}`}</i>
         <br />
         {title}
       </p>

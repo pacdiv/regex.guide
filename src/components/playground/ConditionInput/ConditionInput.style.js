@@ -3,15 +3,15 @@ import styled from "@emotion/styled"
 
 import { Button } from "../../utils"
 
+export const ActionButton = styled(Button)`
+  font-size: .9em;
+  height: 2rem;
+  width: 8rem;
+`
+
 export const ActionsWrapper = styled.div`
   display: flex;
   flex-direction: row;
-
-  ${Button} {
-    font-size: .9em;
-    height: 2rem;
-    width: 8rem;
-  }
 `
 
 export const StepsWrapper = styled.div`
