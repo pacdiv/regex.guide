@@ -20,6 +20,7 @@ export const characters = {
 
 export const quantifiers = [
   { key: 'SET', label: 'a set of' },
+  { key: 'AT_LEAST', label: 'at least' },
   { key: 'BETWEEN', label: 'between' },
   { key: 'EXACTLY', label: 'exactly' },
   { key: 'NONE_OR_ONE', label: 'zero or one' },
