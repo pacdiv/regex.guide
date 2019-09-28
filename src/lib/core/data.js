@@ -22,6 +22,7 @@ export const quantifiers = [
   { key: 'SET', label: 'a set of' },
   { key: 'BETWEEN', label: 'between' },
   { key: 'EXACTLY', label: 'exactly' },
+  { key: 'NONE_OR_ONE', label: 'zero or one' },
   { key: 'ONE_OR_MORE', label: 'one or many' },
   { key: 'NONE_OR_MORE', label: 'zero or many' }
 ]
