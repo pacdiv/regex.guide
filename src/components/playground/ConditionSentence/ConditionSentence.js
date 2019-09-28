@@ -38,7 +38,9 @@ class ConditionSentence extends Component {
       specs.quantifier === "BETWEEN"
         ? `${specs.minimumQuantifierValue} and ${specs.maximumQuantifierValue}`
         : "",
-      specs.quantifier === "EXACTLY" ? specs.minimumQuantifierValue : "",
+      specs.quantifier === "EXACTLY" || specs.quantifier === "AT_LEAST"
+        ? specs.minimumQuantifierValue
+        : "",
       findByKey(
         characters[specs.quantifier] || characters.DEFAULT,
         specs.characters

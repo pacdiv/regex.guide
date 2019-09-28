@@ -35,6 +35,10 @@ class ConditionInput extends Component {
   ]
   static preChoices = []
 
+  static isDigitQuantifier = quantifier => {
+    return ["AT_LEAST", "BETWEEN", "EXACTLY"].includes(quantifier)
+  }
+
   state = {
     anchor: this.props.anchor || "CONTAINS",
     characters: this.props.characters || "ALPHANUMERIC_CHARACTERS",
@@ -187,10 +191,7 @@ class ConditionInput extends Component {
             selectedQuantifier,
             this.onQuantifierSelectChange
           )}
-          {(selectedQuantifier === "BETWEEN" ||
-            selectedQuantifier === "EXACTLY") &&
-            this.renderNumbersStepForm()
-          }
+          {ConditionInput.isDigitQuantifier(selectedQuantifier) && this.renderNumbersStepForm()}
           {this.renderDefaultStep(
             `Pick a type of ${
               selectedQuantifier === "SET" ? "set" : "characters"
@@ -224,12 +225,14 @@ class ConditionInput extends Component {
       minimumQuantifierValue,
       quantifier,
     } = this.state
+    let title = ""
+
+    if (quantifier === "EXACTLY") title = "How many exactly?"
+    else if (quantifier === "AT_LEAST") title = "At least how many?"
+    else if (quantifier === "BETWEEN") title = "Between how many?"
 
     return (
-      <Step
-        currentStep={currentStep}
-        title={quantifier === "EXACTLY" ? "How many exactly?" : "Between how many?"}
-      >
+      <Step currentStep={currentStep} title={title}>
         <TextInputGroup>
           <TextInput
             label="minimum"
