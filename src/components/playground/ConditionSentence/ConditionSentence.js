@@ -74,10 +74,11 @@ class ConditionSentence extends Component {
   }
 
   render() {
-    const { condition, position } = this.props
+    const { condition, index, position } = this.props
 
     return (
       <EditableText
+        label={`editable-chunk-${index}`}
         onClick={this.onButtonClick}
         sentence={ConditionSentence.generateSentence(condition, position)}
       />

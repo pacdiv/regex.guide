@@ -6,6 +6,7 @@ import editIcon from "../../../images/icon-edit.png"
 
 class ConditionSentence extends Component {
   static propTypes = {
+    label: PropTypes.string,
     onClick: PropTypes.func,
     sentence: PropTypes.string
   }
@@ -18,7 +19,11 @@ class ConditionSentence extends Component {
     return (
       <EditableTextContainer ref={this.containerRef}>
         {this.props.sentence}
-        <MenuButton onClick={this.onButtonClick} type="button">
+        <MenuButton
+          aria-label={"".concat(this.props.label || "", "-editable-text-button")}
+          onClick={this.onButtonClick}
+          type="button"
+        >
           <img alt="menu" src={editIcon} />
         </MenuButton>
       </EditableTextContainer>

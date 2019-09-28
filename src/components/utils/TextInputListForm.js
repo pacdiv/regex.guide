@@ -67,7 +67,7 @@ const InputContainer = styled.div`
   }
 `
 
-function TextInputListForm({ data, onChange }) {
+function TextInputListForm({ data, label, onChange }) {
   const [list, setList] = useState(
     data.concat({
       id: uuid(),
@@ -108,6 +108,7 @@ function TextInputListForm({ data, onChange }) {
       {list.map(({ id, value }, index) => (
         <InputContainer key={`text-input-container-${id}`}>
           <TextInput
+            label={label.concat("-", index)}
             onChange={nextValue => editItem(nextValue, id)}
             placeholder="foobar"
             queryString={value}
@@ -131,11 +132,13 @@ TextInputListForm.propTypes = {
       value: PropTypes.string
     })
   ),
+  label: PropTypes.string,
   onChange: PropTypes.func
 }
 
 TextInputListForm.defaultProps = {
   data: [],
+  label: "",
   onChange: () => undefined
 }
 

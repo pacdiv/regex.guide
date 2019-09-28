@@ -12,12 +12,12 @@ const StyledCheckboxInput = styled.div`
 `
 
 function CheckboxInput({ checked, label, onChange }) {
-  const key = 'checkbot-input-'.concat(label.toLowerCase())
+  const key = 'checkbox-input-'.concat(label.toLowerCase())
 
   return (
     <StyledCheckboxInput>
       <label htmlFor={key}>Global</label>
-      <input type="checkbox" name={key} {...{ checked, onChange }} />
+      <input type="checkbox" name={key} id={key} {...{ checked, onChange }} />
     </StyledCheckboxInput>
   )
 }

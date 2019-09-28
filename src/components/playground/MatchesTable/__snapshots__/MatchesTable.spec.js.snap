@@ -1,0 +1,57 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`MatchesTable component with results 1`] = `
+<div>
+  <div
+    class="css-1qh7gp4"
+  >
+    <p>
+      Matches:
+    </p>
+    <div
+      class="table"
+    >
+      <div
+        class="css-140sd30"
+      >
+        <div>
+          #
+        </div>
+        <div>
+          content
+        </div>
+      </div>
+      <div
+        class="css-140sd30"
+      >
+        <div>
+          0
+        </div>
+        <div>
+          1
+        </div>
+      </div>
+      <div
+        class="css-140sd30"
+      >
+        <div>
+          1
+        </div>
+        <div>
+          0
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+`;
+
+exports[`MatchesTable component without results 1`] = `
+<div>
+  <p
+    class="css-1lu4pk"
+  >
+    The regex gets no matches.
+  </p>
+</div>
+`;

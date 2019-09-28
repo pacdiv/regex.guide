@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Step component 1`] = `
+<div>
+  <div
+    class="css-c226xc"
+  >
+    <p>
+      <i>
+        Step 1
+      </i>
+      <br />
+      Best way to debug code?
+    </p>
+    <div>
+      <p>
+        Delete it!
+      </p>
+    </div>
+  </div>
+</div>
+`;
