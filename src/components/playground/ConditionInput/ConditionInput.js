@@ -3,13 +3,14 @@ import React, { Component, Fragment } from "react"
 
 import { ActionButton, ActionsWrapper, StepsWrapper, TextInputGroup, ErrorParagraph } from "./ConditionInput.style"
 import { RelativeFormContainer, TextInput, TextInputListForm } from "../../utils"
-import { characters, getLabelFromKey, quantifiers } from "../../../lib/core"
+import { captures, characters, getLabelFromKey, quantifiers } from "../../../lib/core"
 import Step from './Step'
 
 class ConditionInput extends Component {
   static propTypes = {
     anchor: PropTypes.string,
     availableAnchors: PropTypes.arrayOf(PropTypes.object),
+    capturedExpression: PropTypes.string,
     characters: PropTypes.string,
     exactQuantifierValue: PropTypes.string,
     minimumQuantifierValue: PropTypes.string,
@@ -41,6 +42,7 @@ class ConditionInput extends Component {
 
   state = {
     anchor: this.props.anchor || "CONTAINS",
+    capturedExpression: this.props.capturedExpression || "NO",
     characters: this.props.characters || "ALPHANUMERIC_CHARACTERS",
     currentStep: this.props.anchor ? 2 : 1,
     exactQuantifierValue: this.props.exactQuantifierValue || "",
@@ -79,8 +81,8 @@ class ConditionInput extends Component {
     const { currentStep, quantifier } = this.state
 
     return (
-      currentStep === 4 ||
-      (currentStep === 3 &&
+      currentStep === 5 ||
+      (currentStep === 4 &&
         (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE"))
     )
   }
@@ -108,21 +110,24 @@ class ConditionInput extends Component {
       this.setState({ currentStep: this.state.currentStep - 1 })
   }
 
+  onCapturedExpressionChange = event => {
+    this.setState(
+      { capturedExpression: event.target.value },
+      this.submit
+    )
+
+    event.target.blur()
+  }
+
   onExactLimitTextFieldChange = event => {
     this.setState({ exactQuantifierValue: event.target.value })
   }
 
   onCharactersSelectChange = event => {
-    this.setState(
-      {
-        characters: event.target.value,
-        ...(this.state.quantifier === "SET" && {
-          currentStep: this.state.currentStep + 1,
-        }),
-      },
-      () => this.state.quantifier !== "SET" && this.submit()
-    )
-
+    this.setState({
+      characters: event.target.value,
+      currentStep: this.state.currentStep + 1
+    })
     event.target.blur()
   }
 
@@ -168,6 +173,7 @@ class ConditionInput extends Component {
   render() {
     const {
       anchor: selectedAnchor,
+      capturedExpression,
       characters: selectedCharacters,
       currentStep,
       error,
@@ -201,6 +207,12 @@ class ConditionInput extends Component {
             this.onCharactersSelectChange
           )}
           {selectedQuantifier === "SET" && this.renderSetStepForm()}
+          {this.renderDefaultStep(
+            "Will you need to match this with following expressions?",
+            captures,
+            capturedExpression,
+            this.onCapturedExpressionChange
+          )}
         </StepsWrapper>
         {error && <ErrorParagraph>{error}</ErrorParagraph>}
         <ActionsWrapper>

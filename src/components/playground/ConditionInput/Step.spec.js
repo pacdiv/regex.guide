@@ -6,7 +6,7 @@ import Step from "./Step"
 
 test('Step component', async () => {
   const { container } = render(
-    <Step currentStep="1" title="Best way to debug code?">
+    <Step currentStep={1} title="Best way to debug code?">
       <div>
         <p>Delete it!</p>
       </div>

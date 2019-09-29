@@ -34,6 +34,7 @@ export const StepContainer = styled.div`
       justify-content: flex-end;
       padding: 0.25em 0.5em;
       margin: 0.25em;
+      min-width: 5em;
 
       &.selected {
         border-color: limegreen;
