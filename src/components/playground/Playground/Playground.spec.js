@@ -27,6 +27,8 @@ test("Playground component (conditions and menu)", async () => {
   fireEvent.click(getByText("Add to the list"))
   await waitForElement(() => getByLabelText("wordlist-set-1"), { container })
   fireEvent.change(getByLabelText("wordlist-set-1"), { target: { value: "Unix" } })
+  fireEvent.click(getByText("Add to the list"))
+  fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText("Submit"))
   
   expect(await waitForElement(() => queryByText("contain words like \"Microsoft\" or \"Unix\""))).toBeTruthy()
@@ -38,6 +40,7 @@ test("Playground component (conditions and menu)", async () => {
   fireEvent.click(getByText("a set of"))
   fireEvent.click(getByText("characters"))
   fireEvent.change(getByLabelText("characters-set"), { target: { value: "." } })
+  fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText("Submit"))
   
   expect(await waitForElement(() => queryByText("contain words like \"Microsoft\" or \"Unix\" and"))).toBeTruthy()
@@ -53,6 +56,7 @@ test("Playground component (condition menu)", async () => {
   } = render(<Playground />)
   
   fireEvent.click(getByText("Add a first condition"))
+  fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText('Submit'))

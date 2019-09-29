@@ -18,9 +18,14 @@ async function addCondition(specs, insertAtIndex = 0, newItem = true) {
       (characters[specs.quantifier] || characters.DEFAULT)
       .find(item => item.key === specs.characters) || {}
 
+    const isCaptured = specs.capturedExpression === "YES"
     chunk = {
-      regex: prefix.concat(value, chunk.regex, suffix),
-      specs: { ...chunk.specs, characters: specs.characters }
+      regex: "".concat(isCaptured ? "(" : "", prefix, value, chunk.regex, suffix, isCaptured ? ")" : ""),
+      specs: {
+        ...chunk.specs,
+        capturedExpression: specs.capturedExpression,
+        characters: specs.characters
+      }
     }
 
     const insertChunk = newItem ? insertNewChunk : updateExistingChunk

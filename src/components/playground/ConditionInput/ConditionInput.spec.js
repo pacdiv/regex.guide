@@ -22,6 +22,7 @@ test("ConditionInput component by setting unspecified quantity", () => {
   fireEvent.click(getByText('contain'))
   fireEvent.click(getByText('zero or many'))
   fireEvent.click(getByText('random characters'))
+  fireEvent.click(getByText('no'))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -40,6 +41,7 @@ test("ConditionInput component by setting an exact quantity", async () => {
   fireEvent.change(getByLabelText("minimum"), { target: { value: "3" } })
   fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText('small letters'))
+  fireEvent.click(getByText('no'))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -59,6 +61,7 @@ test("ConditionInput component by setting a quantity interval", async () => {
   fireEvent.change(getByLabelText("maximum"), { target: { value: "4" } })
   fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText('capital letters'))
+  fireEvent.click(getByText('no'))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -76,7 +79,8 @@ test("ConditionInput component by setting a set of characters", async () => {
   fireEvent.click(getByText('a set of'))
   fireEvent.click(getByText('characters'))
   fireEvent.change(getByLabelText("characters-set"), { target: { value: "A-F#" } })
-  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText('Next →'))
+  fireEvent.click(getByText('no'))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -97,7 +101,9 @@ test("ConditionInput component by setting a set of words", async () => {
   fireEvent.click(getByText('Add to the list'))
   await waitForElement(() => getByLabelText("wordlist-set-1"), { container })
   fireEvent.change(getByLabelText("wordlist-set-1"), { target: { value: "bar" } })
-  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText('Add to the list'))
+  fireEvent.click(getByText('Next →'))
+  fireEvent.click(getByText('no'))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -132,6 +138,7 @@ test("ConditionInput component error handling", async () => {
     />
   )
 
+  fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText('Next →'))
   fireEvent.click(getByText('Submit'))

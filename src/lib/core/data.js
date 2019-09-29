@@ -4,6 +4,11 @@ export const anchors = [
   { key: 'STARTS_WITH', label: 'start with', prefix: '^' },
 ]
 
+export const captures = [
+  { key: 'YES', label: 'yes', value: true },
+  { key: 'NO', label: 'no', value: false }
+]
+
 export const characters = {
   DEFAULT: [
     { key: 'ALPHANUMERIC_CHARACTERS', label: 'alphanumeric characters', value: '\\w' },
