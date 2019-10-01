@@ -56,6 +56,8 @@ function EditableChunk({
 
 EditableChunk.propTypes = {
   availableAnchors: PropTypes.arrayOf(PropTypes.object),
+  availableBackReferences: PropTypes.arrayOf(PropTypes.object),
+  availableDefaultCharacters: PropTypes.arrayOf(PropTypes.object),
   condition: PropTypes.shape({
     regex: PropTypes.string,
     specs: PropTypes.object,

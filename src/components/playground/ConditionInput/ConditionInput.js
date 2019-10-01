@@ -10,6 +10,8 @@ class ConditionInput extends Component {
   static propTypes = {
     anchor: PropTypes.string,
     availableAnchors: PropTypes.arrayOf(PropTypes.object),
+    availableBackReferences: PropTypes.arrayOf(PropTypes.object),
+    availableDefaultCharacters: PropTypes.arrayOf(PropTypes.object),
     capturedExpression: PropTypes.string,
     characters: PropTypes.string,
     exactQuantifierValue: PropTypes.string,
