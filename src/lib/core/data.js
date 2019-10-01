@@ -12,6 +12,7 @@ export const captures = [
 export const characters = {
   DEFAULT: [
     { key: 'ALPHANUMERIC_CHARACTERS', label: 'alphanumeric characters', value: '\\w' },
+    { key: 'BACK_REFERENCES', label: 'back references' },
     { key: 'UPPER_LETTERS', label: 'capital letters', value: '[A-Z]' },
     { key: 'NUMBERS', label: 'numbers', value: '\\d' },
     { key: 'ANYTHING', label: 'random characters', value: '.' },

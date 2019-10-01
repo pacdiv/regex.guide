@@ -10,6 +10,8 @@ class ConditionInput extends Component {
   static propTypes = {
     anchor: PropTypes.string,
     availableAnchors: PropTypes.arrayOf(PropTypes.object),
+    availableBackReferences: PropTypes.arrayOf(PropTypes.object),
+    availableDefaultCharacters: PropTypes.arrayOf(PropTypes.object),
     capturedExpression: PropTypes.string,
     characters: PropTypes.string,
     exactQuantifierValue: PropTypes.string,
@@ -42,6 +44,7 @@ class ConditionInput extends Component {
 
   state = {
     anchor: this.props.anchor || "CONTAINS",
+    backReference: this.props.backReference || "",
     capturedExpression: this.props.capturedExpression || "NO",
     characters: this.props.characters || "ALPHANUMERIC_CHARACTERS",
     currentStep: this.props.anchor ? 2 : 1,
@@ -78,13 +81,31 @@ class ConditionInput extends Component {
   }
 
   isOnLastStep = () => {
-    const { currentStep, quantifier } = this.state
+    const {
+      characters: selectedCharacters,
+      currentStep,
+      quantifier
+    } = this.state
 
-    return (
-      currentStep === 5 ||
-      (currentStep === 4 &&
-        (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE"))
-    )
+    if (
+      currentStep === 4 &&
+      selectedCharacters !== "BACK_REFERENCES" &&
+      (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
+    ) return true
+    else if (
+      currentStep === 5 &&
+      selectedCharacters !== "BACK_REFERENCES" &&
+      quantifier !== "ONE_OR_MORE" &&
+      quantifier !== "NONE_OR_MORE"
+    ) return true
+    else if (
+      currentStep === 5 &&
+      selectedCharacters === "BACK_REFERENCES" &&
+      (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
+    ) return true
+    else if (currentStep === 6) return true
+
+    return false
   }
 
   onChange = event => {
@@ -96,6 +117,14 @@ class ConditionInput extends Component {
   onAnchorSelectChange = event => {
     this.setState({
       anchor: event.target.value,
+      currentStep: this.state.currentStep + 1
+    })
+    event.target.blur()
+  }
+
+  onBackReferenceChange = event => {
+    this.setState({
+      backReference: event.target.value,
       currentStep: this.state.currentStep + 1
     })
     event.target.blur()
@@ -173,16 +202,18 @@ class ConditionInput extends Component {
   render() {
     const {
       anchor: selectedAnchor,
+      backReference,
       capturedExpression,
       characters: selectedCharacters,
       currentStep,
       error,
       quantifier: selectedQuantifier,
     } = this.state
-    const charactersOptions =
-      characters[selectedQuantifier] || characters.DEFAULT
+    const charactersOptions = selectedQuantifier === "SET"
+      ? characters.SET
+      : this.props.availableDefaultCharacters
 
-      return (
+    return (
       <RelativeFormContainer>
         <StepsWrapper step={currentStep}>
           {this.renderDefaultStep(
@@ -207,6 +238,12 @@ class ConditionInput extends Component {
             this.onCharactersSelectChange
           )}
           {selectedQuantifier === "SET" && this.renderSetStepForm()}
+          {selectedCharacters === "BACK_REFERENCES" && this.renderDefaultStep(
+            "Pick a previous reference:",
+            this.props.availableBackReferences,
+            backReference,
+            this.onBackReferenceChange
+          )}
           {this.renderDefaultStep(
             "Will you need to match this with following expressions?",
             captures,

@@ -6,6 +6,8 @@ import ConditionSentence from "../ConditionSentence"
 
 function EditableChunk({
   availableAnchors,
+  availableBackReferences,
+  availableDefaultCharacters,
   condition,
   editingIndex,
   editingPosition,
@@ -17,6 +19,8 @@ function EditableChunk({
 }) {
   const ConditionCreationInput = <ConditionInput
     availableAnchors={availableAnchors}
+    availableBackReferences={availableBackReferences}
+    availableDefaultCharacters={availableDefaultCharacters}
     onCancel={onConditionEditingCancel}
     onSubmit={onConditionInputSubmit}
   />
@@ -30,6 +34,8 @@ function EditableChunk({
         <ConditionInput
           {...condition.specs}
           availableAnchors={availableAnchors}
+          availableBackReferences={availableBackReferences}
+          availableDefaultCharacters={availableDefaultCharacters}
           onCancel={onConditionEditingCancel}
           onSubmit={onConditionInputSubmit}
         />
@@ -50,6 +56,8 @@ function EditableChunk({
 
 EditableChunk.propTypes = {
   availableAnchors: PropTypes.arrayOf(PropTypes.object),
+  availableBackReferences: PropTypes.arrayOf(PropTypes.object),
+  availableDefaultCharacters: PropTypes.arrayOf(PropTypes.object),
   condition: PropTypes.shape({
     regex: PropTypes.string,
     specs: PropTypes.object,

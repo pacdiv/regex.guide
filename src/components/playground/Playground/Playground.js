@@ -122,10 +122,7 @@ class Playground extends Component {
     } = this.state
     const { index: editingIndex = null, position: editingPosition } =
       isEditingAtIndex || {}
-    const availableAnchors = this.core.getAvailableAnchors(
-      editingIndex,
-      editingPosition
-    )
+    const availableData = this.core.getAvailableData(editingIndex, editingPosition)
 
     return (
       <PlaygroundContainer>
@@ -153,7 +150,7 @@ class Playground extends Component {
         <span>does</span>
         {!chunks.length && isEditingAtIndex && (
           <ConditionInput
-            availableAnchors={availableAnchors}
+            {...availableData}
             onCancel={this.onConditionEditingCancel}
             onSubmit={this.onConditionInputSubmit}
           />
@@ -167,7 +164,7 @@ class Playground extends Component {
           <EditableChunk
             key={`editable-chunk-${index}`}
             {...{
-              availableAnchors,
+              ...availableData,
               condition,
               editingIndex,
               editingPosition,
