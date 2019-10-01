@@ -41,10 +41,18 @@ class ConditionSentence extends Component {
       specs.quantifier === "EXACTLY" || specs.quantifier === "AT_LEAST"
         ? specs.minimumQuantifierValue
         : "",
-      findByKey(
-        characters[specs.quantifier] || characters.DEFAULT,
-        specs.characters
-      ).label || "",
+      specs.characters !== "BACK_REFERENCES"
+        ? findByKey(
+            characters[specs.quantifier] || characters.DEFAULT,
+            specs.characters
+          ).label || ""
+        : "",
+      specs.characters === "BACK_REFERENCES"
+        ? "time(s) the ".concat(
+            specs.backReference.replace(/^\\/, "#"),
+            " captured reference"
+          )
+        : "",
       specs.quantifier === "SET" ? "like" : "",
       specs.characters === "WORDS_SUCH_AS"
         ? generateFromArray(specs.wordList.map(({ value }) => value))

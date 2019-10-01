@@ -10,11 +10,21 @@ const availableAnchors = [
   { key: "STARTS_WITH", label: "start with", prefix: "^" }
 ]
 
+const availableDefaultCharacters = [
+  { key: 'ALPHANUMERIC_CHARACTERS', label: 'alphanumeric characters', value: '\\w' },
+  { key: 'BACK_REFERENCES', label: 'back references' },
+  { key: 'UPPER_LETTERS', label: 'capital letters', value: '[A-Z]' },
+  { key: 'NUMBERS', label: 'numbers', value: '\\d' },
+  { key: 'ANYTHING', label: 'random characters', value: '.' },
+  { key: 'LOWER_LETTERS', label: 'small letters', value: '[a-z]' }
+]
+
 test("ConditionInput component by setting unspecified quantity", () => {
   const onSubmit = jest.fn(() => Promise.resolve())
   const { getByText } = render(
     <ConditionInput
       availableAnchors={availableAnchors}
+      availableDefaultCharacters={availableDefaultCharacters}
       onSubmit={onSubmit}
     />
   )
@@ -32,6 +42,7 @@ test("ConditionInput component by setting an exact quantity", async () => {
   const { getByLabelText, getByText } = render(
     <ConditionInput
       availableAnchors={availableAnchors}
+      availableDefaultCharacters={availableDefaultCharacters}
       onSubmit={onSubmit}
     />
   )
@@ -51,6 +62,7 @@ test("ConditionInput component by setting a quantity interval", async () => {
   const { getByLabelText, getByText } = render(
     <ConditionInput
       availableAnchors={availableAnchors}
+      availableDefaultCharacters={availableDefaultCharacters}
       onSubmit={onSubmit}
     />
   )
@@ -71,6 +83,7 @@ test("ConditionInput component by setting a set of characters", async () => {
   const { getByLabelText, getByText } = render(
     <ConditionInput
       availableAnchors={availableAnchors}
+      availableDefaultCharacters={availableDefaultCharacters}
       onSubmit={onSubmit}
     />
   )
@@ -85,11 +98,38 @@ test("ConditionInput component by setting a set of characters", async () => {
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
 
+test("ConditionInput component by setting a back reference", async () => {
+  const onSubmit = jest.fn(() => Promise.resolve())
+  const availableBackReferences = [{
+    index: 0,
+    key: "\\1",
+    label: "([a-z]+)",
+    regex: "\\1"
+  }]
+  const { getByText } = render(
+    <ConditionInput
+      availableAnchors={availableAnchors}
+      availableBackReferences={availableBackReferences}
+      availableDefaultCharacters={availableDefaultCharacters}
+      onSubmit={onSubmit}
+    />
+  )
+
+  fireEvent.click(getByText('contain'))
+  fireEvent.click(getByText('one or many'))
+  fireEvent.click(getByText('back references'))
+  fireEvent.click(getByText("([a-z]+)"))
+  fireEvent.click(getByText('no'))
+
+  expect(onSubmit).toHaveBeenCalledTimes(1)
+})
+
 test("ConditionInput component by setting a set of words", async () => {
   const onSubmit = jest.fn(() => Promise.resolve())
   const { container, getByLabelText, getByText } = render(
     <ConditionInput
       availableAnchors={availableAnchors}
+      availableDefaultCharacters={availableDefaultCharacters}
       onSubmit={onSubmit}
     />
   )
@@ -108,12 +148,13 @@ test("ConditionInput component by setting a set of words", async () => {
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
 
-test("ConditionInput component ", async () => {
+test("ConditionInput component cancel action", async () => {
   const onCancel = jest.fn()
   const { getByText, queryByText } = render(
     <ConditionInput
       anchor="CONTAINS"
       availableAnchors={availableAnchors}
+      availableDefaultCharacters={availableDefaultCharacters}
       onCancel={onCancel}
     />
   )
@@ -134,6 +175,7 @@ test("ConditionInput component error handling", async () => {
   const { getByText } = render(
     <ConditionInput
       availableAnchors={availableAnchors}
+      availableDefaultCharacters={availableDefaultCharacters}
       onSubmit={onSubmit}
     />
   )

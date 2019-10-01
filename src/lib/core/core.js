@@ -14,9 +14,11 @@ async function addCondition(specs, insertAtIndex = 0, newItem = true) {
   try {
     let chunk = await conditionAdders[specs.quantifier](specs)
 
-    const { value = '' } =
-      (characters[specs.quantifier] || characters.DEFAULT)
-      .find(item => item.key === specs.characters) || {}
+    let value = specs.backReference
+    if (specs.characters !== "BACK_REFERENCES") {
+      ({ value = "" } = (characters[specs.quantifier] || characters.DEFAULT)
+        .find(item => item.key === specs.characters) || {})
+    }
 
     const isCaptured = specs.capturedExpression === "YES"
     chunk = {
@@ -24,7 +26,8 @@ async function addCondition(specs, insertAtIndex = 0, newItem = true) {
       specs: {
         ...chunk.specs,
         capturedExpression: specs.capturedExpression,
-        characters: specs.characters
+        characters: specs.characters,
+        ...specs.backReference && { backReference: specs.backReference }
       }
     }
 
@@ -32,6 +35,13 @@ async function addCondition(specs, insertAtIndex = 0, newItem = true) {
     this.chunks = insertChunk(this.chunks, insertAtIndex, chunk)
 
     this.regexChunks = this.chunks.map(({ regex }) => regex)
+    this.capturedChunks = this.chunks.reduce((acc, { regex, specs }, index) => {
+      const key = `\\${acc.length + 1}`
+      return specs.capturedExpression === "YES"
+        ? acc.concat({ index, label: regex, key, regex: key })
+        : acc
+    }, [])
+
     return Promise.resolve()
   }
   catch (err) {
@@ -74,6 +84,33 @@ function getAvailableAnchors(targetIndex, position) {
   return data.filter(item => item.key === 'CONTAINS')
 }
 
+function getAvailableData(targetIndex, position) {
+  return {
+    availableAnchors:
+      this.getAvailableAnchors(targetIndex, position),
+    availableBackReferences:
+      this.getAvailableBackReferences(targetIndex, position),
+    availableDefaultCharacters:
+      this.getAvailableDefaultCharacters(targetIndex, position)
+  }
+}
+
+function getAvailableBackReferences(targetIndex, position) {
+  if (targetIndex < 0) return []
+
+  return this.capturedChunks.filter(chunk =>
+    (!position && chunk.index < targetIndex) ||
+    (position === "before" && chunk.index < targetIndex) ||
+    (position === "after" && chunk.index <= targetIndex)
+  )
+}
+
+function getAvailableDefaultCharacters(targetIndex, position) {
+  return !this.getAvailableBackReferences(targetIndex, position).length
+    ? characters.DEFAULT.filter(item => item.key !== "BACK_REFERENCES")
+    : characters.DEFAULT
+}
+
 function getChunks() {
   return Array.from(this.chunks)
 }
@@ -95,12 +132,16 @@ function setFlag(entry, value) {
 
 const core = {
   addCondition,
+  capturedChunks: [],
   chunks: [],
   deleteCondition,
   flags: {
     global: false
   },
   getAvailableAnchors,
+  getAvailableBackReferences,
+  getAvailableData,
+  getAvailableDefaultCharacters,
   getChunks,
   getFlags,
   getRegexChunks,
