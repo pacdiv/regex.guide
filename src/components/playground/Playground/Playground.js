@@ -110,7 +110,7 @@ class Playground extends Component {
   onSubmitFlagsFormSwitch = () =>
     this.setState({ isEditingFlags: !this.state.isEditingFlags })
 
-  onReset = () => {
+  onResetConditionsButtonClick = () => {
     this.setState({
       chunks: [],
       isEditingAtIndex: null,
@@ -121,6 +121,9 @@ class Playground extends Component {
       sourceString: "",
       sentenceEl: null,
     })
+    for (var i = 0; i < this.core.getChunks().length; i++) {
+      this.core.deleteCondition(i);
+    }
   }
 
   render() {
@@ -204,10 +207,9 @@ class Playground extends Component {
               value={regexChunks.join("")}
             />
             <Button
-              onClick={() => {
-                onReset()
-              }}
-            ></Button>
+              size="medium"
+              onClick={() => {this.onResetConditionsButtonClick()}}
+            >Reset Conditions</Button>
           </Fragment>
         ) : null}
         {this.state.sentenceEl &&
