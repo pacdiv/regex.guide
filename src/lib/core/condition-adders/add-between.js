@@ -1,11 +1,14 @@
 export default function addBetween(specs) {
-  const {
-    minimumQuantifierValue: minimum,
-    maximumQuantifierValue: maximum
-  } = specs
+  const { minimumQuantifierValue, maximumQuantifierValue } = specs
 
-  if (typeof minimum !== "undefined" && typeof maximum !== "undefined") {
-    if (maximum && Number(minimum) >= Number(maximum)) {
+  if (typeof minimumQuantifierValue !== "undefined" && typeof maximumQuantifierValue !== "undefined") {
+    const minimum = Number(minimumQuantifierValue)
+    const maximum = Number(maximumQuantifierValue)
+
+    if (minimum < 0 || maximum < 0) {
+      return Promise.reject(new Error('Minimum and maximum must be positive integers.'))
+    }
+    if (minimum >= maximum) {
       return Promise.reject(new Error('Minimum must be lower than maximum.'))
     }
 
