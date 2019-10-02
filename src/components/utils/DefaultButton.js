@@ -18,6 +18,7 @@ const Button = styled.button`
   &.transparent-theme {
     background-color: transparent;
     color: initial;
+    text-decoration: underline;
   }
   
   ${({ size }) =>
