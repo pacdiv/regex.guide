@@ -1,1 +1,1 @@
-export { default } from './MatchesTable'
+export { default } from "./MatchesTable"

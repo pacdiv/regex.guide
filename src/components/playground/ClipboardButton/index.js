@@ -1,1 +1,1 @@
-export { default } from './ClipboardButton'
+export { default } from "./ClipboardButton"

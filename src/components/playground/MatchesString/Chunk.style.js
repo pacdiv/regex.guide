@@ -3,8 +3,8 @@ import styled from "@emotion/styled"
 
 export const ChunkContainer = styled.span`
   ${({ isBeingEdited }) =>
-    isBeingEdited && css`
+    isBeingEdited &&
+    css`
       background-color: lightgrey;
-    `
-  }
+    `}
 `

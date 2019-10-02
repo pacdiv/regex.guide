@@ -2,14 +2,14 @@ import styled from "@emotion/styled"
 
 export const ErrorText = styled.p`
   color: crimson;
-  margin: .5em 0;
+  margin: 0.5em 0;
 `
 
 export const TableContainer = styled.div`
   margin: 1em 0 0;
 
   p {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 
   div.table {

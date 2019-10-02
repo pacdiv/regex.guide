@@ -9,13 +9,13 @@ describe("Core", () => {
     maximumQuantifierValue: "",
     minimumQuantifierValue: "",
     quantifier: "ONE_OR_MORE",
-    setValue: ""
+    setValue: "",
   }
 
   const condition2 = {
     ...condition1,
     quantifier: "EXACTLY",
-    minimumQuantifierValue: 3
+    minimumQuantifierValue: 3,
   }
 
   it("core initialization", () => {
@@ -30,22 +30,20 @@ describe("Core", () => {
   it("add condition", async () => {
     const core = Object.create(Core)
 
-    await core .addCondition(condition1)
+    await core.addCondition(condition1)
 
     expect(core.getChunks().length).toEqual(1)
     expect(core.getRegexChunks().length).toEqual(1)
-    
+
     const wrongCondition = {
       ...condition2,
       minimumQuantifierValue: "-1",
     }
 
-    core
-      .addCondition(wrongCondition)
-      .catch(() => {
-        expect(core.getChunks().length).toEqual(1)
-        expect(core.getRegexChunks().length).toEqual(1)
-      })
+    core.addCondition(wrongCondition).catch(() => {
+      expect(core.getChunks().length).toEqual(1)
+      expect(core.getRegexChunks().length).toEqual(1)
+    })
   })
 
   it("edit condition", async () => {
@@ -70,35 +68,41 @@ describe("Core", () => {
     expect(core.getChunks().length).toEqual(0)
     expect(core.getRegexChunks().length).toEqual(0)
 
-    core
-      .deleteCondition(42)
-      .catch(() => {
-        expect(core.getChunks().length).toEqual(0)
-        expect(core.getRegexChunks().length).toEqual(0)
-      })
+    core.deleteCondition(42).catch(() => {
+      expect(core.getChunks().length).toEqual(0)
+      expect(core.getRegexChunks().length).toEqual(0)
+    })
   })
 
   it("get available anchors", async () => {
     const core = Object.create(Core)
-    const joinKeys = data => data.reduce((acc, { key }, index) =>
-      index ? acc.concat("-", key) : key
-    , "")
+    const joinKeys = data =>
+      data.reduce(
+        (acc, { key }, index) => (index ? acc.concat("-", key) : key),
+        ""
+      )
 
     await core.addCondition(condition1)
     await core.addCondition(condition2)
 
-    expect(joinKeys(core.getAvailableAnchors(0, "before"))).toEqual("CONTAINS-STARTS_WITH")
+    expect(joinKeys(core.getAvailableAnchors(0, "before"))).toEqual(
+      "CONTAINS-STARTS_WITH"
+    )
     expect(joinKeys(core.getAvailableAnchors(1, "before"))).toEqual("CONTAINS")
-    
+
     expect(joinKeys(core.getAvailableAnchors(0, "after"))).toEqual("CONTAINS")
-    expect(joinKeys(core.getAvailableAnchors(1, "after"))).toEqual("CONTAINS-ENDS_WITH")
+    expect(joinKeys(core.getAvailableAnchors(1, "after"))).toEqual(
+      "CONTAINS-ENDS_WITH"
+    )
 
     expect(joinKeys(core.getAvailableAnchors(0))).toEqual("CONTAINS")
 
     await core.deleteCondition(1)
     await core.deleteCondition(0)
 
-    expect(joinKeys(core.getAvailableAnchors(0))).toEqual("CONTAINS-ENDS_WITH-STARTS_WITH")
+    expect(joinKeys(core.getAvailableAnchors(0))).toEqual(
+      "CONTAINS-ENDS_WITH-STARTS_WITH"
+    )
   })
 
   it("set flag", () => {

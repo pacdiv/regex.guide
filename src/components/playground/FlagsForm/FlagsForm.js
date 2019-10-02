@@ -25,9 +25,7 @@ class FlagsForm extends PureComponent {
           label="Global"
           onChange={this.onGlobalChange}
         />
-        <SubmitButton onClick={this.props.onSubmitClick}>
-          Submit
-        </SubmitButton>
+        <SubmitButton onClick={this.props.onSubmitClick}>Submit</SubmitButton>
       </RelativeFormContainer>
     )
   }

@@ -3,7 +3,7 @@
 exports[`ClipboardButton component 1`] = `
 <div>
   <button
-    class="css-1g9j22p"
+    class="css-7c33lx"
   >
     Copy to clipboard
   </button>

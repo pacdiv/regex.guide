@@ -15,15 +15,17 @@ function EditableChunk({
   onConditionEditingCancel,
   onConditionInputSubmit,
   onConditionSentenceMenuChange,
-  position
+  position,
 }) {
-  const ConditionCreationInput = <ConditionInput
-    availableAnchors={availableAnchors}
-    availableBackReferences={availableBackReferences}
-    availableDefaultCharacters={availableDefaultCharacters}
-    onCancel={onConditionEditingCancel}
-    onSubmit={onConditionInputSubmit}
-  />
+  const ConditionCreationInput = (
+    <ConditionInput
+      availableAnchors={availableAnchors}
+      availableBackReferences={availableBackReferences}
+      availableDefaultCharacters={availableDefaultCharacters}
+      onCancel={onConditionEditingCancel}
+      onSubmit={onConditionInputSubmit}
+    />
+  )
 
   return (
     <Fragment>
@@ -68,7 +70,7 @@ EditableChunk.propTypes = {
   onConditionEditingCancel: PropTypes.func,
   onConditionInputSubmit: PropTypes.func,
   onConditionSentenceMenuChange: PropTypes.func,
-  position: PropTypes.string
+  position: PropTypes.string,
 }
 
 export default EditableChunk

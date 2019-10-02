@@ -1,8 +1,8 @@
 import PropTypes from "prop-types"
 import React, { Component, createRef } from "react"
 
-import { anchors, quantifiers, characters } from '../../../lib/core'
-import EditableText from '../EditableText'
+import { anchors, quantifiers, characters } from "../../../lib/core"
+import EditableText from "../EditableText"
 
 class ConditionSentence extends Component {
   static propTypes = {
@@ -37,11 +37,12 @@ class ConditionSentence extends Component {
         if (skippedIteration) {
           skippedIteration = false
           return acc
-        }
-        else if (index === 0 || index === source.length - 1) {
+        } else if (index === 0 || index === source.length - 1) {
           return acc.concat(char)
-        }
-        else if (char === "-" && ConditionSentence.isCharactersRange(source, index)) {
+        } else if (
+          char === "-" &&
+          ConditionSentence.isCharactersRange(source, index)
+        ) {
           skippedIteration = true
           return acc
             .slice(0, index - 1)
@@ -56,7 +57,7 @@ class ConditionSentence extends Component {
     const {
       findByKey,
       generateFromArray,
-      generateCharactersSetstring
+      generateCharactersSetstring,
     } = ConditionSentence
     const quantifier = findByKey(quantifiers, specs.quantifier).label
 
@@ -98,12 +99,10 @@ class ConditionSentence extends Component {
   }
 
   static isCharactersRange = (source, charIndex) => {
-    const [leftChar,, rightChar] = source
-      .substr(charIndex - 1, 3)
-      .split("")
+    const [leftChar, , rightChar] = source.substr(charIndex - 1, 3).split("")
 
-    return [/[A-Z]/, /[a-z]/, /[0-9]/].some(regex =>
-      leftChar.match(regex) && rightChar.match(regex)
+    return [/[A-Z]/, /[a-z]/, /[0-9]/].some(
+      regex => leftChar.match(regex) && rightChar.match(regex)
     )
   }
 

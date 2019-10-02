@@ -1,4 +1,4 @@
-import React, { Component, Fragment } from "react"
+import React, { Component, Fragment } from "react"
 import ReactDOM from "react-dom"
 
 import { Button, TextInput } from "../../utils"
@@ -110,6 +110,19 @@ class Playground extends Component {
   onSubmitFlagsFormSwitch = () =>
     this.setState({ isEditingFlags: !this.state.isEditingFlags })
 
+  onReset = () => {
+    this.setState({
+      chunks: [],
+      isEditingAtIndex: null,
+      isEditingFlags: false,
+      flags: {},
+      lastActiveSentenceMenu: null,
+      regexChunks: [],
+      sourceString: "",
+      sentenceEl: null,
+    })
+  }
+
   render() {
     const {
       chunks,
@@ -122,7 +135,10 @@ class Playground extends Component {
     } = this.state
     const { index: editingIndex = null, position: editingPosition } =
       isEditingAtIndex || {}
-    const availableData = this.core.getAvailableData(editingIndex, editingPosition)
+    const availableData = this.core.getAvailableData(
+      editingIndex,
+      editingPosition
+    )
 
     return (
       <PlaygroundContainer>
@@ -187,6 +203,11 @@ class Playground extends Component {
               flags={flags.global ? "g" : ""}
               value={regexChunks.join("")}
             />
+            <Button
+              onClick={() => {
+                onReset()
+              }}
+            ></Button>
           </Fragment>
         ) : null}
         {this.state.sentenceEl &&

@@ -1,34 +1,42 @@
-import { anchors, characters } from './data'
-import conditionAdders from './condition-adders'
+import { anchors, characters } from "./data"
+import conditionAdders from "./condition-adders"
 import {
   getAnchorsWithoutUsedEdges,
   insertNewChunk,
-  updateExistingChunk
-} from './utils'
+  updateExistingChunk,
+} from "./utils"
 
 async function addCondition(specs, insertAtIndex = 0, newItem = true) {
-  const { prefix = '', suffix = '' } = anchors.find(
-    item => item.key === specs.anchor
-  ) || {}
+  const { prefix = "", suffix = "" } =
+    anchors.find(item => item.key === specs.anchor) || {}
 
   try {
     let chunk = await conditionAdders[specs.quantifier](specs)
 
     let value = specs.backReference
     if (specs.characters !== "BACK_REFERENCES") {
-      ({ value = "" } = (characters[specs.quantifier] || characters.DEFAULT)
-        .find(item => item.key === specs.characters) || {})
+      ;({ value = "" } =
+        (characters[specs.quantifier] || characters.DEFAULT).find(
+          item => item.key === specs.characters
+        ) || {})
     }
 
     const isCaptured = specs.capturedExpression === "YES"
     chunk = {
-      regex: "".concat(prefix, isCaptured ? "(" : "", value, chunk.regex, isCaptured ? ")" : "", suffix),
+      regex: "".concat(
+        prefix,
+        isCaptured ? "(" : "",
+        value,
+        chunk.regex,
+        isCaptured ? ")" : "",
+        suffix
+      ),
       specs: {
         ...chunk.specs,
         capturedExpression: specs.capturedExpression,
         characters: specs.characters,
-        ...specs.backReference && { backReference: specs.backReference }
-      }
+        ...(specs.backReference && { backReference: specs.backReference }),
+      },
     }
 
     const insertChunk = newItem ? insertNewChunk : updateExistingChunk
@@ -43,15 +51,16 @@ async function addCondition(specs, insertAtIndex = 0, newItem = true) {
     }, [])
 
     return Promise.resolve()
-  }
-  catch (err) {
+  } catch (err) {
     return Promise.reject(err)
   }
 }
 
 function deleteCondition(targetIndex) {
   if (!this.chunks[targetIndex]) {
-    return Promise.reject(new Error('This index is undefined and cannot be removed.'))
+    return Promise.reject(
+      new Error("This index is undefined and cannot be removed.")
+    )
   }
 
   this.chunks = this.chunks.filter((chunk, index) => targetIndex !== index)
@@ -64,44 +73,46 @@ function getAvailableAnchors(targetIndex, position) {
 
   if (!chunksLength) return Array.from(anchors)
 
-  const data = getAnchorsWithoutUsedEdges(
-    this.chunks,
-    anchors,
-    ['STARTS_WITH', 'ENDS_WITH']
-  )
+  const data = getAnchorsWithoutUsedEdges(this.chunks, anchors, [
+    "STARTS_WITH",
+    "ENDS_WITH",
+  ])
 
-  if (position === 'before') {
+  if (position === "before") {
     return targetIndex === 0
-      ? data.filter(item => item.key !== 'ENDS_WITH')
-      : data.filter(item => item.key === 'CONTAINS')
-  }
-  else if (position === 'after') {
+      ? data.filter(item => item.key !== "ENDS_WITH")
+      : data.filter(item => item.key === "CONTAINS")
+  } else if (position === "after") {
     return targetIndex === chunksLength - 1
-      ? data.filter(item => item.key !== 'STARTS_WITH')
-      : data.filter(item => item.key === 'CONTAINS')
+      ? data.filter(item => item.key !== "STARTS_WITH")
+      : data.filter(item => item.key === "CONTAINS")
   }
 
-  return data.filter(item => item.key === 'CONTAINS')
+  return data.filter(item => item.key === "CONTAINS")
 }
 
 function getAvailableData(targetIndex, position) {
   return {
-    availableAnchors:
-      this.getAvailableAnchors(targetIndex, position),
-    availableBackReferences:
-      this.getAvailableBackReferences(targetIndex, position),
-    availableDefaultCharacters:
-      this.getAvailableDefaultCharacters(targetIndex, position)
+    availableAnchors: this.getAvailableAnchors(targetIndex, position),
+    availableBackReferences: this.getAvailableBackReferences(
+      targetIndex,
+      position
+    ),
+    availableDefaultCharacters: this.getAvailableDefaultCharacters(
+      targetIndex,
+      position
+    ),
   }
 }
 
 function getAvailableBackReferences(targetIndex, position) {
   if (targetIndex < 0) return []
 
-  return this.capturedChunks.filter(chunk =>
-    (!position && chunk.index < targetIndex) ||
-    (position === "before" && chunk.index < targetIndex) ||
-    (position === "after" && chunk.index <= targetIndex)
+  return this.capturedChunks.filter(
+    chunk =>
+      (!position && chunk.index < targetIndex) ||
+      (position === "before" && chunk.index < targetIndex) ||
+      (position === "after" && chunk.index <= targetIndex)
   )
 }
 
@@ -126,7 +137,7 @@ function getRegexChunks() {
 function setFlag(entry, value) {
   this.flags = {
     ...this.flags,
-    [entry]: value
+    [entry]: value,
   }
 }
 
@@ -136,7 +147,7 @@ const core = {
   chunks: [],
   deleteCondition,
   flags: {
-    global: false
+    global: false,
   },
   getAvailableAnchors,
   getAvailableBackReferences,
@@ -146,7 +157,7 @@ const core = {
   getFlags,
   getRegexChunks,
   regexChunks: [],
-  setFlag
+  setFlag,
 }
 
 export default core

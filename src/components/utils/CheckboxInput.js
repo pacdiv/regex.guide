@@ -7,12 +7,12 @@ const StyledCheckboxInput = styled.div`
   display: flex;
   flex-direction: row;
   justify-content: space-between;
-  padding: .5em 1em;
+  padding: 0.5em 1em;
   width: 100%;
 `
 
 function CheckboxInput({ checked, label, onChange }) {
-  const key = 'checkbox-input-'.concat(label.toLowerCase())
+  const key = "checkbox-input-".concat(label.toLowerCase())
 
   return (
     <StyledCheckboxInput>
@@ -25,7 +25,7 @@ function CheckboxInput({ checked, label, onChange }) {
 CheckboxInput.propTypes = {
   checked: PropTypes.bool,
   label: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 }
 
 export default CheckboxInput

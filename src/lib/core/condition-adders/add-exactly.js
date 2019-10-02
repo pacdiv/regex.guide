@@ -7,10 +7,10 @@ export default function addExactly(specs) {
       specs: {
         anchor: specs.anchor,
         minimumQuantifierValue: minimum,
-        quantifier: specs.quantifier
-      }
+        quantifier: specs.quantifier,
+      },
     })
   }
 
-  return Promise.reject(new Error('A quantity bigger than 0 must be set.'))
+  return Promise.reject(new Error("A quantity bigger than 0 must be set."))
 }

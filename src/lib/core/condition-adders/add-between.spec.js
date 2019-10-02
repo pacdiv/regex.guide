@@ -6,11 +6,12 @@ describe("Add-between condition", () => {
       anchor: "CONTAINS",
       minimumQuantifierValue: 0,
       maximumQuantifierValue: 3,
-      quantifier: "BETWEEN"
+      quantifier: "BETWEEN",
     }
-    
-    expect(json(await addBetween(specs)))
-      .toEqual(json({ regex: "{0,3}", specs }))
+
+    expect(json(await addBetween(specs))).toEqual(
+      json({ regex: "{0,3}", specs })
+    )
   })
 
   it("simulates unset minimum or maximum", async () => {
@@ -31,7 +32,7 @@ describe("Add-between condition", () => {
     try {
       await addBetween({
         minimumQuantifierValue: 3,
-        maximumQuantifierValue: 3
+        maximumQuantifierValue: 3,
       })
     } catch (e) {
       expect(e.message).toEqual("Minimum must be lower than maximum.")
@@ -42,10 +43,12 @@ describe("Add-between condition", () => {
     try {
       await addBetween({
         minimumQuantifierValue: -3,
-        maximumQuantifierValue: -1
+        maximumQuantifierValue: -1,
       })
     } catch (e) {
-      expect(e.message).toEqual("Minimum and maximum must be positive integers.")
+      expect(e.message).toEqual(
+        "Minimum and maximum must be positive integers."
+      )
     }
   })
 })

@@ -6,7 +6,7 @@ const StyledBanner = styled.div`
   color: white;
   height: 3em;
   font-family: monospace;
-  font-size: .8em;
+  font-size: 0.8em;
   line-height: 3em;
   text-align: center;
   text-transform: uppercase;
@@ -20,10 +20,11 @@ const StyledBanner = styled.div`
 function BetaBanner() {
   return (
     <StyledBanner>
-      Proof of concept in development. Get involved {" "}
+      Proof of concept in development. Get involved{" "}
       <a href="https://github.com/pacdiv/regex.guide" target="blank_">
         here
-      </a>.
+      </a>
+      .
     </StyledBanner>
   )
 }

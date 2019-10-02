@@ -1,10 +1,10 @@
-import React from 'react'
-import { render } from '@testing-library/react'
+import React from "react"
+import { render } from "@testing-library/react"
 import "@testing-library/jest-dom/extend-expect"
 
 import MatchesTable from "./MatchesTable"
 
-test('MatchesTable component with results', async () => {
+test("MatchesTable component with results", async () => {
   const { container } = render(
     <MatchesTable
       flags={{ global: true }}
@@ -16,7 +16,7 @@ test('MatchesTable component with results', async () => {
   expect(container).toMatchSnapshot()
 })
 
-test('MatchesTable component without results', async () => {
+test("MatchesTable component without results", async () => {
   const { container } = render(
     <MatchesTable
       flags={{ global: true }}

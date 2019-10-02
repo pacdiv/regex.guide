@@ -1,5 +1,5 @@
 import React, { createRef, PureComponent, Fragment } from "react"
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 
 import { Button } from "../../utils"
 import { HiddenTextarea } from "./ClipboardButton.style"
@@ -7,7 +7,7 @@ import { HiddenTextarea } from "./ClipboardButton.style"
 class ClipboardAction extends PureComponent {
   static propTypes = {
     flags: PropTypes.string,
-    value: PropTypes.string
+    value: PropTypes.string,
   }
 
   hiddenTextareaRef = createRef()
@@ -15,7 +15,7 @@ class ClipboardAction extends PureComponent {
   onClipboardButtonClick = () => {
     this.hiddenTextareaRef.current.focus()
     this.hiddenTextareaRef.current.setSelectionRange(0, 999999)
-    document.execCommand('copy')
+    document.execCommand("copy")
     this.hiddenTextareaRef.current.blur()
   }
 
