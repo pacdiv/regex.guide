@@ -121,8 +121,9 @@ class Playground extends Component {
       sourceString: "",
       sentenceEl: null,
     })
-    for (var i = 0; i < this.core.getChunks().length; i++) {
-      this.core.deleteCondition(i)
+    while (this.core.getChunks().length !== 0)
+    {
+      this.core.deleteCondition(0)
     }
   }
 
