@@ -22,14 +22,42 @@ class ConditionSentence extends Component {
         acc.concat(
           index > 0 && index === source.length - 1 ? " or " : "",
           index && index < source.length - 1 ? ", " : "",
-          `"${value}"`
+          value.match(/".*"/) ? value : `"${value}"`
         ),
       ""
     )
   }
 
+  static generateCharactersSetstring(source) {
+    let skippedIteration = false
+    const sourceArray = source.split("")
+
+    return ConditionSentence.generateFromArray(
+      sourceArray.reduce((acc, char, index) => {
+        if (skippedIteration) {
+          skippedIteration = false
+          return acc
+        }
+        else if (index === 0 || index === source.length - 1) {
+          return acc.concat(char)
+        }
+        else if (char === "-" && ConditionSentence.isCharactersRange(source, index)) {
+          skippedIteration = true
+          return acc
+            .slice(0, index - 1)
+            .concat(`from "${source[index - 1]}" to "${source[index + 1]}"`)
+        }
+        return acc.concat(char)
+      }, [])
+    )
+  }
+
   static generateSentence({ specs }, position) {
-    const { findByKey, generateFromArray } = ConditionSentence
+    const {
+      findByKey,
+      generateFromArray,
+      generateCharactersSetstring
+    } = ConditionSentence
     const quantifier = findByKey(quantifiers, specs.quantifier).label
 
     const data = [
@@ -58,7 +86,7 @@ class ConditionSentence extends Component {
         ? generateFromArray(specs.wordList.map(({ value }) => value))
         : "",
       specs.characters === "CHARACTERS"
-        ? generateFromArray(specs.setValue.split(""))
+        ? generateCharactersSetstring(specs.setValue)
         : "",
       position === "second-last" ? "and" : "",
     ]
@@ -67,6 +95,16 @@ class ConditionSentence extends Component {
       .filter(Boolean)
       .join(" ")
       .concat(position === "body" ? "," : "")
+  }
+
+  static isCharactersRange = (source, charIndex) => {
+    const [leftChar,, rightChar] = source
+      .substr(charIndex - 1, 3)
+      .split("")
+
+    return [/[A-Z]/, /[a-z]/, /[0-9]/].some(regex =>
+      leftChar.match(regex) && rightChar.match(regex)
+    )
   }
 
   state = {
