@@ -8,7 +8,7 @@ exports[`EditableText component 1`] = `
     Is this a placeholder?
     <button
       aria-label="demo-editable-text-button"
-      class="css-1k8sdve"
+      class="css-1tnls5b"
       type="button"
     >
       <img
