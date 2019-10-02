@@ -22,7 +22,7 @@ async function addCondition(specs, insertAtIndex = 0, newItem = true) {
 
     const isCaptured = specs.capturedExpression === "YES"
     chunk = {
-      regex: "".concat(isCaptured ? "(" : "", prefix, value, chunk.regex, suffix, isCaptured ? ")" : ""),
+      regex: "".concat(prefix, isCaptured ? "(" : "", value, chunk.regex, isCaptured ? ")" : "", suffix),
       specs: {
         ...chunk.specs,
         capturedExpression: specs.capturedExpression,
