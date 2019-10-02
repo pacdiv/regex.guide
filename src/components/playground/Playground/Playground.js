@@ -206,7 +206,9 @@ class Playground extends Component {
               flags={flags.global ? "g" : ""}
               value={regexChunks.join("")}
             />
-            <Button className="transparent-theme" onClick={() => {
+            <Button
+              className="transparent-theme"
+              onClick={() => {
                 this.onResetConditionsButtonClick()
               }}
             >
