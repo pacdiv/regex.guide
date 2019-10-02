@@ -37,4 +37,15 @@ describe("Add-between condition", () => {
       expect(e.message).toEqual("Minimum must be lower than maximum.")
     }
   })
+
+  it("simulates negative values", async () => {
+    try {
+      await addBetween({
+        minimumQuantifierValue: -3,
+        maximumQuantifierValue: -1
+      })
+    } catch (e) {
+      expect(e.message).toEqual("Minimum and maximum must be positive integers.")
+    }
+  })
 })
