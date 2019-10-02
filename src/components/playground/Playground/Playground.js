@@ -122,7 +122,7 @@ class Playground extends Component {
       sentenceEl: null,
     })
     for (var i = 0; i < this.core.getChunks().length; i++) {
-      this.core.deleteCondition(i);
+      this.core.deleteCondition(i)
     }
   }
 
@@ -206,10 +206,12 @@ class Playground extends Component {
               flags={flags.global ? "g" : ""}
               value={regexChunks.join("")}
             />
-            <Button
-              size="medium"
-              onClick={() => {this.onResetConditionsButtonClick()}}
-            >Reset Conditions</Button>
+            <Button className="transparent-theme" onClick={() => {
+                this.onResetConditionsButtonClick()
+              }}
+            >
+              Reset Conditions
+            </Button>
           </Fragment>
         ) : null}
         {this.state.sentenceEl &&
