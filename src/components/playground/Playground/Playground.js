@@ -111,19 +111,8 @@ class Playground extends Component {
     this.setState({ isEditingFlags: !this.state.isEditingFlags })
 
   onResetConditionsButtonClick = () => {
-    this.setState({
-      chunks: [],
-      isEditingAtIndex: null,
-      isEditingFlags: false,
-      flags: {},
-      lastActiveSentenceMenu: null,
-      regexChunks: [],
-      sourceString: "",
-      sentenceEl: null,
-    })
-    while (this.core.getChunks().length !== 0) {
-      this.core.deleteCondition(0)
-    }
+    this.setState({chunks: [], regexChunks: []})
+    this.core.deleteAllConditions()
   }
 
   render() {

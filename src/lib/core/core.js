@@ -141,6 +141,11 @@ function setFlag(entry, value) {
   }
 }
 
+function deleteAllConditions() {
+  this.chunks.length = 0;
+  this.regexChunks.length = 0;
+}
+
 const core = {
   addCondition,
   capturedChunks: [],
@@ -158,6 +163,7 @@ const core = {
   getRegexChunks,
   regexChunks: [],
   setFlag,
+  deleteAllConditions,
 }
 
 export default core
