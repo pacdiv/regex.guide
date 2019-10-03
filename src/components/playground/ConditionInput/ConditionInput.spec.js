@@ -1,5 +1,5 @@
-import React from 'react'
-import { fireEvent, render, wait, waitForElement } from '@testing-library/react'
+import React from "react"
+import { fireEvent, render, wait, waitForElement } from "@testing-library/react"
 import "@testing-library/jest-dom/extend-expect"
 
 import ConditionInput from "./ConditionInput"
@@ -7,16 +7,20 @@ import ConditionInput from "./ConditionInput"
 const availableAnchors = [
   { key: "CONTAINS", label: "contain" },
   { key: "ENDS_WITH", label: "end with", suffix: "$" },
-  { key: "STARTS_WITH", label: "start with", prefix: "^" }
+  { key: "STARTS_WITH", label: "start with", prefix: "^" },
 ]
 
 const availableDefaultCharacters = [
-  { key: 'ALPHANUMERIC_CHARACTERS', label: 'alphanumeric characters', value: '\\w' },
-  { key: 'BACK_REFERENCES', label: 'back references' },
-  { key: 'UPPER_LETTERS', label: 'capital letters', value: '[A-Z]' },
-  { key: 'NUMBERS', label: 'numbers', value: '\\d' },
-  { key: 'ANYTHING', label: 'random characters', value: '.' },
-  { key: 'LOWER_LETTERS', label: 'small letters', value: '[a-z]' }
+  {
+    key: "ALPHANUMERIC_CHARACTERS",
+    label: "alphanumeric characters",
+    value: "\\w",
+  },
+  { key: "BACK_REFERENCES", label: "back references" },
+  { key: "UPPER_LETTERS", label: "capital letters", value: "[A-Z]" },
+  { key: "NUMBERS", label: "numbers", value: "\\d" },
+  { key: "ANYTHING", label: "random characters", value: "." },
+  { key: "LOWER_LETTERS", label: "small letters", value: "[a-z]" },
 ]
 
 test("ConditionInput component by setting unspecified quantity", () => {
@@ -29,10 +33,10 @@ test("ConditionInput component by setting unspecified quantity", () => {
     />
   )
 
-  fireEvent.click(getByText('contain'))
-  fireEvent.click(getByText('zero or many'))
-  fireEvent.click(getByText('random characters'))
-  fireEvent.click(getByText('no'))
+  fireEvent.click(getByText("contain"))
+  fireEvent.click(getByText("zero or many"))
+  fireEvent.click(getByText("random characters"))
+  fireEvent.click(getByText("no"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -47,12 +51,12 @@ test("ConditionInput component by setting an exact quantity", async () => {
     />
   )
 
-  fireEvent.click(getByText('contain'))
-  fireEvent.click(getByText('exactly'))
+  fireEvent.click(getByText("contain"))
+  fireEvent.click(getByText("exactly"))
   fireEvent.change(getByLabelText("minimum"), { target: { value: "3" } })
-  fireEvent.click(getByText('Next →'))
-  fireEvent.click(getByText('small letters'))
-  fireEvent.click(getByText('no'))
+  fireEvent.click(getByText("Next →"))
+  fireEvent.click(getByText("small letters"))
+  fireEvent.click(getByText("no"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -67,13 +71,13 @@ test("ConditionInput component by setting a quantity interval", async () => {
     />
   )
 
-  fireEvent.click(getByText('contain'))
-  fireEvent.click(getByText('between'))
+  fireEvent.click(getByText("contain"))
+  fireEvent.click(getByText("between"))
   fireEvent.change(getByLabelText("minimum"), { target: { value: "1" } })
   fireEvent.change(getByLabelText("maximum"), { target: { value: "4" } })
-  fireEvent.click(getByText('Next →'))
-  fireEvent.click(getByText('capital letters'))
-  fireEvent.click(getByText('no'))
+  fireEvent.click(getByText("Next →"))
+  fireEvent.click(getByText("capital letters"))
+  fireEvent.click(getByText("no"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -88,24 +92,28 @@ test("ConditionInput component by setting a set of characters", async () => {
     />
   )
 
-  fireEvent.click(getByText('contain'))
-  fireEvent.click(getByText('a set of'))
-  fireEvent.click(getByText('characters'))
-  fireEvent.change(getByLabelText("characters-set"), { target: { value: "A-F#" } })
-  fireEvent.click(getByText('Next →'))
-  fireEvent.click(getByText('no'))
+  fireEvent.click(getByText("contain"))
+  fireEvent.click(getByText("a set of"))
+  fireEvent.click(getByText("characters"))
+  fireEvent.change(getByLabelText("characters-set"), {
+    target: { value: "A-F#" },
+  })
+  fireEvent.click(getByText("Next →"))
+  fireEvent.click(getByText("no"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
 
 test("ConditionInput component by setting a back reference", async () => {
   const onSubmit = jest.fn(() => Promise.resolve())
-  const availableBackReferences = [{
-    index: 0,
-    key: "\\1",
-    label: "([a-z]+)",
-    regex: "\\1"
-  }]
+  const availableBackReferences = [
+    {
+      index: 0,
+      key: "\\1",
+      label: "([a-z]+)",
+      regex: "\\1",
+    },
+  ]
   const { getByText } = render(
     <ConditionInput
       availableAnchors={availableAnchors}
@@ -115,11 +123,11 @@ test("ConditionInput component by setting a back reference", async () => {
     />
   )
 
-  fireEvent.click(getByText('contain'))
-  fireEvent.click(getByText('one or many'))
-  fireEvent.click(getByText('back references'))
+  fireEvent.click(getByText("contain"))
+  fireEvent.click(getByText("one or many"))
+  fireEvent.click(getByText("back references"))
   fireEvent.click(getByText("([a-z]+)"))
-  fireEvent.click(getByText('no'))
+  fireEvent.click(getByText("no"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -134,16 +142,20 @@ test("ConditionInput component by setting a set of words", async () => {
     />
   )
 
-  fireEvent.click(getByText('contain'))
-  fireEvent.click(getByText('a set of'))
-  fireEvent.click(getByText('words'))
-  fireEvent.change(getByLabelText("wordlist-set-0"), { target: { value: "foo" } })
-  fireEvent.click(getByText('Add to the list'))
+  fireEvent.click(getByText("contain"))
+  fireEvent.click(getByText("a set of"))
+  fireEvent.click(getByText("words"))
+  fireEvent.change(getByLabelText("wordlist-set-0"), {
+    target: { value: "foo" },
+  })
+  fireEvent.click(getByText("Add to the list"))
   await waitForElement(() => getByLabelText("wordlist-set-1"), { container })
-  fireEvent.change(getByLabelText("wordlist-set-1"), { target: { value: "bar" } })
-  fireEvent.click(getByText('Add to the list'))
-  fireEvent.click(getByText('Next →'))
-  fireEvent.click(getByText('no'))
+  fireEvent.change(getByLabelText("wordlist-set-1"), {
+    target: { value: "bar" },
+  })
+  fireEvent.click(getByText("Add to the list"))
+  fireEvent.click(getByText("Next →"))
+  fireEvent.click(getByText("no"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -159,13 +171,13 @@ test("ConditionInput component cancel action", async () => {
     />
   )
 
-  fireEvent.click(getByText('Next →'))
+  fireEvent.click(getByText("Next →"))
   expect(queryByText("Cancel")).toBeFalsy()
-  
-  fireEvent.click(getByText('← Back'))
+
+  fireEvent.click(getByText("← Back"))
   expect(queryByText("Cancel")).toBeTruthy()
 
-  fireEvent.click(getByText('Cancel'))
+  fireEvent.click(getByText("Cancel"))
   expect(onCancel).toHaveBeenCalledTimes(1)
 })
 
@@ -180,10 +192,10 @@ test("ConditionInput component error handling", async () => {
     />
   )
 
-  fireEvent.click(getByText('Next →'))
-  fireEvent.click(getByText('Next →'))
-  fireEvent.click(getByText('Next →'))
-  fireEvent.click(getByText('Submit'))
+  fireEvent.click(getByText("Next →"))
+  fireEvent.click(getByText("Next →"))
+  fireEvent.click(getByText("Next →"))
+  fireEvent.click(getByText("Submit"))
 
   const errorParagraph = await waitForElement(() => getByText(error.message))
   expect(errorParagraph).toBeTruthy()

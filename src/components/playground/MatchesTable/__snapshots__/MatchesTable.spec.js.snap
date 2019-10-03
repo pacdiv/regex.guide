@@ -3,7 +3,7 @@
 exports[`MatchesTable component with results 1`] = `
 <div>
   <div
-    class="css-1qh7gp4"
+    class="css-d550xy"
   >
     <p>
       Matches:
@@ -49,7 +49,7 @@ exports[`MatchesTable component with results 1`] = `
 exports[`MatchesTable component without results 1`] = `
 <div>
   <p
-    class="css-1lu4pk"
+    class="css-7jl3jq"
   >
     The regex gets no matches.
   </p>

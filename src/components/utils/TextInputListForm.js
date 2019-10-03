@@ -1,10 +1,10 @@
 import PropTypes from "prop-types"
 import React, { useState } from "react"
 import styled from "@emotion/styled"
-import uuid from 'uuid/v4'
+import uuid from "uuid/v4"
 
-import Button from './DefaultButton'
-import TextInput from './TextInput'
+import Button from "./DefaultButton"
+import TextInput from "./TextInput"
 
 const StyledTextInputListForm = styled.div`
   display: flex;
@@ -12,11 +12,11 @@ const StyledTextInputListForm = styled.div`
 
   input,
   button {
-    margin-bottom: .5em;
+    margin-bottom: 0.5em;
   }
 
   button {
-    font-size: .8em;
+    font-size: 0.8em;
     height: 2.5rem;
     width: 12rem;
   }
@@ -71,14 +71,14 @@ function TextInputListForm({ data, label, onChange }) {
   const [list, setList] = useState(
     data.concat({
       id: uuid(),
-      value: ""
+      value: "",
     })
   )
 
   function addItem() {
     const nextList = list.concat({
       id: uuid(),
-      value: ""
+      value: "",
     })
 
     setList(nextList)
@@ -87,9 +87,7 @@ function TextInputListForm({ data, label, onChange }) {
 
   function editItem(nextValue, targetId) {
     const nextList = list.map(item =>
-      item.id === targetId
-        ? { ...item, value: nextValue }
-        : item
+      item.id === targetId ? { ...item, value: nextValue } : item
     )
 
     setList(nextList)
@@ -118,9 +116,7 @@ function TextInputListForm({ data, label, onChange }) {
           )}
         </InputContainer>
       ))}
-      <Button onClick={addItem}>
-        Add to the list
-      </Button>
+      <Button onClick={addItem}>Add to the list</Button>
     </StyledTextInputListForm>
   )
 }
@@ -129,17 +125,17 @@ TextInputListForm.propTypes = {
   data: PropTypes.arrayOf(
     PropTypes.shape({
       id: PropTypes.string,
-      value: PropTypes.string
+      value: PropTypes.string,
     })
   ),
   label: PropTypes.string,
-  onChange: PropTypes.func
+  onChange: PropTypes.func,
 }
 
 TextInputListForm.defaultProps = {
   data: [],
   label: "",
-  onChange: () => undefined
+  onChange: () => undefined,
 }
 
 export default TextInputListForm

@@ -9,17 +9,17 @@ const StyledTextInupt = styled.input`
   text-align: center;
 
   ${({ hasNotFocus }) =>
-    hasNotFocus && css`
+    hasNotFocus &&
+    css`
       border-color: transparent;
       font-style: italic;
-    `
-  }
+    `}
 
   ${({ smallWidth }) =>
-    smallWidth && css`
+    smallWidth &&
+    css`
       width: 6em;
-    `
-  }
+    `}
 `
 
 class TextInput extends Component {
@@ -30,14 +30,14 @@ class TextInput extends Component {
     placeholder: PropTypes.string,
     queryString: PropTypes.string,
     uniqueCharacters: PropTypes.bool,
-    smallWidth: PropTypes.bool
+    smallWidth: PropTypes.bool,
   }
 
   static preChoices = []
 
   state = {
     hasFocus: this.props.autoFocus,
-    queryString: this.props.queryString || ''
+    queryString: this.props.queryString || "",
   }
 
   onBlur = () => this.setState({ hasFocus: false })
@@ -47,17 +47,15 @@ class TextInput extends Component {
 
     const nextValue = this.props.uniqueCharacters
       ? value
-        .split("")
-        .reduce((acc, letter) =>
-          acc.includes(letter)
-            ? acc
-            : acc.concat(letter)
-        , "")
+          .split("")
+          .reduce(
+            (acc, letter) => (acc.includes(letter) ? acc : acc.concat(letter)),
+            ""
+          )
       : value
 
-    this.setState(
-      { queryString: nextValue },
-      () => this.props.onChange(nextValue)
+    this.setState({ queryString: nextValue }, () =>
+      this.props.onChange(nextValue)
     )
   }
 
@@ -65,7 +63,10 @@ class TextInput extends Component {
 
   render() {
     const { hasFocus, queryString } = this.state
-    const value = !this.props.type && !hasFocus && queryString ? `“${queryString}”` : queryString
+    const value =
+      !this.props.type && !hasFocus && queryString
+        ? `“${queryString}”`
+        : queryString
 
     return (
       <StyledTextInupt
@@ -76,10 +77,10 @@ class TextInput extends Component {
         onFocus={this.onFocus}
         placeholder={this.props.placeholder}
         smallWidth={this.props.smallWidth}
-        type={this.props.type || 'text'}
+        type={this.props.type || "text"}
         value={value}
-        {...this.props.label && { "aria-label": this.props.label }}
-        {...this.props.uniqueCharacters && { onKeyDown: this.onKeyDown }}
+        {...(this.props.label && { "aria-label": this.props.label })}
+        {...(this.props.uniqueCharacters && { onKeyDown: this.onKeyDown })}
       />
     )
   }

@@ -12,7 +12,7 @@ export const StepContainer = styled.div`
   }
 
   p {
-    font-size: .85em;
+    font-size: 0.85em;
     line-height: 1.5em;
     margin-bottom: 1em;
   }

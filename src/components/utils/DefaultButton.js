@@ -20,10 +20,12 @@ const Button = styled.button`
     color: initial;
     text-decoration: underline;
   }
-  
+
   ${({ size }) =>
-    size === 'medium' && css`width: 13em;`
-  }
+    size === "medium" &&
+    css`
+      width: 13em;
+    `}
 `
 
 export default Button

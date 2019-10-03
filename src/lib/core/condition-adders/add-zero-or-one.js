@@ -3,7 +3,7 @@ export default function addZeroOrOne(specs) {
     regex: "?",
     specs: {
       anchor: specs.anchor,
-      quantifier: specs.quantifier
-    }
+      quantifier: specs.quantifier,
+    },
   })
 }

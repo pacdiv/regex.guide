@@ -1,4 +1,4 @@
-import PropTypes from 'prop-types'
+import PropTypes from "prop-types"
 import React from "react"
 
 import { ErrorText, Row, TableContainer } from "./MatchesTable.style"
@@ -36,16 +36,16 @@ function MatchesTable({ flags, regexChunks, sourceString }) {
 
 MatchesTable.propTypes = {
   flags: PropTypes.shape({
-    global: PropTypes.bool
+    global: PropTypes.bool,
   }),
   regexChunks: PropTypes.arrayOf(PropTypes.string),
-  sourceString: PropTypes.string
+  sourceString: PropTypes.string,
 }
 
 MatchesTable.defaultProps = {
   flags: {},
   regexChunks: [],
-  sourceString: ""
+  sourceString: "",
 }
 
 export default MatchesTable

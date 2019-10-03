@@ -35,7 +35,7 @@ SentenceMenu.propTypes = {
   onAddBeforeButtonClick: PropTypes.func,
   onDeleteButtonClick: PropTypes.func,
   onEditButtonClick: PropTypes.func,
-  onSwitchHiddenMenu: PropTypes.func
+  onSwitchHiddenMenu: PropTypes.func,
 }
 
 export default SentenceMenu

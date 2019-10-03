@@ -1,6 +1,6 @@
 function addCharacters(specs) {
   if (!specs.setValue.trim()) {
-    return Promise.reject(new Error('Characters must be defined.'))
+    return Promise.reject(new Error("Characters must be defined."))
   }
 
   return Promise.resolve({
@@ -8,8 +8,8 @@ function addCharacters(specs) {
     specs: {
       anchor: specs.anchor,
       quantifier: specs.quantifier,
-      setValue: specs.setValue
-    }
+      setValue: specs.setValue,
+    },
   })
 }
 
@@ -17,7 +17,7 @@ function addWords(specs) {
   const { wordList } = specs
 
   if (!wordList.length || (wordList.length === 1 && wordList[0].value === "")) {
-    return Promise.reject(new Error('The word list cannot be empty.'))
+    return Promise.reject(new Error("The word list cannot be empty."))
   }
 
   return Promise.resolve({
@@ -25,14 +25,14 @@ function addWords(specs) {
     specs: {
       anchor: specs.anchor,
       quantifier: specs.quantifier,
-      wordList
-    }
+      wordList,
+    },
   })
 }
 
 const mapper = {
   CHARACTERS: addCharacters,
-  WORDS_SUCH_AS: addWords
+  WORDS_SUCH_AS: addWords,
 }
 
 export default function addSet(specs) {

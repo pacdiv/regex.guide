@@ -6,11 +6,12 @@ describe("Add-set condition", () => {
       anchor: "CONTAINS",
       characters: "CHARACTERS",
       quantifier: "SET",
-      setValue: "0-9A-Z"
+      setValue: "0-9A-Z",
     }
 
-    expect(json(await addSet(specs)))
-      .toEqual(json({ regex: "[0-9A-Z]", specs: { ...specs, characters: undefined } }))
+    expect(json(await addSet(specs))).toEqual(
+      json({ regex: "[0-9A-Z]", specs: { ...specs, characters: undefined } })
+    )
   })
 
   it("simulates without characters", async () => {
@@ -19,7 +20,7 @@ describe("Add-set condition", () => {
         anchor: "CONTAINS",
         characters: "CHARACTERS",
         quantifier: "SET",
-        setValue: " "
+        setValue: " ",
       }
       await addSet(specs)
     } catch (e) {
@@ -32,11 +33,12 @@ describe("Add-set condition", () => {
       anchor: "CONTAINS",
       characters: "WORDS_SUCH_AS",
       quantifier: "SET",
-      wordList: [{ index: "0", value: "foo" }, { index: "1", value: "bar" }]
+      wordList: [{ index: "0", value: "foo" }, { index: "1", value: "bar" }],
     }
 
-    expect(json(await addSet(specs)))
-      .toEqual(json({ regex: "foo|bar", specs: { ...specs, characters: undefined } }))
+    expect(json(await addSet(specs))).toEqual(
+      json({ regex: "foo|bar", specs: { ...specs, characters: undefined } })
+    )
   })
 
   it("simulates without words", async () => {
@@ -45,7 +47,7 @@ describe("Add-set condition", () => {
         anchor: "CONTAINS",
         characters: "WORDS_SUCH_AS",
         quantifier: "SET",
-        wordList: []
+        wordList: [],
       }
       await addSet(specs)
     } catch (e) {

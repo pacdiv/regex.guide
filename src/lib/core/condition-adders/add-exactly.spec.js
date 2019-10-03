@@ -5,11 +5,10 @@ describe("Add-exactly condition", () => {
     const specs = {
       anchor: "CONTAINS",
       minimumQuantifierValue: 2,
-      quantifier: "EXACTLY"
+      quantifier: "EXACTLY",
     }
 
-    expect(json(await addExactly(specs)))
-      .toEqual(json({ regex: "{2}", specs }))
+    expect(json(await addExactly(specs))).toEqual(json({ regex: "{2}", specs }))
   })
 
   it("simulates value not bigger than 0", async () => {

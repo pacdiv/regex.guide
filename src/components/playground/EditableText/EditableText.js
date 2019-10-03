@@ -8,7 +8,7 @@ class ConditionSentence extends Component {
   static propTypes = {
     label: PropTypes.string,
     onClick: PropTypes.func,
-    sentence: PropTypes.string
+    sentence: PropTypes.string,
   }
 
   containerRef = createRef()
@@ -20,7 +20,10 @@ class ConditionSentence extends Component {
       <EditableTextContainer ref={this.containerRef}>
         {this.props.sentence}
         <MenuButton
-          aria-label={"".concat(this.props.label || "", "-editable-text-button")}
+          aria-label={"".concat(
+            this.props.label || "",
+            "-editable-text-button"
+          )}
           onClick={this.onButtonClick}
           type="button"
         >

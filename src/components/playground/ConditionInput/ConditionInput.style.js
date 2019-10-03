@@ -4,7 +4,7 @@ import styled from "@emotion/styled"
 import { Button } from "../../utils"
 
 export const ActionButton = styled(Button)`
-  font-size: .9em;
+  font-size: 0.9em;
   height: 2rem;
   width: 8rem;
 `
@@ -32,7 +32,7 @@ export const StepsWrapper = styled.div`
       > div:first-of-type {
         margin-left: ${-100 * (step - 1)}%;
       }
-  `}
+    `}
 `
 
 export const TextInputGroup = styled.div`

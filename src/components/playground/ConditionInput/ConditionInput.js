@@ -1,10 +1,25 @@
 import PropTypes from "prop-types"
 import React, { Component, Fragment } from "react"
 
-import { ActionButton, ActionsWrapper, StepsWrapper, TextInputGroup, ErrorParagraph } from "./ConditionInput.style"
-import { RelativeFormContainer, TextInput, TextInputListForm } from "../../utils"
-import { captures, characters, getLabelFromKey, quantifiers } from "../../../lib/core"
-import Step from './Step'
+import {
+  ActionButton,
+  ActionsWrapper,
+  StepsWrapper,
+  TextInputGroup,
+  ErrorParagraph,
+} from "./ConditionInput.style"
+import {
+  RelativeFormContainer,
+  TextInput,
+  TextInputListForm,
+} from "../../utils"
+import {
+  captures,
+  characters,
+  getLabelFromKey,
+  quantifiers,
+} from "../../../lib/core"
+import Step from "./Step"
 
 class ConditionInput extends Component {
   static propTypes = {
@@ -84,25 +99,28 @@ class ConditionInput extends Component {
     const {
       characters: selectedCharacters,
       currentStep,
-      quantifier
+      quantifier,
     } = this.state
 
     if (
       currentStep === 4 &&
       selectedCharacters !== "BACK_REFERENCES" &&
       (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
-    ) return true
+    )
+      return true
     else if (
       currentStep === 5 &&
       selectedCharacters !== "BACK_REFERENCES" &&
       quantifier !== "ONE_OR_MORE" &&
       quantifier !== "NONE_OR_MORE"
-    ) return true
+    )
+      return true
     else if (
       currentStep === 5 &&
       selectedCharacters === "BACK_REFERENCES" &&
       (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
-    ) return true
+    )
+      return true
     else if (currentStep === 6) return true
 
     return false
@@ -117,7 +135,7 @@ class ConditionInput extends Component {
   onAnchorSelectChange = event => {
     this.setState({
       anchor: event.target.value,
-      currentStep: this.state.currentStep + 1
+      currentStep: this.state.currentStep + 1,
     })
     event.target.blur()
   }
@@ -125,7 +143,7 @@ class ConditionInput extends Component {
   onBackReferenceChange = event => {
     this.setState({
       backReference: event.target.value,
-      currentStep: this.state.currentStep + 1
+      currentStep: this.state.currentStep + 1,
     })
     event.target.blur()
   }
@@ -133,17 +151,12 @@ class ConditionInput extends Component {
   onCancelButtonClick = event => {
     event.preventDefault()
 
-    if (this.isOnFirstStep())
-      this.props.onCancel(event)
-    else
-      this.setState({ currentStep: this.state.currentStep - 1 })
+    if (this.isOnFirstStep()) this.props.onCancel(event)
+    else this.setState({ currentStep: this.state.currentStep - 1 })
   }
 
   onCapturedExpressionChange = event => {
-    this.setState(
-      { capturedExpression: event.target.value },
-      this.submit
-    )
+    this.setState({ capturedExpression: event.target.value }, this.submit)
 
     event.target.blur()
   }
@@ -155,7 +168,7 @@ class ConditionInput extends Component {
   onCharactersSelectChange = event => {
     this.setState({
       characters: event.target.value,
-      currentStep: this.state.currentStep + 1
+      currentStep: this.state.currentStep + 1,
     })
     event.target.blur()
   }
@@ -171,7 +184,7 @@ class ConditionInput extends Component {
   onQuantifierSelectChange = event => {
     this.setState({
       currentStep: this.state.currentStep + 1,
-      quantifier: event.target.value
+      quantifier: event.target.value,
     })
     event.target.blur()
   }
@@ -183,10 +196,8 @@ class ConditionInput extends Component {
   onSubmitButtonClick = event => {
     event.preventDefault()
 
-    if (this.isOnLastStep())
-      this.submit()
-    else
-      this.setState({ currentStep: this.state.currentStep + 1 })
+    if (this.isOnLastStep()) this.submit()
+    else this.setState({ currentStep: this.state.currentStep + 1 })
   }
 
   onWordListChange = value => {
@@ -209,9 +220,10 @@ class ConditionInput extends Component {
       error,
       quantifier: selectedQuantifier,
     } = this.state
-    const charactersOptions = selectedQuantifier === "SET"
-      ? characters.SET
-      : this.props.availableDefaultCharacters
+    const charactersOptions =
+      selectedQuantifier === "SET"
+        ? characters.SET
+        : this.props.availableDefaultCharacters
 
     return (
       <RelativeFormContainer>
@@ -228,7 +240,8 @@ class ConditionInput extends Component {
             selectedQuantifier,
             this.onQuantifierSelectChange
           )}
-          {ConditionInput.isDigitQuantifier(selectedQuantifier) && this.renderNumbersStepForm()}
+          {ConditionInput.isDigitQuantifier(selectedQuantifier) &&
+            this.renderNumbersStepForm()}
           {this.renderDefaultStep(
             `Pick a type of ${
               selectedQuantifier === "SET" ? "set" : "characters"
@@ -238,12 +251,13 @@ class ConditionInput extends Component {
             this.onCharactersSelectChange
           )}
           {selectedQuantifier === "SET" && this.renderSetStepForm()}
-          {selectedCharacters === "BACK_REFERENCES" && this.renderDefaultStep(
-            "Pick a previous reference:",
-            this.props.availableBackReferences,
-            backReference,
-            this.onBackReferenceChange
-          )}
+          {selectedCharacters === "BACK_REFERENCES" &&
+            this.renderDefaultStep(
+              "Pick a previous reference:",
+              this.props.availableBackReferences,
+              backReference,
+              this.onBackReferenceChange
+            )}
           {this.renderDefaultStep(
             "Will you need to match this with following expressions?",
             captures,
@@ -259,7 +273,10 @@ class ConditionInput extends Component {
           >
             {this.isOnFirstStep() ? "Cancel" : "← Back"}
           </ActionButton>
-          <ActionButton className="submit-theme" onClick={this.onSubmitButtonClick}>
+          <ActionButton
+            className="submit-theme"
+            onClick={this.onSubmitButtonClick}
+          >
             {this.isOnLastStep() ? "Submit" : "Next →"}
           </ActionButton>
         </ActionsWrapper>
@@ -327,7 +344,11 @@ class ConditionInput extends Component {
         )} such as:`}
       >
         {selectedCharacters === "WORDS_SUCH_AS" && (
-          <TextInputListForm data={wordList} label="wordlist-set" onChange={this.onWordListChange} />
+          <TextInputListForm
+            data={wordList}
+            label="wordlist-set"
+            onChange={this.onWordListChange}
+          />
         )}
         {selectedCharacters === "CHARACTERS" && (
           <TextInputGroup>
