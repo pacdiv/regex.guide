@@ -142,8 +142,9 @@ function setFlag(entry, value) {
 }
 
 function deleteAllConditions() {
-  this.chunks.length = 0
-  this.regexChunks.length = 0
+  this.chunks = []
+  this.regexChunks = []
+  this.capturedChunks = []
 }
 
 const core = {
