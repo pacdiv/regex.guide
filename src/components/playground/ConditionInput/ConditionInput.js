@@ -353,6 +353,7 @@ class ConditionInput extends Component {
         {selectedCharacters === "CHARACTERS" && (
           <TextInputGroup>
             <TextInput
+              exceptions="-"
               label="characters-set"
               onChange={this.onSetTextFieldChange}
               placeholder="xyz"
