@@ -1,7 +1,9 @@
 import { anchors, characters } from "./data"
 import conditionAdders from "./condition-adders"
 import {
-  getAnchorsWithoutUsedEdges,
+  getAvailableAnchors,
+  getAvailableBackReferences,
+  getAvailableDefaultCharacters,
   insertNewChunk,
   updateExistingChunk,
 } from "./utils"
@@ -42,18 +44,16 @@ async function addCondition(specs, insertAtIndex = 0, newItem = true) {
     const insertChunk = newItem ? insertNewChunk : updateExistingChunk
     this.chunks = insertChunk(this.chunks, insertAtIndex, chunk)
 
-    this.regexChunks = this.chunks.map(({ regex }) => regex)
-    this.capturedChunks = this.chunks.reduce((acc, { regex, specs }, index) => {
-      const key = `\\${acc.length + 1}`
-      return specs.capturedExpression === "YES"
-        ? acc.concat({ index, label: regex, key, regex: key })
-        : acc
-    }, [])
-
     return Promise.resolve()
   } catch (err) {
     return Promise.reject(err)
   }
+}
+
+function deleteAllConditions() {
+  this.chunks = []
+  this.regexChunks = []
+  this.capturedChunks = []
 }
 
 function deleteCondition(targetIndex) {
@@ -64,74 +64,34 @@ function deleteCondition(targetIndex) {
   }
 
   this.chunks = this.chunks.filter((chunk, index) => targetIndex !== index)
-  this.regexChunks = this.chunks.map(({ regex }) => regex)
   return Promise.resolve()
-}
-
-function getAvailableAnchors(targetIndex, position) {
-  const chunksLength = this.chunks.length
-
-  if (!chunksLength) return Array.from(anchors)
-
-  const data = getAnchorsWithoutUsedEdges(this.chunks, anchors, [
-    "STARTS_WITH",
-    "ENDS_WITH",
-  ])
-
-  if (position === "before") {
-    return targetIndex === 0
-      ? data.filter(item => item.key !== "ENDS_WITH")
-      : data.filter(item => item.key === "CONTAINS")
-  } else if (position === "after") {
-    return targetIndex === chunksLength - 1
-      ? data.filter(item => item.key !== "STARTS_WITH")
-      : data.filter(item => item.key === "CONTAINS")
-  }
-
-  return data.filter(item => item.key === "CONTAINS")
 }
 
 function getAvailableData(targetIndex, position) {
   return {
-    availableAnchors: this.getAvailableAnchors(targetIndex, position),
-    availableBackReferences: this.getAvailableBackReferences(
+    availableAnchors: getAvailableAnchors.call(this, targetIndex, position),
+    availableBackReferences: getAvailableBackReferences.call(
+      this,
       targetIndex,
       position
     ),
-    availableDefaultCharacters: this.getAvailableDefaultCharacters(
+    availableDefaultCharacters: getAvailableDefaultCharacters.call(
+      this,
       targetIndex,
       position
     ),
   }
 }
 
-function getAvailableBackReferences(targetIndex, position) {
-  if (targetIndex < 0) return []
-
-  return this.capturedChunks.filter(
-    chunk =>
-      (!position && chunk.index < targetIndex) ||
-      (position === "before" && chunk.index < targetIndex) ||
-      (position === "after" && chunk.index <= targetIndex)
-  )
-}
-
-function getAvailableDefaultCharacters(targetIndex, position) {
-  return !this.getAvailableBackReferences(targetIndex, position).length
-    ? characters.DEFAULT.filter(item => item.key !== "BACK_REFERENCES")
-    : characters.DEFAULT
-}
-
-function getChunks() {
-  return Array.from(this.chunks)
+function getChunksState() {
+  return {
+    chunks: Array.from(this.chunks),
+    regexChunks: Array.from(this.regexChunks),
+  }
 }
 
 function getFlags() {
   return JSON.parse(JSON.stringify(this.flags))
-}
-
-function getRegexChunks() {
-  return Array.from(this.regexChunks)
 }
 
 function setFlag(entry, value) {
@@ -141,30 +101,44 @@ function setFlag(entry, value) {
   }
 }
 
-function deleteAllConditions() {
-  this.chunks = []
-  this.regexChunks = []
-  this.capturedChunks = []
+function execFuncWhileSyncChunksArrays(fn, args) {
+  return fn
+    .apply(this, args)
+    .then(() => {
+      this.regexChunks = this.chunks.map(({ regex }) => regex)
+      this.capturedChunks = this.chunks.reduce(
+        (acc, { regex, specs }, index) => {
+          const key = `\\${acc.length + 1}`
+          return specs.capturedExpression === "YES"
+            ? acc.concat({ index, label: regex, key, regex: key })
+            : acc
+        },
+        []
+      )
+
+      return Promise.resolve()
+    })
+    .catch(err => Promise.reject(err))
 }
 
 const core = {
-  addCondition,
+  addCondition: function() {
+    return execFuncWhileSyncChunksArrays.call(this, addCondition, arguments)
+  },
+  deleteCondition: function() {
+    return execFuncWhileSyncChunksArrays.call(this, deleteCondition, arguments)
+  },
   capturedChunks: [],
   chunks: [],
-  deleteCondition,
+  deleteAllConditions,
   flags: {
     global: false,
   },
-  getAvailableAnchors,
-  getAvailableBackReferences,
   getAvailableData,
-  getAvailableDefaultCharacters,
-  getChunks,
+  getChunksState,
   getFlags,
-  getRegexChunks,
   regexChunks: [],
   setFlag,
-  deleteAllConditions,
 }
 
 export default core

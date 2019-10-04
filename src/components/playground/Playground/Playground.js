@@ -55,9 +55,8 @@ class Playground extends Component {
       .addCondition(specs, realIndex, Boolean(position))
       .then(() =>
         this.setState({
-          chunks: this.core.getChunks(),
           isEditingAtIndex: null,
-          regexChunks: this.core.getRegexChunks(),
+          ...this.core.getChunksState(),
         })
       )
       .catch(err => Promise.reject(err))
@@ -79,10 +78,9 @@ class Playground extends Component {
       .deleteCondition(index)
       .then(() =>
         this.setState({
-          chunks: this.core.getChunks(),
           isEditingAtIndex: null,
-          regexChunks: this.core.getRegexChunks(),
           sentenceEl: null,
+          ...this.core.getChunksState(),
         })
       )
       .catch(err => Promise.reject(err))

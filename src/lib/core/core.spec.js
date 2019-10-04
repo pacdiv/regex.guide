@@ -22,9 +22,9 @@ describe("Core", () => {
     const core = Object.create(Core)
 
     expect(core).toBeTruthy()
-    expect(core.getChunks()).toEqual([])
+    expect(core.getChunksState().chunks).toEqual([])
     expect(core.getFlags().global).toEqual(false)
-    expect(core.getRegexChunks()).toEqual([])
+    expect(core.getChunksState().regexChunks).toEqual([])
   })
 
   it("add condition", async () => {
@@ -32,8 +32,8 @@ describe("Core", () => {
 
     await core.addCondition(condition1)
 
-    expect(core.getChunks().length).toEqual(1)
-    expect(core.getRegexChunks().length).toEqual(1)
+    expect(core.getChunksState().chunks.length).toEqual(1)
+    expect(core.getChunksState().regexChunks.length).toEqual(1)
 
     const wrongCondition = {
       ...condition2,
@@ -41,8 +41,8 @@ describe("Core", () => {
     }
 
     core.addCondition(wrongCondition).catch(() => {
-      expect(core.getChunks().length).toEqual(1)
-      expect(core.getRegexChunks().length).toEqual(1)
+      expect(core.getChunksState().chunks.length).toEqual(1)
+      expect(core.getChunksState().regexChunks.length).toEqual(1)
     })
   })
 
@@ -52,8 +52,8 @@ describe("Core", () => {
     await core.addCondition(condition1)
     await core.addCondition(condition1, 0, false)
 
-    expect(core.getChunks().length).toEqual(1)
-    expect(core.getRegexChunks().length).toEqual(1)
+    expect(core.getChunksState().chunks.length).toEqual(1)
+    expect(core.getChunksState().regexChunks.length).toEqual(1)
   })
 
   it("delete condition", async () => {
@@ -65,12 +65,12 @@ describe("Core", () => {
     await core.deleteCondition(1)
     await core.deleteCondition(0)
 
-    expect(core.getChunks().length).toEqual(0)
-    expect(core.getRegexChunks().length).toEqual(0)
+    expect(core.getChunksState().chunks.length).toEqual(0)
+    expect(core.getChunksState().regexChunks.length).toEqual(0)
 
     core.deleteCondition(42).catch(() => {
-      expect(core.getChunks().length).toEqual(0)
-      expect(core.getRegexChunks().length).toEqual(0)
+      expect(core.getChunksState().chunks.length).toEqual(0)
+      expect(core.getChunksState().regexChunks.length).toEqual(0)
     })
   })
 
@@ -85,22 +85,28 @@ describe("Core", () => {
     await core.addCondition(condition1)
     await core.addCondition(condition2)
 
-    expect(joinKeys(core.getAvailableAnchors(0, "before"))).toEqual(
-      "CONTAINS-STARTS_WITH"
-    )
-    expect(joinKeys(core.getAvailableAnchors(1, "before"))).toEqual("CONTAINS")
+    expect(
+      joinKeys(core.getAvailableData(0, "before").availableAnchors)
+    ).toEqual("CONTAINS-STARTS_WITH")
+    expect(
+      joinKeys(core.getAvailableData(1, "before").availableAnchors)
+    ).toEqual("CONTAINS")
 
-    expect(joinKeys(core.getAvailableAnchors(0, "after"))).toEqual("CONTAINS")
-    expect(joinKeys(core.getAvailableAnchors(1, "after"))).toEqual(
-      "CONTAINS-ENDS_WITH"
-    )
+    expect(
+      joinKeys(core.getAvailableData(0, "after").availableAnchors)
+    ).toEqual("CONTAINS")
+    expect(
+      joinKeys(core.getAvailableData(1, "after").availableAnchors)
+    ).toEqual("CONTAINS-ENDS_WITH")
 
-    expect(joinKeys(core.getAvailableAnchors(0))).toEqual("CONTAINS")
+    expect(joinKeys(core.getAvailableData(0).availableAnchors)).toEqual(
+      "CONTAINS"
+    )
 
     await core.deleteCondition(1)
     await core.deleteCondition(0)
 
-    expect(joinKeys(core.getAvailableAnchors(0))).toEqual(
+    expect(joinKeys(core.getAvailableData(0).availableAnchors)).toEqual(
       "CONTAINS-ENDS_WITH-STARTS_WITH"
     )
   })
