@@ -96,7 +96,7 @@ test("ConditionInput component by setting a set of characters", async () => {
   fireEvent.click(getByText("a set of"))
   fireEvent.click(getByText("characters"))
   fireEvent.change(getByLabelText("characters-set"), {
-    target: { value: "A-F#" },
+    target: { value: "A-F#;0-9a-z" },
   })
   fireEvent.click(getByText("Next →"))
   fireEvent.click(getByText("no"))

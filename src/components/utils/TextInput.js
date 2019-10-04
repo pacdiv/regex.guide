@@ -25,6 +25,7 @@ const StyledTextInupt = styled.input`
 class TextInput extends Component {
   static propTypes = {
     autoFocus: PropTypes.bool,
+    exceptions: PropTypes.string,
     label: PropTypes.string,
     onChange: PropTypes.func,
     placeholder: PropTypes.string,
@@ -44,19 +45,22 @@ class TextInput extends Component {
 
   onChange = event => {
     const { value } = event.target
+    const { exceptions, onChange, uniqueCharacters } = this.props
 
-    const nextValue = this.props.uniqueCharacters
+    const nextValue = uniqueCharacters
       ? value
           .split("")
           .reduce(
-            (acc, letter) => (acc.includes(letter) ? acc : acc.concat(letter)),
+            (acc, letter) =>
+              !acc.includes(letter) ||
+              (exceptions && exceptions.includes(letter))
+                ? acc.concat(letter)
+                : acc,
             ""
           )
       : value
 
-    this.setState({ queryString: nextValue }, () =>
-      this.props.onChange(nextValue)
-    )
+    this.setState({ queryString: nextValue }, () => onChange(nextValue))
   }
 
   onFocus = () => this.setState({ hasFocus: true })

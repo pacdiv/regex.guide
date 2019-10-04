@@ -101,13 +101,13 @@ test("ConditionSentence component with a set of characters", async () => {
   const { queryByText } = render(
     <ConditionSentence
       condition={{
-        regex: "[abcA-F]",
+        regex: "[A-F#;0-9a-z]",
         specs: {
           anchor: "CONTAINS",
           capturedExpression: "NO",
           characters: "CHARACTERS",
           quantifier: "SET",
-          setValue: "abcA-F",
+          setValue: "A-F#;0-9a-z",
         },
       }}
       index={0}
@@ -116,7 +116,9 @@ test("ConditionSentence component with a set of characters", async () => {
   )
 
   expect(
-    queryByText('contain characters like "a", "b", "c" or from "A" to "F",')
+    queryByText(
+      'contain characters like "#", ";", from "A" to "F", from "0" to "9" or from "a" to "z",'
+    )
   ).toBeTruthy()
 })
 

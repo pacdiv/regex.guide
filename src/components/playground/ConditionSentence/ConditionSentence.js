@@ -17,14 +17,16 @@ class ConditionSentence extends Component {
   }
 
   static generateFromArray(source) {
+    const regexp = /".*"/
+
     return source.reduce(
       (acc, value, index) =>
         acc.concat(
           index > 0 && index === source.length - 1 ? " or " : "",
           index && index < source.length - 1 ? ", " : "",
-          value.match(/".*"/) ? value : `"${value}"`
+          value.match(regexp) ? value : `"${value}"`
         ),
-      ""
+      source[0].match(regexp) ? "" : "like "
     )
   }
 
@@ -32,25 +34,32 @@ class ConditionSentence extends Component {
     let skippedIteration = false
     const sourceArray = source.split("")
 
-    return ConditionSentence.generateFromArray(
-      sourceArray.reduce((acc, char, index) => {
+    const sections = sourceArray.reduce(
+      (acc, char, index) => {
         if (skippedIteration) {
           skippedIteration = false
           return acc
         } else if (index === 0 || index === source.length - 1) {
-          return acc.concat(char)
+          return { ...acc, singles: acc.singles.concat(char) }
         } else if (
           char === "-" &&
           ConditionSentence.isCharactersRange(source, index)
         ) {
           skippedIteration = true
-          return acc
-            .slice(0, index - 1)
-            .concat(`from "${source[index - 1]}" to "${source[index + 1]}"`)
+          return {
+            ...acc,
+            singles: acc.singles.slice(0, -1),
+            groups: acc.groups.concat(
+              `from "${source[index - 1]}" to "${source[index + 1]}"`
+            ),
+          }
         }
-        return acc.concat(char)
-      }, [])
+        return { ...acc, singles: acc.singles.concat(char) }
+      },
+      { singles: [], groups: [] }
     )
+
+    return ConditionSentence.generateFromArray(Object.values(sections).flat())
   }
 
   static generateSentence({ specs }, position) {
@@ -82,7 +91,6 @@ class ConditionSentence extends Component {
             " captured reference"
           )
         : "",
-      specs.quantifier === "SET" ? "like" : "",
       specs.characters === "WORDS_SUCH_AS"
         ? generateFromArray(specs.wordList.map(({ value }) => value))
         : "",
