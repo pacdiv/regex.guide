@@ -16,21 +16,23 @@ class ConditionSentence extends Component {
     return dataSource.find(item => item.key === targetKey) || {}
   }
 
-  static generateFromArray(source) {
+  static generateFromArray(source, negativeSentence = false) {
     const regexp = /".*"/
+    const wordLink = negativeSentence ? "and" : "or"
+    const prefix = negativeSentence ? "except" : "such as"
 
     return source.reduce(
       (acc, value, index) =>
         acc.concat(
-          index > 0 && index === source.length - 1 ? " or " : "",
+          index > 0 && index === source.length - 1 ? ` ${wordLink} ` : "",
           index && index < source.length - 1 ? ", " : "",
           value.match(regexp) ? value : `"${value}"`
         ),
-      source[0].match(regexp) ? "" : "like "
+      source[0].match(regexp) && !negativeSentence ? "" : `${prefix} `
     )
   }
 
-  static generateCharactersSetstring(source) {
+  static generateCharactersSetstring(source, negativeSentence = false) {
     let skippedIteration = false
     const sourceArray = source.split("")
 
@@ -59,7 +61,10 @@ class ConditionSentence extends Component {
       { singles: [], groups: [] }
     )
 
-    return ConditionSentence.generateFromArray(Object.values(sections).flat())
+    return ConditionSentence.generateFromArray(
+      Object.values(sections).flat(),
+      negativeSentence
+    )
   }
 
   static generateSentence({ specs }, position) {
@@ -79,7 +84,7 @@ class ConditionSentence extends Component {
       specs.quantifier === "EXACTLY" || specs.quantifier === "AT_LEAST"
         ? specs.minimumQuantifierValue
         : "",
-      specs.characters !== "BACK_REFERENCES"
+      specs.characters !== "BACK_REFERENCES" && specs.quantifier !== "SET"
         ? findByKey(
             characters[specs.quantifier] || characters.DEFAULT,
             specs.characters
@@ -92,10 +97,17 @@ class ConditionSentence extends Component {
           )
         : "",
       specs.characters === "WORDS_SUCH_AS"
-        ? generateFromArray(specs.wordList.map(({ value }) => value))
+        ? "words ".concat(
+            generateFromArray(specs.wordList.map(({ value }) => value))
+          )
         : "",
-      specs.characters === "CHARACTERS"
-        ? generateCharactersSetstring(specs.setValue)
+      specs.characters.startsWith("CHARACTERS_")
+        ? "characters ".concat(
+            generateCharactersSetstring(
+              specs.setValue,
+              specs.characters === "CHARACTERS_EXCEPT"
+            )
+          )
         : "",
       position === "second-last" ? "and" : "",
     ]

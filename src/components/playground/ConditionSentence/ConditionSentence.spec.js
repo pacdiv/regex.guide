@@ -94,7 +94,7 @@ test("ConditionSentence component with a set of words", async () => {
     />
   )
 
-  expect(queryByText('contain words like "foo" or "bar",')).toBeTruthy()
+  expect(queryByText('contain words such as "foo" or "bar",')).toBeTruthy()
 })
 
 test("ConditionSentence component with a set of characters", async () => {
@@ -105,7 +105,7 @@ test("ConditionSentence component with a set of characters", async () => {
         specs: {
           anchor: "CONTAINS",
           capturedExpression: "NO",
-          characters: "CHARACTERS",
+          characters: "CHARACTERS_SUCH_AS",
           quantifier: "SET",
           setValue: "A-F#;0-9a-z",
         },
@@ -117,7 +117,32 @@ test("ConditionSentence component with a set of characters", async () => {
 
   expect(
     queryByText(
-      'contain characters like "#", ";", from "A" to "F", from "0" to "9" or from "a" to "z",'
+      'contain characters such as "#", ";", from "A" to "F", from "0" to "9" or from "a" to "z",'
+    )
+  ).toBeTruthy()
+})
+
+test("ConditionSentence component with a set of excluded characters", async () => {
+  const { queryByText } = render(
+    <ConditionSentence
+      condition={{
+        regex: "[A-F#;0-9a-z]",
+        specs: {
+          anchor: "CONTAINS",
+          capturedExpression: "NO",
+          characters: "CHARACTERS_EXCEPT",
+          quantifier: "SET",
+          setValue: "A-F#;0-9a-z",
+        },
+      }}
+      index={0}
+      position="body"
+    />
+  )
+
+  expect(
+    queryByText(
+      'contain characters except "#", ";", from "A" to "F", from "0" to "9" and from "a" to "z",'
     )
   ).toBeTruthy()
 })

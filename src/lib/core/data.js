@@ -23,8 +23,9 @@ export const characters = {
     { key: "LOWER_LETTERS", label: "small letters", value: "[a-z]" },
   ],
   SET: [
-    { key: "CHARACTERS", label: "characters" },
-    { key: "WORDS_SUCH_AS", label: "words" },
+    { key: "CHARACTERS_SUCH_AS", label: "characters such as" },
+    { key: "CHARACTERS_EXCEPT", label: "characters except" },
+    { key: "WORDS_SUCH_AS", label: "words such as" },
   ],
 }
 

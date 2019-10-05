@@ -7,6 +7,10 @@ export const StepContainer = styled.div`
   width: 100%;
   top: 0;
 
+  @media (min-width: 375px) {
+    padding: 0 1.25em;
+  }
+
   span {
     font-size: 0.8em;
   }
