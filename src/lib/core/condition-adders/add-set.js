@@ -3,8 +3,10 @@ function addCharacters(specs) {
     return Promise.reject(new Error("Characters must be defined."))
   }
 
+  const prefix = specs.characters === "CHARACTERS_EXCEPT" ? "^" : ""
+
   return Promise.resolve({
-    regex: `[${specs.setValue}]`,
+    regex: `[${prefix}${specs.setValue}]`,
     specs: {
       anchor: specs.anchor,
       quantifier: specs.quantifier,
@@ -31,7 +33,8 @@ function addWords(specs) {
 }
 
 const mapper = {
-  CHARACTERS: addCharacters,
+  CHARACTERS_EXCEPT: addCharacters,
+  CHARACTERS_SUCH_AS: addCharacters,
   WORDS_SUCH_AS: addWords,
 }
 

@@ -337,11 +337,7 @@ class ConditionInput extends Component {
     return (
       <Step
         currentStep={currentStep}
-        title={`${getLabelFromKey(
-          characters.SET,
-          selectedCharacters,
-          true
-        )} such as:`}
+        title={`${getLabelFromKey(characters.SET, selectedCharacters, true)}:`}
       >
         {selectedCharacters === "WORDS_SUCH_AS" && (
           <TextInputListForm
@@ -350,7 +346,7 @@ class ConditionInput extends Component {
             onChange={this.onWordListChange}
           />
         )}
-        {selectedCharacters === "CHARACTERS" && (
+        {selectedCharacters.startsWith("CHARACTERS_") && (
           <TextInputGroup>
             <TextInput
               exceptions="-"

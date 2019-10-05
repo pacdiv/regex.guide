@@ -1,10 +1,10 @@
 import addSet from "./add-set"
 
 describe("Add-set condition", () => {
-  it("simulates success with characters", async () => {
+  it("simulates success with characters (such as)", async () => {
     const specs = {
       anchor: "CONTAINS",
-      characters: "CHARACTERS",
+      characters: "CHARACTERS_SUCH_AS",
       quantifier: "SET",
       setValue: "0-9A-Z",
     }
@@ -14,11 +14,24 @@ describe("Add-set condition", () => {
     )
   })
 
+  it("simulates success with characters (except)", async () => {
+    const specs = {
+      anchor: "CONTAINS",
+      characters: "CHARACTERS_EXCEPT",
+      quantifier: "SET",
+      setValue: "0-9A-Z",
+    }
+
+    expect(json(await addSet(specs))).toEqual(
+      json({ regex: "[^0-9A-Z]", specs: { ...specs, characters: undefined } })
+    )
+  })
+
   it("simulates without characters", async () => {
     try {
       const specs = {
         anchor: "CONTAINS",
-        characters: "CHARACTERS",
+        characters: "CHARACTERS_SUCH_AS",
         quantifier: "SET",
         setValue: " ",
       }

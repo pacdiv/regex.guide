@@ -94,7 +94,7 @@ test("ConditionInput component by setting a set of characters", async () => {
 
   fireEvent.click(getByText("contain"))
   fireEvent.click(getByText("a set of"))
-  fireEvent.click(getByText("characters"))
+  fireEvent.click(getByText("characters such as"))
   fireEvent.change(getByLabelText("characters-set"), {
     target: { value: "A-F#;0-9a-z" },
   })
@@ -144,7 +144,7 @@ test("ConditionInput component by setting a set of words", async () => {
 
   fireEvent.click(getByText("contain"))
   fireEvent.click(getByText("a set of"))
-  fireEvent.click(getByText("words"))
+  fireEvent.click(getByText("words such as"))
   fireEvent.change(getByLabelText("wordlist-set-0"), {
     target: { value: "foo" },
   })
