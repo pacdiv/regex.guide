@@ -21,7 +21,7 @@ const StyledBanner = styled.div`
 function OpenSourceBanner() {
   return (
     <StyledBanner>
-      The rege guide is open source.{" "}
+      The regex guide is open source.{" "}
       <a href="https://github.com/pacdiv/regex.guide" target="blank_">
         Join us on github
       </a>
