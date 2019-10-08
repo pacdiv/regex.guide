@@ -7,6 +7,7 @@ const StyledBanner = styled.div`
   height: 3em;
   font-family: monospace;
   font-size: 0.8em;
+  font-weight: 700;
   line-height: 3em;
   text-align: center;
   text-transform: uppercase;
