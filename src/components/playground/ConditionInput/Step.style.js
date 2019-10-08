@@ -3,12 +3,13 @@ import styled from "@emotion/styled"
 export const StepContainer = styled.div`
   left: 0;
   margin: 0.5rem 0 1rem;
+  /* max-height: 16em; */
   min-width: 100%;
   width: 100%;
   top: 0;
 
   @media (min-width: 375px) {
-    padding: 0 1.25em;
+    padding: 0 0.5em;
   }
 
   span {

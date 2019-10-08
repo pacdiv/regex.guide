@@ -9,9 +9,7 @@ describe("Add-set condition", () => {
       setValue: "0-9A-Z",
     }
 
-    expect(json(await addSet(specs))).toEqual(
-      json({ regex: "[0-9A-Z]", specs: { ...specs, characters: undefined } })
-    )
+    expect(json(await addSet(specs))).toEqual('"[0-9A-Z]"')
   })
 
   it("simulates success with characters (except)", async () => {
@@ -22,9 +20,7 @@ describe("Add-set condition", () => {
       setValue: "0-9A-Z",
     }
 
-    expect(json(await addSet(specs))).toEqual(
-      json({ regex: "[^0-9A-Z]", specs: { ...specs, characters: undefined } })
-    )
+    expect(json(await addSet(specs))).toEqual('"[^0-9A-Z]"')
   })
 
   it("simulates without characters", async () => {
@@ -49,9 +45,7 @@ describe("Add-set condition", () => {
       wordList: [{ index: "0", value: "foo" }, { index: "1", value: "bar" }],
     }
 
-    expect(json(await addSet(specs))).toEqual(
-      json({ regex: "foo|bar", specs: { ...specs, characters: undefined } })
-    )
+    expect(json(await addSet(specs))).toEqual('"foo|bar"')
   })
 
   it("simulates without words", async () => {

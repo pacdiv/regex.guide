@@ -1,7 +1,12 @@
 import PropTypes from "prop-types"
 import React, { Component, createRef } from "react"
 
-import { anchors, quantifiers, characters } from "../../../lib/core"
+import {
+  anchors,
+  characters,
+  customCharacters,
+  quantifiers,
+} from "../../../lib/core"
 import EditableText from "../EditableText"
 
 class ConditionSentence extends Component {
@@ -11,6 +16,8 @@ class ConditionSentence extends Component {
     onSentenceMenuChange: PropTypes.func,
     position: PropTypes.string,
   }
+
+  static customCharactersKeys = customCharacters.map(({ key }) => key)
 
   static findByKey(dataSource, targetKey) {
     return dataSource.find(item => item.key === targetKey) || {}
@@ -77,18 +84,15 @@ class ConditionSentence extends Component {
 
     const data = [
       findByKey(anchors, specs.anchor).label || "",
-      specs.quantifier !== "SET" ? quantifier : "",
+      quantifier,
       specs.quantifier === "BETWEEN"
         ? `${specs.minimumQuantifierValue} and ${specs.maximumQuantifierValue}`
         : "",
       specs.quantifier === "EXACTLY" || specs.quantifier === "AT_LEAST"
         ? specs.minimumQuantifierValue
         : "",
-      specs.characters !== "BACK_REFERENCES" && specs.quantifier !== "SET"
-        ? findByKey(
-            characters[specs.quantifier] || characters.DEFAULT,
-            specs.characters
-          ).label || ""
+      !ConditionSentence.customCharactersKeys.includes(specs.characters)
+        ? findByKey(characters, specs.characters).label || ""
         : "",
       specs.characters === "BACK_REFERENCES"
         ? "time(s) the ".concat(

@@ -18,9 +18,12 @@ const availableDefaultCharacters = [
   },
   { key: "BACK_REFERENCES", label: "back references" },
   { key: "UPPER_LETTERS", label: "capital letters", value: "[A-Z]" },
+  { key: "CHARACTERS_SUCH_AS", label: "characters like" },
+  { key: "CHARACTERS_EXCEPT", label: "characters except" },
   { key: "NUMBERS", label: "numbers", value: "\\d" },
   { key: "ANYTHING", label: "random characters", value: "." },
   { key: "LOWER_LETTERS", label: "small letters", value: "[a-z]" },
+  { key: "WORDS_SUCH_AS", label: "words like" },
 ]
 
 test("ConditionInput component by setting unspecified quantity", () => {
@@ -93,8 +96,8 @@ test("ConditionInput component by setting a set of characters", async () => {
   )
 
   fireEvent.click(getByText("contain"))
-  fireEvent.click(getByText("a set of"))
-  fireEvent.click(getByText("characters such as"))
+  fireEvent.click(getByText("one or many"))
+  fireEvent.click(getByText("characters like"))
   fireEvent.change(getByLabelText("characters-set"), {
     target: { value: "A-F#;0-9a-z" },
   })
@@ -143,8 +146,8 @@ test("ConditionInput component by setting a set of words", async () => {
   )
 
   fireEvent.click(getByText("contain"))
-  fireEvent.click(getByText("a set of"))
-  fireEvent.click(getByText("words such as"))
+  fireEvent.click(getByText("zero or many"))
+  fireEvent.click(getByText("words like"))
   fireEvent.change(getByLabelText("wordlist-set-0"), {
     target: { value: "foo" },
   })

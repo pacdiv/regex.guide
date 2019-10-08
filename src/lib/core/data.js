@@ -9,28 +9,27 @@ export const captures = [
   { key: "NO", label: "no", value: false },
 ]
 
-export const characters = {
-  DEFAULT: [
-    {
-      key: "ALPHANUMERIC_CHARACTERS",
-      label: "alphanumeric characters",
-      value: "\\w",
-    },
-    { key: "BACK_REFERENCES", label: "back references" },
-    { key: "UPPER_LETTERS", label: "capital letters", value: "[A-Z]" },
-    { key: "NUMBERS", label: "numbers", value: "\\d" },
-    { key: "ANYTHING", label: "random characters", value: "." },
-    { key: "LOWER_LETTERS", label: "small letters", value: "[a-z]" },
-  ],
-  SET: [
-    { key: "CHARACTERS_SUCH_AS", label: "characters such as" },
-    { key: "CHARACTERS_EXCEPT", label: "characters except" },
-    { key: "WORDS_SUCH_AS", label: "words such as" },
-  ],
-}
+export const characters = [
+  {
+    key: "ALPHANUMERIC_CHARACTERS",
+    label: "alphanumeric characters",
+    value: "\\w",
+  },
+  { key: "BACK_REFERENCES", label: "back references" },
+  { key: "UPPER_LETTERS", label: "capital letters", value: "[A-Z]" },
+  { key: "CHARACTERS_SUCH_AS", label: "characters like" },
+  { key: "CHARACTERS_EXCEPT", label: "characters except" },
+  { key: "NUMBERS", label: "numbers", value: "\\d" },
+  { key: "ANYTHING", label: "random characters", value: "." },
+  { key: "LOWER_LETTERS", label: "small letters", value: "[a-z]" },
+  { key: "WORDS_SUCH_AS", label: "words like" },
+]
+
+export const customCharacters = characters.filter(
+  ({ value }) => typeof value === "undefined"
+)
 
 export const quantifiers = [
-  { key: "SET", label: "a set of" },
   { key: "AT_LEAST", label: "at least" },
   { key: "BETWEEN", label: "between" },
   { key: "EXACTLY", label: "exactly" },

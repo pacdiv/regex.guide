@@ -13,12 +13,7 @@ import {
   TextInput,
   TextInputListForm,
 } from "../../utils"
-import {
-  captures,
-  characters,
-  getLabelFromKey,
-  quantifiers,
-} from "../../../lib/core"
+import { captures, quantifiers } from "../../../lib/core"
 import Step from "./Step"
 
 class ConditionInput extends Component {
@@ -45,14 +40,6 @@ class ConditionInput extends Component {
     ),
   }
 
-  static defaultQuantifiers = [
-    "BETWEEN",
-    "EXACTLY",
-    "ONE_OR_MORE",
-    "NONE_OR_MORE",
-  ]
-  static preChoices = []
-
   static isDigitQuantifier = quantifier => {
     return ["AT_LEAST", "BETWEEN", "EXACTLY"].includes(quantifier)
   }
@@ -73,21 +60,6 @@ class ConditionInput extends Component {
     wordList: this.props.wordList || [],
   }
 
-  componentDidUpdate(prevProps, prevState) {
-    const { defaultQuantifiers } = ConditionInput
-    const { quantifier: currentQuantifier } = this.state
-
-    if (
-      !defaultQuantifiers.includes(prevState.quantifier) &&
-      defaultQuantifiers.includes(currentQuantifier)
-    ) {
-      this.setState({ characters: "ALPHANUMERIC_CHARACTERS" })
-    }
-    if (prevState.quantifier !== "SET" && currentQuantifier === "SET") {
-      this.setState({ characters: "WORDS_SUCH_AS" })
-    }
-  }
-
   isOnFirstStep = () => {
     const { anchor } = this.props
     const { currentStep } = this.state
@@ -101,23 +73,29 @@ class ConditionInput extends Component {
       currentStep,
       quantifier,
     } = this.state
+    const additionalCharacters = [
+      "BACK_REFERENCES",
+      "CHARACTERS_SUCH_AS",
+      "CHARACTERS_EXCEPT",
+      "WORDS_SUCH_AS",
+    ]
 
     if (
       currentStep === 4 &&
-      selectedCharacters !== "BACK_REFERENCES" &&
+      !additionalCharacters.includes(selectedCharacters) &&
       (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
     )
       return true
     else if (
       currentStep === 5 &&
-      selectedCharacters !== "BACK_REFERENCES" &&
+      !additionalCharacters.includes(selectedCharacters) &&
       quantifier !== "ONE_OR_MORE" &&
       quantifier !== "NONE_OR_MORE"
     )
       return true
     else if (
       currentStep === 5 &&
-      selectedCharacters === "BACK_REFERENCES" &&
+      additionalCharacters.includes(selectedCharacters) &&
       (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
     )
       return true
@@ -128,7 +106,6 @@ class ConditionInput extends Component {
 
   onChange = event => {
     const { value } = event.target
-
     this.setState({ queryString: value }, () => this.props.onChange(value))
   }
 
@@ -220,10 +197,7 @@ class ConditionInput extends Component {
       error,
       quantifier: selectedQuantifier,
     } = this.state
-    const charactersOptions =
-      selectedQuantifier === "SET"
-        ? characters.SET
-        : this.props.availableDefaultCharacters
+    const charactersOptions = this.props.availableDefaultCharacters
 
     return (
       <RelativeFormContainer>
@@ -243,14 +217,16 @@ class ConditionInput extends Component {
           {ConditionInput.isDigitQuantifier(selectedQuantifier) &&
             this.renderNumbersStepForm()}
           {this.renderDefaultStep(
-            `Pick a type of ${
-              selectedQuantifier === "SET" ? "set" : "characters"
-            }:`,
+            `Pick a type of characters:`,
             charactersOptions,
             selectedCharacters,
             this.onCharactersSelectChange
           )}
-          {selectedQuantifier === "SET" && this.renderSetStepForm()}
+          {[
+            "CHARACTERS_SUCH_AS",
+            "CHARACTERS_EXCEPT",
+            "WORDS_SUCH_AS",
+          ].includes(selectedCharacters) && this.renderSetStepForm()}
           {selectedCharacters === "BACK_REFERENCES" &&
             this.renderDefaultStep(
               "Pick a previous reference:",
@@ -333,11 +309,19 @@ class ConditionInput extends Component {
       setValue,
       wordList,
     } = this.state
+    let title = ""
+
+    if (selectedCharacters.startsWith("CHARACTERS_"))
+      title = title.concat("characters")
+    else if (selectedCharacters === "WORDS_SUCH_AS")
+      title = title.concat("words")
 
     return (
       <Step
         currentStep={currentStep}
-        title={`${getLabelFromKey(characters.SET, selectedCharacters, true)}:`}
+        title={`Type the ${title} to ${
+          selectedCharacters === "CHARACTERS_EXCEPT" ? "avoid" : "match"
+        }:`}
       >
         {selectedCharacters === "WORDS_SUCH_AS" && (
           <TextInputListForm

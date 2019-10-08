@@ -46,16 +46,8 @@ export function getAvailableBackReferences(targetIndex, position) {
 
 export function getAvailableDefaultCharacters(targetIndex, position) {
   return !getAvailableBackReferences.call(this, targetIndex, position).length
-    ? characters.DEFAULT.filter(item => item.key !== "BACK_REFERENCES")
-    : characters.DEFAULT
-}
-
-export const getLabelFromKey = (dataSource, targetKey, withCap = false) => {
-  const { label } = dataSource.find(({ key }) => targetKey === key) || {}
-
-  if (!label) return ""
-
-  return withCap ? label[0].toUpperCase().concat(label.slice(1)) : label
+    ? characters.filter(item => item.key !== "BACK_REFERENCES")
+    : characters
 }
 
 export const insertNewChunk = (dataSource, targetIndex, chunk) => {
