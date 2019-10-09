@@ -4,15 +4,7 @@ function addCharacters(specs) {
   }
 
   const prefix = specs.characters === "CHARACTERS_EXCEPT" ? "^" : ""
-
-  return Promise.resolve({
-    regex: `[${prefix}${specs.setValue}]`,
-    specs: {
-      anchor: specs.anchor,
-      quantifier: specs.quantifier,
-      setValue: specs.setValue,
-    },
-  })
+  return Promise.resolve(`[${prefix}${specs.setValue}]`)
 }
 
 function addWords(specs) {
@@ -22,14 +14,7 @@ function addWords(specs) {
     return Promise.reject(new Error("The word list cannot be empty."))
   }
 
-  return Promise.resolve({
-    regex: wordList.map(({ value }) => value).join("|"),
-    specs: {
-      anchor: specs.anchor,
-      quantifier: specs.quantifier,
-      wordList,
-    },
-  })
+  return Promise.resolve(wordList.map(({ value }) => value).join("|"))
 }
 
 const mapper = {

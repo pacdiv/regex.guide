@@ -18,9 +18,10 @@ async function addCondition(specs, insertAtIndex = 0, newItem = true) {
     let value = specs.backReference
     if (specs.characters !== "BACK_REFERENCES") {
       ;({ value = "" } =
-        (characters[specs.quantifier] || characters.DEFAULT).find(
-          item => item.key === specs.characters
-        ) || {})
+        characters.find(item => item.key === specs.characters) || {})
+      if (!value) {
+        value = await conditionAdders.SET(specs)
+      }
     }
 
     const isCaptured = specs.capturedExpression === "YES"
@@ -38,6 +39,8 @@ async function addCondition(specs, insertAtIndex = 0, newItem = true) {
         capturedExpression: specs.capturedExpression,
         characters: specs.characters,
         ...(specs.backReference && { backReference: specs.backReference }),
+        ...(specs.setValue && { setValue: specs.setValue }),
+        ...(specs.wordList && { wordList: specs.wordList }),
       },
     }
 

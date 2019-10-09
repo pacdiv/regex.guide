@@ -23,8 +23,8 @@ test("Playground component (conditions and menu)", async () => {
   fireEvent.click(getByText("Add a first condition"))
   await waitForElement(() => getByText("contain"), { container })
   fireEvent.click(getByText("contain"))
-  fireEvent.click(getByText("a set of"))
-  fireEvent.click(getByText("words such as"))
+  fireEvent.click(getByText("zero or many"))
+  fireEvent.click(getByText("words like"))
   fireEvent.change(getByLabelText("wordlist-set-0"), {
     target: { value: "Microsoft" },
   })
@@ -39,7 +39,7 @@ test("Playground component (conditions and menu)", async () => {
 
   expect(
     await waitForElement(() =>
-      queryByText('contain words such as "Microsoft" or "Unix"')
+      queryByText('contain zero or many words such as "Microsoft" or "Unix"')
     )
   ).toBeTruthy()
   expect(queryByText("Copy to clipboard")).toBeTruthy()
@@ -53,19 +53,23 @@ test("Playground component (conditions and menu)", async () => {
   fireEvent.click(
     await waitForElement(() => getByText("end with"), { container })
   )
-  fireEvent.click(getByText("a set of"))
-  fireEvent.click(getByText("characters such as"))
+  fireEvent.click(getByText("one or many"))
+  fireEvent.click(getByText("characters like"))
   fireEvent.change(getByLabelText("characters-set"), { target: { value: "." } })
   fireEvent.click(getByText("Next →"))
   fireEvent.click(getByText("Submit"))
 
   expect(
     await waitForElement(() =>
-      queryByText('contain words such as "Microsoft" or "Unix" and')
+      queryByText(
+        'contain zero or many words such as "Microsoft" or "Unix" and'
+      )
     )
   ).toBeTruthy()
   expect(
-    await waitForElement(() => queryByText('end with characters such as "."'))
+    await waitForElement(() =>
+      queryByText('end with one or many characters such as "."')
+    )
   ).toBeTruthy()
 })
 
