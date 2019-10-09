@@ -7,6 +7,7 @@ const StyledBanner = styled.div`
   height: 3em;
   font-family: monospace;
   font-size: 0.8em;
+  font-weight: 700;
   line-height: 3em;
   text-align: center;
   text-transform: uppercase;
@@ -17,16 +18,16 @@ const StyledBanner = styled.div`
   }
 `
 
-function BetaBanner() {
+function OpenSourceBanner() {
   return (
     <StyledBanner>
-      Proof of concept in development. Get involved{" "}
+      The regex guide is open source. Join us on{" "}
       <a href="https://github.com/pacdiv/regex.guide" target="blank_">
-        here
+        github
       </a>
-      .
+      !
     </StyledBanner>
   )
 }
 
-export default BetaBanner
+export default OpenSourceBanner
