@@ -21,11 +21,11 @@ const StyledBanner = styled.div`
 function OpenSourceBanner() {
   return (
     <StyledBanner>
-      The regex guide is open source.{" "}
+      The regex guide is open source. Join us on{" "}
       <a href="https://github.com/pacdiv/regex.guide" target="blank_">
-        Join us on github
+        github
       </a>
-      .
+      !
     </StyledBanner>
   )
 }
