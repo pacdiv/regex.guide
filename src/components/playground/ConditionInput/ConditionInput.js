@@ -13,7 +13,7 @@ import {
   TextInput,
   TextInputListForm,
 } from "../../utils"
-import { captures, quantifiers } from "../../../lib/core"
+import { captures, customCharacters, quantifiers } from "../../../lib/core"
 import Step from "./Step"
 
 class ConditionInput extends Component {
@@ -39,6 +39,8 @@ class ConditionInput extends Component {
       })
     ),
   }
+
+  static customCharactersKeys = customCharacters.map(({ key }) => key)
 
   static isDigitQuantifier = quantifier => {
     return ["AT_LEAST", "BETWEEN", "EXACTLY"].includes(quantifier)
@@ -73,29 +75,24 @@ class ConditionInput extends Component {
       currentStep,
       quantifier,
     } = this.state
-    const additionalCharacters = [
-      "BACK_REFERENCES",
-      "CHARACTERS_SUCH_AS",
-      "CHARACTERS_EXCEPT",
-      "WORDS_SUCH_AS",
-    ]
+    const { customCharactersKeys } = ConditionInput
 
     if (
       currentStep === 4 &&
-      !additionalCharacters.includes(selectedCharacters) &&
+      !customCharactersKeys.includes(selectedCharacters) &&
       (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
     )
       return true
     else if (
       currentStep === 5 &&
-      !additionalCharacters.includes(selectedCharacters) &&
+      !customCharactersKeys.includes(selectedCharacters) &&
       quantifier !== "ONE_OR_MORE" &&
       quantifier !== "NONE_OR_MORE"
     )
       return true
     else if (
       currentStep === 5 &&
-      additionalCharacters.includes(selectedCharacters) &&
+      customCharactersKeys.includes(selectedCharacters) &&
       (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
     )
       return true
