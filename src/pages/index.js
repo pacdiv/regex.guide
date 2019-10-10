@@ -21,7 +21,7 @@ const MoreInfo = styled.div`
 
 const IndexPage = () => (
   <Layout>
-    <SEO title="Write a sentence, get a regex" />
+    <SEO title="The easiest way to learn regular expressions" />
     <PlaygroundContainer>
       <Playground />
     </PlaygroundContainer>

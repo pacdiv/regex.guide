@@ -1,7 +1,7 @@
 module.exports = {
   siteMetadata: {
     title: `The Regex Guide`,
-    description: `Write a sentence, get a regex!`,
+    description: `Learn regular expressions through playing with plain english sentences.`,
     author: `@pacdiv_io`,
   },
   plugins: [
@@ -30,8 +30,8 @@ module.exports = {
         name: `gatsby-starter-default`,
         short_name: `starter`,
         start_url: `/`,
-        background_color: `#663399`,
-        theme_color: `#663399`,
+        background_color: `#ffffff`,
+        theme_color: `#ffffff`,
         display: `minimal-ui`,
         // icon: `src/images/gatsby-icon.png`, // This path is relative to the root of the site.
       },
