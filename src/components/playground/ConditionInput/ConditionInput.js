@@ -13,7 +13,7 @@ import {
   TextInput,
   TextInputListForm,
 } from "../../utils"
-import { captures, customCharacters, quantifiers } from "../../../lib/core"
+import { captures, customCharacters, quantifiers } from "../../../utils/core"
 import Step from "./Step"
 
 class ConditionInput extends Component {

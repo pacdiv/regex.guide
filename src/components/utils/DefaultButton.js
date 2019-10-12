@@ -17,7 +17,7 @@ const Button = styled.button`
 
   &.transparent-theme {
     background-color: transparent;
-    color: initial;
+    color: hsla(0, 0%, 0%, 0.8);
     text-decoration: underline;
   }
 

@@ -9,9 +9,9 @@ const RelativeFormContainer = styled.div`
   justify-content: center;
   margin: 0.5em auto;
   padding: 0.5em 0;
-  width: 16em;
+  width: 100%;
 
-  @media (min-width: 375px) {
+  @media (min-width: 480px) {
     max-width: 20em;
     width: auto;
   }

@@ -6,29 +6,26 @@ import Playground from "../components/playground"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
-const PlaygroundContainer = styled.div`
-  align-items: stretch;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  min-height: 85vh;
-  padding: 4em 0;
-`
+// const PlaygroundContainer = styled.div`
+//   align-items: stretch;
+//   display: flex;
+//   flex-direction: column;
+//   justify-content: center;
+//   min-height: 80vh;
+//   padding: 4em 0;
+// `
 
-const MoreInfo = styled.div`
-  margin: 0 auto 2em;
-`
+// const MoreInfo = styled.div`
+//   margin: 0 auto 2em;
+// `
 
-const IndexPage = () => (
-  <Layout>
+const IndexPage = ({ location }) => (
+  <>
     <SEO title="The easiest way to learn regular expressions" />
-    <PlaygroundContainer>
+    <Layout centered location={location}>
       <Playground />
-    </PlaygroundContainer>
-    <MoreInfo>
-      <FooterLogo />
-    </MoreInfo>
   </Layout>
+  </>
 )
 
 export default IndexPage

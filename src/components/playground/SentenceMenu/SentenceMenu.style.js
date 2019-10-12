@@ -23,6 +23,7 @@ export const MenuContainer = styled.div`
   button {
     background-color: inherit;
     border: 0;
+    color: hsla(0, 0%, 0%, 0.8);
     height: 2.5em;
     cursor: pointer;
   }

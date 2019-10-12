@@ -14,7 +14,13 @@ const StyledBanner = styled.div`
   width: 100%;
 
   a {
+    box-shadow: none;
     color: white;
+    text-decoration: underline;
+  }
+
+  @media (min-width: 480px) {
+    font-size: 0.9em;
   }
 `
 

@@ -2,7 +2,7 @@ import React, { Component, Fragment } from "react"
 import ReactDOM from "react-dom"
 
 import { Button, TextInput } from "../../utils"
-import core from "../../../lib/core"
+import core from "../../../utils/core"
 import ClipboardButton from "../ClipboardButton"
 import ConditionInput from "../ConditionInput"
 import EditableChunk from "../EditableChunk"
