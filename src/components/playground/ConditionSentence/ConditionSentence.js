@@ -6,7 +6,7 @@ import {
   characters,
   customCharacters,
   quantifiers,
-} from "../../../lib/core"
+} from "../../../utils/core"
 import EditableText from "../EditableText"
 
 class ConditionSentence extends Component {

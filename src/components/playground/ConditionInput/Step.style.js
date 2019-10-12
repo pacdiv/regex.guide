@@ -33,6 +33,7 @@ export const StepContainer = styled.div`
       border: 1px solid #ebebeb;
       background-color: rgb(249, 249, 249);
       border-radius: 4px;
+      color: hsla(0, 0%, 0%, 0.7);
       display: flex;
       flex-direction: column;
       font-size: 0.8em;

@@ -2,7 +2,7 @@ import PropTypes from "prop-types"
 import React, { Component, createRef } from "react"
 
 import { EditableTextContainer, MenuButton } from "./EditableText.style"
-import editIcon from "../../../images/icon-edit.png"
+import editIcon from "../../../../content/assets/icon-edit.png"
 
 class ConditionSentence extends Component {
   static propTypes = {

@@ -5,6 +5,7 @@ const StyledLogo = styled.p`
   text-align: center;
 
   a {
+    box-shadow: none;
     color: #444;
     font-family: "Times New Roman";
     font-size: 1.5rem;
