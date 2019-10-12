@@ -27,7 +27,7 @@ Some resources about the regular expressions:
 
 – _[Writing a regular expression pattern](https://developer.mozilla.org/en-US/docs/Web/JavaScript/Guide/Regular_Expressions#Writing_a_regular_expression_pattern)_ by MDN ([@mdn](https://github.com/mdn/))\
 – _[Learn Regex the easy way](https://github.com/ziishaned/learn-regex)_ by Zeeshan Ahmad ([ziishaned](https://github.com/ziishaned))\
-– _[The Joy of Regular Expressions, Part 1: What is regex?](https://medium.com/better-programming/the-joy-of-regular-expressions-part-1-what-is-regex-539dc581e282)_ by [Matt Cummings](https://medium.com/@mc999) *
+– _[The Joy of Regular Expressions, Part 1: What is regex?](https://medium.com/better-programming/the-joy-of-regular-expressions-part-1-what-is-regex-539dc581e282)_ by [Matt Cummings](https://medium.com/@mc999) \*
 
 \* The resource that gave me the idea to build The Regex Guide 🤩
 

@@ -4,7 +4,7 @@ import styled from "@emotion/styled"
 export const HomeTitle = styled.h3`
   font-family: "Montserrat", sans-serif;
   font-size: 1.5em;
-  
+
   a {
     box-shadow: none;
     color: hsla(0, 0%, 0%, 0.8);
