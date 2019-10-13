@@ -11,18 +11,10 @@ const Text = styled.div`
   font-size: 1.25em;
   text-align: center;
 
-  br + span {
-    margin-top: 1em;
-  }
-
   @media (min-width: 480px) {
     max-width: 32em;
     margin-left: auto;
     margin-right: auto;
-
-    br {
-      margin-bottom: initial;
-    }
   }
 `
 
