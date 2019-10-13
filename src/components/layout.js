@@ -7,7 +7,6 @@ import { HomeTitle, LayoutContainer, MoreInfo } from "./layout.style"
 import OpenSourceBanner from "./open-source-banner"
 import { rhythm, scale } from "../utils/typography"
 import "./layout.css"
-import { homedir } from "os"
 
 class Layout extends React.Component {
   static propTypes = {
@@ -23,7 +22,7 @@ class Layout extends React.Component {
         <OpenSourceBanner />
         <main
           style={{
-            ...(location.pathname !== rootPath && {
+            ...(location.pathname !== "/playground" && {
               maxWidth: rhythm(24),
               padding: `${rhythm(1.5)} ${rhythm(3 / 4)}`,
             }),
