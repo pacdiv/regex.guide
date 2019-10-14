@@ -5,7 +5,7 @@ import { Link } from "gatsby"
 import { FooterLogo } from "./utils"
 import { HomeTitle, LayoutContainer, MoreInfo } from "./layout.style"
 import OpenSourceBanner from "./open-source-banner"
-import { rhythm, scale } from "../utils/typography"
+import { rhythm } from "../utils/typography"
 import "./layout.css"
 
 class Layout extends React.Component {
@@ -15,7 +15,6 @@ class Layout extends React.Component {
 
   render() {
     const { centered, children, homeLink, location } = this.props
-    const rootPath = `${__PATH_PREFIX__}/`
 
     return (
       <LayoutContainer centered={centered}>

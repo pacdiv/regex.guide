@@ -23,7 +23,12 @@ const IndexPage = ({ location }) => (
     <SEO title="" />
     <Layout location={location}>
       <Text>
-        <p>Hi there, welcome! 👋</p>
+        <p>
+          Hi there, welcome!{" "}
+          <span aria-label="welcome!" role="img">
+            👋
+          </span>
+        </p>
         <p>
           The Regex Guide helps you to write a regular expression matching a
           given string.
