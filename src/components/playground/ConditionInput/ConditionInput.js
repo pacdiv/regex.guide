@@ -46,6 +46,10 @@ class ConditionInput extends Component {
     return ["AT_LEAST", "BETWEEN", "EXACTLY"].includes(quantifier)
   }
 
+  static isUnspecifyingQuantifier = quantifier => {
+    return ["AT_LEAST", "BETWEEN", "EXACTLY"].includes(quantifier)
+  }
+
   state = {
     anchor: this.props.anchor || "CONTAINS",
     backReference: this.props.backReference || "",
@@ -75,25 +79,24 @@ class ConditionInput extends Component {
       currentStep,
       quantifier,
     } = this.state
-    const { customCharactersKeys } = ConditionInput
+    const { customCharactersKeys, isDigitQuantifier } = ConditionInput
 
     if (
       currentStep === 4 &&
       !customCharactersKeys.includes(selectedCharacters) &&
-      (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
+      !isDigitQuantifier(quantifier)
     )
       return true
     else if (
       currentStep === 5 &&
       !customCharactersKeys.includes(selectedCharacters) &&
-      quantifier !== "ONE_OR_MORE" &&
-      quantifier !== "NONE_OR_MORE"
+      isDigitQuantifier(quantifier)
     )
       return true
     else if (
       currentStep === 5 &&
       customCharactersKeys.includes(selectedCharacters) &&
-      (quantifier === "ONE_OR_MORE" || quantifier === "NONE_OR_MORE")
+      !isDigitQuantifier(quantifier)
     )
       return true
     else if (currentStep === 6) return true
