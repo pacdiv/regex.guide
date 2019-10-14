@@ -24,13 +24,11 @@ class ConditionInput extends Component {
     availableDefaultCharacters: PropTypes.arrayOf(PropTypes.object),
     capturedExpression: PropTypes.string,
     characters: PropTypes.string,
-    exactQuantifierValue: PropTypes.string,
     minimumQuantifierValue: PropTypes.string,
     maximumQuantifierValue: PropTypes.string,
     onCancel: PropTypes.func,
     onChange: PropTypes.func,
     quantifier: PropTypes.string,
-    queryString: PropTypes.string,
     setValue: PropTypes.string,
     wordList: PropTypes.arrayOf(
       PropTypes.shape({
@@ -46,22 +44,16 @@ class ConditionInput extends Component {
     return ["AT_LEAST", "BETWEEN", "EXACTLY"].includes(quantifier)
   }
 
-  static isUnspecifyingQuantifier = quantifier => {
-    return ["AT_LEAST", "BETWEEN", "EXACTLY"].includes(quantifier)
-  }
-
   state = {
     anchor: this.props.anchor || "CONTAINS",
     backReference: this.props.backReference || "",
     capturedExpression: this.props.capturedExpression || "NO",
     characters: this.props.characters || "ALPHANUMERIC_CHARACTERS",
     currentStep: this.props.anchor ? 2 : 1,
-    exactQuantifierValue: this.props.exactQuantifierValue || "",
     error: null,
     minimumQuantifierValue: this.props.minimumQuantifierValue || "",
     maximumQuantifierValue: this.props.maximumQuantifierValue || "",
     quantifier: this.props.quantifier || "ONE_OR_MORE",
-    queryString: this.props.queryString || "",
     setValue: this.props.setValue || "",
     wordList: this.props.wordList || [],
   }
@@ -104,11 +96,6 @@ class ConditionInput extends Component {
     return false
   }
 
-  onChange = event => {
-    const { value } = event.target
-    this.setState({ queryString: value }, () => this.props.onChange(value))
-  }
-
   onAnchorSelectChange = event => {
     this.setState({
       anchor: event.target.value,
@@ -136,10 +123,6 @@ class ConditionInput extends Component {
     this.setState({ capturedExpression: event.target.value }, this.submit)
 
     event.target.blur()
-  }
-
-  onExactLimitTextFieldChange = event => {
-    this.setState({ exactQuantifierValue: event.target.value })
   }
 
   onCharactersSelectChange = event => {
