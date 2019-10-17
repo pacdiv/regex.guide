@@ -1,5 +1,6 @@
 User-agent: *
 Allow: /
+Allow: /playground
 Disallow: /blog
 Disallow: /hello-world/
 Disallow: /my-second-post/
