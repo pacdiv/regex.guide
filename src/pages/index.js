@@ -20,7 +20,10 @@ const Text = styled.div`
 
 const IndexPage = ({ location }) => (
   <>
-    <SEO title="" />
+    <SEO
+      title="RegexGuide: Online Tool for Future Regex Users."
+      withoutSiteTitle
+    />
     <Layout location={location}>
       <Text>
         <p>
