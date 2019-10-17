@@ -1,8 +1,8 @@
 module.exports = {
   siteMetadata: {
-    title: `The Regex Guide`,
+    title: `RegexGuide`,
     author: `Loïc J.`,
-    description: `Learn regular expressions through playing with plain english sentences.`,
+    description: `The RegexGuide is a playground helping developers to start writing regular expressions. Trying the RegexGuide is adopting regular expressions!`,
     siteUrl: `https://regex.guide/`,
     social: {
       twitter: `pacdiv_io`,
@@ -60,7 +60,7 @@ module.exports = {
     {
       resolve: `gatsby-plugin-manifest`,
       options: {
-        name: `The Regex Guide`,
+        name: `The RegexGuide`,
         short_name: `RegexGuide`,
         start_url: `/`,
         background_color: `#ffffff`,
