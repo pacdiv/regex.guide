@@ -49,6 +49,17 @@ module.exports = {
     `gatsby-plugin-sharp`,
     `gatsby-plugin-emotion`,
     {
+      resolve: `gatsby-plugin-sitemap`,
+      options: {
+        exclude: [
+          `/blog`,
+          `/hello-world`,
+          `/my-second-post`,
+          `/new-beginnings`,
+        ],
+      },
+    },
+    {
       resolve: `gatsby-plugin-google-analytics`,
       options: {
         anonymize: true,
