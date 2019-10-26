@@ -1,5 +1,5 @@
 import { Link } from "gatsby"
-import React from "react"
+import React, { Component } from "react"
 import styled from "@emotion/styled"
 
 import { Button } from "../components/utils"
@@ -18,38 +18,53 @@ const Text = styled.div`
   }
 `
 
-const IndexPage = ({ location }) => (
-  <>
-    <SEO
-      title="RegexGuide: Online Tool for Future Regex Users."
-      withoutSiteTitle
-    />
-    <Layout location={location}>
-      <Text>
-        <p>
-          Hi there, welcome!{" "}
-          <span aria-label="welcome!" role="img">
-            👋
-          </span>
-        </p>
-        <p>
-          The Regex Guide helps you to write a regular expression matching a
-          given string.
-          <br />
-          No regular expressions knowledge required!
-        </p>
-        <p>Here's a snippet showing how you can use it:</p>
-        <img
-          alt="A Regex Guide use case"
-          src="https://github.com/pacdiv/regex.guide/raw/master/readme-image.gif"
+class IndexPage extends Component {
+  componentDidMount() {
+    if (
+      typeof window !== "undefined" &&
+      !sessionStorage.getItem("didSeeOnboarding")
+    ) {
+      sessionStorage.setItem("didSeeOnboarding", true)
+    }
+  }
+
+  render() {
+    const { location } = this.props
+
+    return (
+      <>
+        <SEO
+          title="RegexGuide: Online Tool for Future Regex Users."
+          withoutSiteTitle
         />
-        <p>Got it? Click the button below!</p>
-        <Link to="/playground">
-          <Button>Let’s start!</Button>
-        </Link>
-      </Text>
-    </Layout>
-  </>
-)
+        <Layout location={location}>
+          <Text>
+            <p>
+              Hi there, welcome!{" "}
+              <span aria-label="welcome!" role="img">
+                👋
+              </span>
+            </p>
+            <p>
+              The Regex Guide helps you to write a regular expression matching a
+              given string.
+              <br />
+              No regular expressions knowledge required!
+            </p>
+            <p>Here's a snippet showing how you can use it:</p>
+            <img
+              alt="A Regex Guide use case"
+              src="https://github.com/pacdiv/regex.guide/raw/master/readme-image.gif"
+            />
+            <p>Got it? Click the button below!</p>
+            <Link to="/playground/">
+              <Button>Let’s start!</Button>
+            </Link>
+          </Text>
+        </Layout>
+      </>
+    )
+  }
+}
 
 export default IndexPage
