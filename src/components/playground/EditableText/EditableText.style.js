@@ -6,12 +6,8 @@ export const EditableTextContainer = styled.div`
   align-items: center;
   display: flex;
   justify-content: center;
-  margin: 0.75em 0 0;
+  margin: 0.25em 0;
   position: relative;
-
-  &:last-of-type {
-    margin-bottom: 0.75em;
-  }
 
   &:only-child {
     margin: 0;

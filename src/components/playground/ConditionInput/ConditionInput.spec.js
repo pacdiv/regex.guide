@@ -36,10 +36,10 @@ test("ConditionInput component by setting unspecified quantity", () => {
     />
   )
 
-  fireEvent.click(getByText("contain"))
-  fireEvent.click(getByText("zero or many"))
   fireEvent.click(getByText("random characters"))
-  fireEvent.click(getByText("no"))
+  fireEvent.click(getByText("zero or many"))
+  fireEvent.click(getByText("yes, regex must start with it"))
+  fireEvent.click(getByText("Submit"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -54,12 +54,12 @@ test("ConditionInput component by setting an exact quantity", async () => {
     />
   )
 
-  fireEvent.click(getByText("contain"))
+  fireEvent.click(getByText("small letters"))
   fireEvent.click(getByText("exactly"))
   fireEvent.change(getByLabelText("minimum"), { target: { value: "3" } })
   fireEvent.click(getByText("Next →"))
-  fireEvent.click(getByText("small letters"))
-  fireEvent.click(getByText("no"))
+  fireEvent.click(getByText("yes, regex must start with it"))
+  fireEvent.click(getByText("Submit"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -74,13 +74,13 @@ test("ConditionInput component by setting a quantity interval", async () => {
     />
   )
 
-  fireEvent.click(getByText("contain"))
+  fireEvent.click(getByText("capital letters"))
   fireEvent.click(getByText("between"))
   fireEvent.change(getByLabelText("minimum"), { target: { value: "1" } })
   fireEvent.change(getByLabelText("maximum"), { target: { value: "4" } })
   fireEvent.click(getByText("Next →"))
-  fireEvent.click(getByText("capital letters"))
-  fireEvent.click(getByText("no"))
+  fireEvent.click(getByText("yes, regex must start with it"))
+  fireEvent.click(getByText("Submit"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -95,14 +95,14 @@ test("ConditionInput component by setting a set of characters", async () => {
     />
   )
 
-  fireEvent.click(getByText("contain"))
-  fireEvent.click(getByText("one or many"))
   fireEvent.click(getByText("characters like"))
   fireEvent.change(getByLabelText("characters-set"), {
     target: { value: "A-F#;0-9a-z" },
   })
   fireEvent.click(getByText("Next →"))
-  fireEvent.click(getByText("no"))
+  fireEvent.click(getByText("one or many"))
+  fireEvent.click(getByText("yes, regex must start with it"))
+  fireEvent.click(getByText("Submit"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -126,11 +126,11 @@ test("ConditionInput component by setting a back reference", async () => {
     />
   )
 
-  fireEvent.click(getByText("contain"))
-  fireEvent.click(getByText("one or many"))
   fireEvent.click(getByText("back references"))
   fireEvent.click(getByText("([a-z]+)"))
-  fireEvent.click(getByText("no"))
+  fireEvent.click(getByText("one or many"))
+  fireEvent.click(getByText("yes, regex must end with it"))
+  fireEvent.click(getByText("Submit"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
@@ -145,8 +145,6 @@ test("ConditionInput component by setting a set of words", async () => {
     />
   )
 
-  fireEvent.click(getByText("contain"))
-  fireEvent.click(getByText("zero or many"))
   fireEvent.click(getByText("words like"))
   fireEvent.change(getByLabelText("wordlist-set-0"), {
     target: { value: "foo" },
@@ -158,7 +156,9 @@ test("ConditionInput component by setting a set of words", async () => {
   })
   fireEvent.click(getByText("Add to the list"))
   fireEvent.click(getByText("Next →"))
-  fireEvent.click(getByText("no"))
+  fireEvent.click(getByText("zero or many"))
+  fireEvent.click(getByText("yes, regex must start with it"))
+  fireEvent.click(getByText("Submit"))
 
   expect(onSubmit).toHaveBeenCalledTimes(1)
 })
