@@ -44,12 +44,25 @@ class ConditionInput extends Component {
     return ["AT_LEAST", "BETWEEN", "EXACTLY"].includes(quantifier)
   }
 
+  static translateAnchors = anchors => {
+    const labels = {
+      CONTAINS: "no",
+      ENDS_WITH: "yes, regex must end with it",
+      STARTS_WITH: "yes, regex must start with it",
+    }
+
+    return anchors.map(anchor => ({
+      ...anchor,
+      label: labels[anchor.key],
+    }))
+  }
+
   state = {
     anchor: this.props.anchor || "CONTAINS",
     backReference: this.props.backReference || "",
     capturedExpression: this.props.capturedExpression || "NO",
     characters: this.props.characters || "ALPHANUMERIC_CHARACTERS",
-    currentStep: this.props.anchor ? 2 : 1,
+    currentStep: 1,
     error: null,
     minimumQuantifierValue: this.props.minimumQuantifierValue || "",
     maximumQuantifierValue: this.props.maximumQuantifierValue || "",
@@ -59,10 +72,7 @@ class ConditionInput extends Component {
   }
 
   isOnFirstStep = () => {
-    const { anchor } = this.props
-    const { currentStep } = this.state
-
-    return currentStep === 1 || (anchor && currentStep === 2)
+    return this.state.currentStep === 1
   }
 
   isOnLastStep = () => {
@@ -71,27 +81,28 @@ class ConditionInput extends Component {
       currentStep,
       quantifier,
     } = this.state
+    const getMaxStep = step => (this.props.anchor ? step - 1 : step)
     const { customCharactersKeys, isDigitQuantifier } = ConditionInput
 
     if (
-      currentStep === 4 &&
+      currentStep === getMaxStep(4) &&
       !customCharactersKeys.includes(selectedCharacters) &&
       !isDigitQuantifier(quantifier)
     )
       return true
     else if (
-      currentStep === 5 &&
+      currentStep === getMaxStep(5) &&
       !customCharactersKeys.includes(selectedCharacters) &&
       isDigitQuantifier(quantifier)
     )
       return true
     else if (
-      currentStep === 5 &&
+      currentStep === getMaxStep(5) &&
       customCharactersKeys.includes(selectedCharacters) &&
       !isDigitQuantifier(quantifier)
     )
       return true
-    else if (currentStep === 6) return true
+    else if (currentStep === getMaxStep(6)) return true
 
     return false
   }
@@ -186,21 +197,7 @@ class ConditionInput extends Component {
       <RelativeFormContainer>
         <StepsWrapper step={currentStep}>
           {this.renderDefaultStep(
-            "Pick an anchor:",
-            this.props.availableAnchors,
-            selectedAnchor,
-            this.onAnchorSelectChange
-          )}
-          {this.renderDefaultStep(
-            "Pick an quantifier:",
-            quantifiers,
-            selectedQuantifier,
-            this.onQuantifierSelectChange
-          )}
-          {ConditionInput.isDigitQuantifier(selectedQuantifier) &&
-            this.renderNumbersStepForm()}
-          {this.renderDefaultStep(
-            `Pick a type of characters:`,
+            `Which characters would you match?`,
             charactersOptions,
             selectedCharacters,
             this.onCharactersSelectChange
@@ -212,13 +209,28 @@ class ConditionInput extends Component {
           ].includes(selectedCharacters) && this.renderSetStepForm()}
           {selectedCharacters === "BACK_REFERENCES" &&
             this.renderDefaultStep(
-              "Pick a previous reference:",
+              "Which previous reference would you match?",
               this.props.availableBackReferences,
               backReference,
               this.onBackReferenceChange
             )}
           {this.renderDefaultStep(
-            "Will you need to match this with following expressions?",
+            "How many occurrences would you match?",
+            quantifiers,
+            selectedQuantifier,
+            this.onQuantifierSelectChange
+          )}
+          {ConditionInput.isDigitQuantifier(selectedQuantifier) &&
+            this.renderNumbersStepForm()}
+          {!this.props.anchor &&
+            this.renderDefaultStep(
+              "Any position restriction for this new rule?",
+              ConditionInput.translateAnchors(this.props.availableAnchors),
+              selectedAnchor,
+              this.onAnchorSelectChange
+            )}
+          {this.renderDefaultStep(
+            "Should we keep in memory the match of this rule to be able to use it later?",
             captures,
             capturedExpression,
             this.onCapturedExpressionChange
@@ -302,7 +314,7 @@ class ConditionInput extends Component {
     return (
       <Step
         currentStep={currentStep}
-        title={`Type the ${title} to ${
+        title={`Please type the ${title} to ${
           selectedCharacters === "CHARACTERS_EXCEPT" ? "avoid" : "match"
         }:`}
       >
