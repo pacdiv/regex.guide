@@ -3,6 +3,7 @@ import React, { Component } from "react"
 import styled from "@emotion/styled"
 
 import { Button } from "../components/utils"
+import editIcon from "../../content/assets/icon-edit.png"
 import Layout from "../components/layout"
 import SEO from "../components/seo"
 
@@ -46,16 +47,27 @@ class IndexPage extends Component {
               </span>
             </p>
             <p>
-              The Regex Guide helps you to write a regular expression matching a
-              given string.
-              <br />
-              No regular expressions knowledge required!
+              The RegexGuide helps you to perceive how useful and powerful
+              regular expressions can be.
             </p>
-            <p>Here's a snippet showing how you can use it:</p>
-            <img
-              alt="A Regex Guide use case"
-              src="https://github.com/pacdiv/regex.guide/raw/master/readme-image.gif"
-            />
+            <p>
+              How? By helping you to write your first simple regular expressions
+              without knowledge required!
+            </p>
+            <p>
+              Here’s what you need to do! Enter a text to match, then hit “Add a
+              first condition” and icon buttons like “
+              <img alt="menu" src={editIcon} />” to add as much matching
+              conditions as you need!
+            </p>
+            <p>
+              Disclaimer: Once you feel comfortable with these simple regexes,
+              read some documentation and start writing more complex ones on
+              your own!{" "}
+              <span aria-label="welcome!" role="img">
+                🚀
+              </span>
+            </p>
             <p>Got it? Click the button below!</p>
             <Link to="/playground/">
               <Button>Let’s start!</Button>
