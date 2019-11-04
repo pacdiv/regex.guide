@@ -64,7 +64,7 @@ class IndexPage extends Component {
               Disclaimer: Once you feel comfortable with these simple regexes,
               read some documentation and start writing more complex ones on
               your own!{" "}
-              <span aria-label="welcome!" role="img">
+              <span aria-label="rocket" role="img">
                 🚀
               </span>
             </p>
