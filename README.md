@@ -1,6 +1,6 @@
 # [The Regex Guide](http://bit.ly/2M8LI0w)
 
-![alt text](/readme-image.gif).
+![alt text](/readme-image.gif)
 
 Start writing regular expressions even if you don’t have any knowledge about them!\
 Built from [Gatsby’s default starter](https://github.com/gatsbyjs/gatsby-starter-default).
