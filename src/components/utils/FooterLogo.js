@@ -1,5 +1,6 @@
 import React from "react"
 import styled from "@emotion/styled"
+import typeofLogo from "../../../content/assets/typeof-logo.png"
 
 const StyledLogo = styled.p`
   text-align: center;
@@ -15,13 +16,18 @@ const StyledLogo = styled.p`
     text-decoration: none;
     font-style: normal;
   }
+
+  img {
+    margin-bottom: 20px;
+    max-width: 150px;
+  }
 `
 
 const FooterLogo = () => {
   return (
     <StyledLogo>
-      <a href="http://bit.ly/2koZuQp" target="blank_">
-        growthnotes
+      <a href="https://www.typeof.co" target="blank_">
+        <img alt="typeof" src={typeofLogo} />
       </a>
     </StyledLogo>
   )
